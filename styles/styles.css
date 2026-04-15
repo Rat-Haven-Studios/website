@@ -141,8 +141,8 @@ p { color: var(--text-muted); }
 
 .logo-wrapper {
   display: flex;
-  /* justify-content: end; */
-  justify-content: center;
+  justify-content: end;
+  /* justify-content: center; */
 }
 
 /* -------------------- */
