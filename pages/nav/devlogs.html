@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Devlogs – Rat Haven Studios</title>
+  <link rel="stylesheet" href="../../styles/styles.css"/>
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Rat-Haven-Studios/.github/main/logo.png"/>
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="../../index.html" class="site-logo"><img src="https://raw.githubusercontent.com/Rat-Haven-Studios/.github/main/logo.png" alt=""/>Rat Haven Studios</a>
+    <ul class="site-nav">
+      <li><a href="../../index.html">Home</a></li>
+      <span class="nav-sep">|</span>
+      <li><a href="games.html">Games</a></li>
+      <span class="nav-sep">|</span>
+      <li><a href="devlogs.html">Devlogs</a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="section">
+  <div class="container">
+    <h1>Devlogs</h1>
+    <br>
+
+    <!--
+      FILTER TAGS — add these space-separated in data-tags="" on each .card
+      Game      : forgotten-paths | game-jam
+      Post type : devlog | blog-post | announcement
+    -->
+    <div class="filter-bar">
+      <div class="filter-group">
+        <span class="filter-label">Game</span>
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="forgotten-paths">Forgotten Paths</button>
+        <button class="filter-btn" data-filter="game-jam">Game Jam</button>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Type</span>
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="devlog">Devlog</button>
+        <button class="filter-btn" data-filter="blog-post">Blog Post</button>
+        <button class="filter-btn" data-filter="announcement">Announcement</button>
+      </div>
+    </div>
+
+    <div class="grid grid-3">
+
+      <div class="card" data-tags="forgotten-paths devlog">
+        <h3>Forgotten Paths Revival</h3>
+        <span class="card-subtitle">Forgotten Paths • Devlog • 2026</span>
+        <p>We're converting Forgotten Paths into a full fledged game. Some updates, challenges, and changes.</p>
+        <a href="../devlogs/2026-04-09_fp.html" class="btn">Read</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p class="footer-copy">&copy; 2026 Rat Haven Studios</p>
+    <div class="footer-links">
+      <a href="games.html">Games</a>
+      <span class="nav-sep">|</span>
+      <a href="devlogs.html">Devlogs</a>
+    </div>
+    <div class="footer-links">
+      <a href="https://github.com/Rat-Haven-Studios" target="_blank">GitHub</a>
+      <span class="nav-sep">|</span>
+      <a href="https://discord.gg/vk3X99kD3D" target="_blank">Discord</a>
+    </div>
+  </div>
+</footer>
+
+<script src="../../scripts/filter.js"></script>
+</body>
+</html>
