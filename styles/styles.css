@@ -27,7 +27,7 @@ body {
   /* background-image: url('../resources/bamboo.svg'); */
   /* background-size: 50px; */
   background-image: url('../resources/endless-clouds.svg');
-  background-size: 100px;
+  background-size: 150px;
   background-repeat: repeat;
   color: var(--text);
   font-family: var(--font-body);

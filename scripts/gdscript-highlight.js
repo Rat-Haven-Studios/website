@@ -21,7 +21,7 @@
     'RotationHelper', 'GridHelper', 'Consts', 'Clogger'
   ]);
 
-  // ordered by priority — first match wins
+  // ordered by priority - first match wins
   var PATTERNS = [
     ['comment',    /#[^\n]*/],
     ['string',     /"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'/],
