@@ -18,3 +18,15 @@ function applyFilters() {
     card.style.display = visible ? '' : 'none';
   });
 }
+
+// Pre-activate filters from URL query params (?game=forgotten-paths&type=devlog)
+const params = new URLSearchParams(window.location.search);
+document.querySelectorAll('.filter-group[data-param]').forEach(group => {
+  const value = params.get(group.dataset.param);
+  if (!value) return;
+  const btn = group.querySelector(`.filter-btn[data-filter="${value}"]`);
+  if (!btn) return;
+  group.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+});
+applyFilters();

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Devlogs – Rat Haven Studios</title>
+  <title>Devlogs - Rat Haven Studios</title>
   <link rel="stylesheet" href="../../styles/styles.css"/>
   <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Rat-Haven-Studios/.github/main/logo.png"/>
 </head>
@@ -18,7 +18,9 @@
       <span class="nav-sep">|</span>
       <li><a href="games.html">Games</a></li>
       <span class="nav-sep">|</span>
-      <li><a href="devlogs.html">Devlogs</a></li>
+      <li><a href="devlogs.html" class="nav-active">Devlogs</a></li>
+      <span class="nav-sep">|</span>
+      <li><a href="workshop.html">Workshop</a></li>
     </ul>
   </div>
 </header>
@@ -34,13 +36,13 @@
       Post type : devlog | blog-post | announcement
     -->
     <div class="filter-bar">
-      <div class="filter-group">
+      <div class="filter-group" data-param="game">
         <span class="filter-label">Game</span>
         <button class="filter-btn active" data-filter="all">All</button>
         <button class="filter-btn" data-filter="forgotten-paths">Forgotten Paths</button>
         <button class="filter-btn" data-filter="game-jam">Game Jam</button>
       </div>
-      <div class="filter-group">
+      <div class="filter-group" data-param="type">
         <span class="filter-label">Type</span>
         <button class="filter-btn active" data-filter="all">All</button>
         <button class="filter-btn" data-filter="devlog">Devlog</button>
@@ -53,9 +55,37 @@
 
       <div class="card" data-tags="forgotten-paths devlog">
         <h3>Forgotten Paths Revival</h3>
-        <span class="card-subtitle">Forgotten Paths • Devlog • 2026</span>
+        <span class="card-subtitle">Forgotten Paths • Devlog • April 9, 2026</span>
         <p>We're converting Forgotten Paths into a full fledged game. Some updates, challenges, and changes.</p>
         <a href="../devlogs/2026-04-09_fp.html" class="btn">Read</a>
+      </div>
+
+      <div class="card" data-tags="forgotten-paths announcement">
+        <h3>First Announcement!!</h3>
+        <span class="card-subtitle">Forgotten Paths • Announcement • March 25, 2026</span>
+        <p>An announcement about our first big project. Something familiar...</p>
+        <a href="../devlogs/2026-03-25_fp-announcement.html" class="btn">Read</a>
+      </div>
+
+      <div class="card" data-tags="game-jam">
+        <h3>WMJ 2025 - Massaquerade</h3>
+        <span class="card-subtitle">Game Jam • Dec 29, 2025</span>
+        <p>An announcement about our first big project.</p>
+        <a href="../devlogs/2025-12-29_massaquerade.html" class="btn">Read</a>
+      </div>
+
+      <div class="card" data-tags="forgotten-paths game-jam">
+        <h3>GMTK 2025 - Forgotten Paths</h3>
+        <span class="card-subtitle">Forgotten Paths • Game Jam • Aug 5, 2025</span>
+        <p>An announcement about our first big project.</p>
+        <a href="../devlogs/2025-08-05_fp-jam.html" class="btn">Read</a>
+      </div>
+
+      <div class="card" data-tags="game-jam">
+        <h3>Kenny Jam 2025 - Solar Charged</h3>
+        <span class="card-subtitle">Game Jam • July 20, 2025</span>
+        <p>An announcement about our first big project.</p>
+        <a href="../devlogs/2025-07-20_solar-charged.html" class="btn">Read</a>
       </div>
 
     </div>
@@ -69,6 +99,8 @@
       <a href="games.html">Games</a>
       <span class="nav-sep">|</span>
       <a href="devlogs.html">Devlogs</a>
+      <span class="nav-sep">|</span>
+      <a href="workshop.html">Workshop</a>
     </div>
     <div class="footer-links">
       <a href="https://github.com/Rat-Haven-Studios" target="_blank">GitHub</a>

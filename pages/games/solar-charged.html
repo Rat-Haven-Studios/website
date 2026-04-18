@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Solar Charged – Rat Haven Studios</title>
+  <title>Solar Charged - Rat Haven Studios</title>
   <link rel="stylesheet" href="../../styles/styles.css"/>
   <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Rat-Haven-Studios/.github/main/logo.png"/>
 </head>
@@ -16,32 +16,114 @@
     <ul class="site-nav">
       <li><a href="../../index.html">Home</a></li>
       <span class="nav-sep">|</span>
-      <li><a href="../nav/games.html">Games</a></li>
+      <li><a href="../nav/games.html" class="nav-active">Games</a></li>
       <span class="nav-sep">|</span>
       <li><a href="../nav/devlogs.html">Devlogs</a></li>
+      <span class="nav-sep">|</span>
+      <li><a href="../nav/workshop.html">Workshop</a></li>
     </ul>
   </div>
 </header>
 
+<!-- HERO -->
 <section class="section">
   <div class="container hero">
-
     <div>
       <h1>Solar Charged</h1>
-      <span class="card-subtitle">Game Jam • Tower Defense • 2025</span>
-      <br><br>
-      <p>A resource management tower defense. Made for the Kenney Game Jam 2025.</p>
+      <span class="card-subtitle">Game Jam • Tower Defense • July 20, 2025</span>
+      <br>
+      <p>A resource management tower defense where Power is everything — it's both your health and your currency. Survive waves of enemies by harvesting solar energy and spending it wisely. Made for Kenney Game Jam 2025 under the theme "Power".</p>
       <br>
       <div class="btn-grid grid-gap-small">
         <a href="https://hutnerr.itch.io/solarcharged" class="btn icon-btn itch-btn" target="_blank"><img src="https://static.itch.io/images/itchio-textless-white.svg">itch</a>
+        <a href="../devlogs/2025-07-20_solar-charged.html" class="btn">Devlog</a>
+        <a href="https://github.com/Rat-Haven-Studios/kenny-jam-2025" class="btn" target="_blank">GitHub</a>
         <a href="../nav/games.html" class="btn">Back to Games</a>
       </div>
     </div>
-
     <div class="logo-wrapper">
-      <img src="../../resources/solarcharged-jam.gif" alt="Solar Charged" style="width:100%;max-width:320px;border:2px solid var(--border);"/>
+      <img src="../../resources/solarcharged-jam.gif" alt="Solar Charged gameplay" class="game-hero-img" data-lightbox/>
     </div>
+  </div>
+</section>
 
+<!-- PLAY -->
+<section class="game-section">
+  <div class="container">
+    <h2>Play</h2>
+    <div class="game-embed">
+      <div class="game-embed-placeholder"
+           data-src="https://itch.io/embed-upload/14352782?color=282828"
+           data-width="640" data-height="380">
+        <img src="../../resources/solarcharged-jam.gif" alt="Solar Charged"/>
+        <div class="play-overlay"><span class="play-btn">&#9654; Play</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCREENSHOTS -->
+<section class="game-section">
+  <div class="container">
+    <h2>Screenshots</h2>
+    <div class="screenshot-gallery">
+      <img src="../../resources/solarcharged-jam.gif" alt="Solar Charged gameplay" data-lightbox/>
+      <!-- TODO: add more screenshots here -->
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO PLAY -->
+<section class="game-section">
+  <div class="container">
+    <h2>How to Play</h2>
+    <div class="how-to-play-grid">
+      <div>
+        <h3>Controls</h3>
+        <ul>
+          <li>Left Click — place or select a tower</li>
+          <li>Select a placed tower — open upgrade / delete menu</li>
+        </ul>
+        <br>
+        <h3>Tower Types</h3>
+        <ul>
+          <li>Orange — simple shooter</li>
+          <li>Red — piercing laser</li>
+          <li>Green — boosts power of towers in radius</li>
+          <li>Blue — slows enemies by a percent</li>
+          <li>Grey — constant damage in radius</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Goal</h3>
+        <p>Survive waves of enemies. Power acts as both your health and your currency — spend it to build and upgrade towers, but if it hits zero, you lose.</p>
+        <br>
+        <p>A weather cycle runs between waves. During the day your Power recharges through solar energy, but the amount you gain depends on the weather — keep an eye on the forecast. Enemies attack at night.</p>
+        <br>
+        <p>Each tower has an upkeep cost that kicks in once it starts shooting. The more towers you have, the more Power they drain, so build strategically.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="game-section">
+  <div class="container">
+    <h2>Jam Results</h2>
+    <div class="how-to-play-grid">
+      <div>
+        <h3>Kenney Jam 2025</h3>
+        <ul>
+          <li>Theme — Power</li>
+          <li>Duration — 72 Hours</li>
+          <li>Submissions — 723</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Notes</h3>
+        <p>Our first game jam ever. We worked 35 of the 48 available hours and came away with a complete game we were proud of. Assets were restricted to <a href="https://kenney.nl/assets" target="_blank">Kenney Assets</a> only — a great constraint that kept us focused.</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -52,6 +134,8 @@
       <a href="../nav/games.html">Games</a>
       <span class="nav-sep">|</span>
       <a href="../nav/devlogs.html">Devlogs</a>
+      <span class="nav-sep">|</span>
+      <a href="../nav/workshop.html">Workshop</a>
     </div>
     <div class="footer-links">
       <a href="https://github.com/Rat-Haven-Studios" target="_blank">GitHub</a>
@@ -61,5 +145,7 @@
   </div>
 </footer>
 
+<script src="../../scripts/game-embed.js"></script>
+<script src="../../scripts/lightbox.js"></script>
 </body>
 </html>
