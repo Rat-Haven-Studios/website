@@ -1,0 +1,4 @@
+1. fix the darker background when scrolling
+2. add a bunch more images to each of the game pages
+3. get a gif for massaquerade
+4. fill out the state machines post
