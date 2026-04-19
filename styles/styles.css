@@ -96,6 +96,17 @@ p { color: var(--text-muted); }
 
 p + p { margin-top: 1em; }
 
+.formatted-list {
+  list-style: disc inside;
+  padding-left: 0;
+  color: var(--text-muted);
+}
+
+.formatted-list + p,
+p + .formatted-list { margin-top: 1em; }
+
+/* .formatted-list li + li { margin-top: 1em; } */
+
 /* -------------------- */
 /* HEADER */
 /* -------------------- */
@@ -460,6 +471,21 @@ a:hover {
   max-height: 90vh;
   object-fit: contain;
   border: 2px solid var(--border);
+}
+
+/* -------------------- */
+/* POST IMAGES */
+/* -------------------- */
+.post-img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  border: 2px solid var(--border);
+  cursor: pointer;
+}
+
+.post-img:hover {
+  border-color: var(--accent);
 }
 
 /* -------------------- */
