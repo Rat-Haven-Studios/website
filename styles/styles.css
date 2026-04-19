@@ -409,11 +409,12 @@ p + p { margin-top: 1em; }
   width: 100%;
   max-width: 340px;
   height: auto;
+  transform: scale(1.15);
   transition: transform 0.2s ease;
 }
 
 .logo:hover {
-  transform: scale(1.05);
+  transform: scale(1.20);
 }
 
 /* -------------------- */
