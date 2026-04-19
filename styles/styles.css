@@ -173,16 +173,16 @@ p + p { margin-top: 1em; }
 
 .hero .logo {
   width: 100%;
+  max-width: 340px;
   height: 100%;
-  max-width: 320px;
   object-fit: contain;
-  justify-self: center;
+  object-position: center;
 }
 
 .logo-wrapper {
   display: flex;
   justify-content: center;
-  align-items: stretch;
+  align-items: center;
 }
 
 /* -------------------- */
@@ -393,7 +393,8 @@ p + p { margin-top: 1em; }
 
   .hero .logo {
     order: -1;
-    max-width: 160px;
+    max-width: 200px;
+    height: auto;
   }
 
   .hero p {
@@ -406,14 +407,13 @@ p + p { margin-top: 1em; }
 /* -------------------- */
 .logo {
   width: 100%;
-  max-width: 250px;
+  max-width: 340px;
   height: auto;
-  scale: 1.40;
-  transition: scale 0.3s ease;
+  transition: transform 0.2s ease;
 }
 
 .logo:hover {
-  scale: 1.50;
+  transform: scale(1.05);
 }
 
 /* -------------------- */
