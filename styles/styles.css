@@ -345,6 +345,10 @@ p + .formatted-list { margin-top: 1em; }
   margin: 0;
 }
 
+.hero .btn-grid {
+  padding: 0;
+}
+
 /* -------------------- */
 /* FILTER BAR */
 /* -------------------- */
