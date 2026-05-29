@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FP Progress - Rat Haven Studios</title>
+    <link rel="stylesheet" href="{{root}}styles/styles.css" />
+    <link rel="icon" type="image/png" href="{{root}}resources/logo-nt.png" />
+</head>
+
+<body>
+
+<!-- {{header}} -->
+
+    <section class="section">
+        <div class="container">
+            <h1>Forgotten Paths Progress</h1>
+            <span class="card-subtitle">Forgotten Paths • Devlog • May 26, 2026</span>
+            <span class="card-subtitle">by hutner</span>
+            <br>
+
+            <div class="post-content">
+                <p>
+                    It's been a while since the last update. Honestly, we haven't gotten a crazy amount done, but we've
+                    been slowly chipping away at the game and making steady progress.
+                </p>
+                <p>
+                    The biggest thing we've recently done is improve the Level Editor. Before we made an individual <code>.tscn</code> file
+                    for each level, which didn't really scale all that well. Since we changed to a more data driven approach, we use <code>.tres</code>
+                    files to store level data which can be loaded by the UI, simulator, or anything else that wants to know about how a level is defined.
+                    The Level Editor's entire purpose is to be a fast and fluid way to create and edit these <code>.tres</code> files.
+                    This is likely going to just be an internal dev tool, but maybe sometime in the future, we can encorporate it into the game
+                    as a way for players to create and share their own levels.
+                </p>
+                <p>
+                    Other things we've done is begin working on the animations (by we I mean <a href="{{root}}pages/developers/koborooski.html">Kob</a>).
+                    We still haven't nailed down the final palette, style, etc..., but we're getting pretty close.
+                </p>
+                <p>
+                    And for the final bit of good news, we're finally getting started on making the inital levels of the game.
+                    We also added some new tiles, items, and enemies. We hope to have a playable demo
+                    by the end of the year, but we'll see how it goes.
+                </p>
+                <p>
+                    Until next time...
+                </p>
+
+                <br>
+                <div class="grid grid-2">
+                    <img src="{{root}}resources/devlogs/forgotten-paths/fp_level_1.png" alt="Forgotten Paths level 1" class="post-img" data-lightbox/>
+                    <img src="{{root}}resources/devlogs/forgotten-paths/fp_level_editor.png" alt="Forgotten Paths level editor" class="post-img" data-lightbox/>
+                </div>
+            </div>
+
+            <br>
+            <a href="{{root}}pages/nav/devlogs.html" class="btn btn-bg">Back to Devlogs</a>
+        </div>
+    </section>
+
+<!-- {{footer}} -->
+
+    <script src="{{root}}scripts/gdscript-highlight.js"></script>
+    <script src="{{root}}scripts/lightbox.js"></script>
+</body>
+
+</html>
