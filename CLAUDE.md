@@ -4,37 +4,68 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Static HTML/CSS website for Rat Haven Studios - a small indie game studio. No build system, no JavaScript framework, no package manager. Open `index.html` directly in a browser to preview.
+Static HTML/CSS website for Rat Haven Studios - a small indie game studio. Uses a lightweight Python build system (`build.py`) that injects shared components and auto-populates dynamic sections. Source lives in `src/`; built output goes to `dist/`. GitHub Actions builds and deploys on every push to `main`.
 
-## Architecture
-
-### Page structure and path depths
+## Build System
 
 ```
-index.html                             (root - depth 0)
-pages/nav/games.html                   (depth 2 - ../../ to root)
-pages/nav/devlogs.html                 (depth 2 - ../../ to root)
-pages/nav/workshop.html                (depth 2 - ../../ to root)
-pages/games/<game>.html                (depth 2 - ../../ to root)
-pages/devlogs/YYYY-MM-DD_name.html     (depth 2 - ../../ to root)
-pages/workshop/YYYY-MM-DD_name.html    (depth 2 - ../../ to root)
-styles/styles.css
-scripts/filter.js
-scripts/lightbox.js
-scripts/game-embed.js
-resources/                             (images/GIFs used in cards)
-resources/workshop/                    (images for workshop posts)
+python build.py          # build src/ → dist/
+# requires: pip install beautifulsoup4  (or use .venv/bin/python build.py)
 ```
 
-All pages at depth 2 use `../../` for root-relative assets (CSS, logo, resources). Nav links within `pages/nav/` point to sibling files (`games.html`, `devlogs.html`, `workshop.html`); nav links from `pages/games/`, `pages/devlogs/`, and `pages/workshop/` point to `../nav/games.html` etc.
+**Source templates** live in `src/`. **Never edit files in `dist/`** — they are overwritten on every build.
+
+### Placeholders in source templates
+
+| Placeholder | What it becomes |
+|---|---|
+| `<!-- {{header}} -->` | Shared header from `src/components/header.html` |
+| `<!-- {{footer}} -->` | Shared footer from `src/components/footer.html` |
+| `{{root}}` | `""` for `src/index.html`, `"../../"` for all depth-2 pages |
+| `<!-- {{latest-devlogs}} -->` | Top 3 `.card` elements from `src/pages/nav/devlogs.html` (index.html only) |
+
+### nav-active
+The build script automatically adds `class="nav-active"` to the correct header nav link by inferring which section a page belongs to from its path. Do **not** add `nav-active` manually in source templates.
+
+### Architecture
+
+```
+src/
+  components/
+    header.html                        (shared header — uses {{root}} and data-nav="…")
+    footer.html                        (shared footer — uses {{root}})
+  index.html                           (depth 0 — {{root}} = "")
+  pages/
+    nav/games.html                     (depth 2 — {{root}} = "../../")
+    nav/devlogs.html                   (depth 2 — top-3 cards here auto-populate homepage)
+    nav/workshop.html
+    nav/developers.html
+    games/<game>.html
+    devlogs/YYYY-MM-DD_name.html
+    workshop/YYYY-MM-DD_name.html
+    developers/<name>.html
+  styles/styles.css
+  scripts/filter.js  lightbox.js  game-embed.js  gdscript-highlight.js
+  resources/                           (images/GIFs)
+  resources/workshop/                  (images for workshop posts)
+  CNAME
+dist/                                  (generated — gitignored)
+build.py
+requirements.txt
+.github/workflows/deploy.yml
+```
+
+### GitHub Pages setup
+Pages source must be set to **GitHub Actions** (not a branch):  
+Repo Settings → Pages → Build and deployment → Source → **GitHub Actions**
 
 ### Adding new content
 
-**New game page** (`pages/games/<name>.html`): copy an existing game page. Use the hero layout with `.container.hero` (two columns: text left, image right). Then add a card to `pages/nav/games.html` with appropriate `data-tags` (see filter tags comment in that file), and optionally add a featured card to `index.html#games`.
+**New game page** (`src/pages/games/<name>.html`): copy an existing game page. Use the hero layout with `.container.hero` (two columns: text left, image right). Use `<!-- {{header}} -->` / `<!-- {{footer}} -->` and `{{root}}` for asset paths. Add a card to `src/pages/nav/games.html` with appropriate `data-tags` (see filter tags comment in that file), and optionally add a featured card to `src/index.html#games`.
 
-**New devlog** (`pages/devlogs/YYYY-MM-DD_shortname.html`): copy the devlog template - section with `.container`, `<h1>` title, `.card-subtitle` date, content, and a "Back to Devlogs" button. Add a card to `pages/nav/devlogs.html` with `data-tags`, and update the Latest Devlogs section in `index.html`.
+**New devlog** (`src/pages/devlogs/YYYY-MM-DD_shortname.html`): copy an existing devlog template — `<!-- {{header}} -->`, section with `.container`, `<h1>` title, `.card-subtitle` date, content, `<!-- {{footer}} -->`. Use `{{root}}` for any asset paths. Add a card to `src/pages/nav/devlogs.html` (newest first) with `data-tags`. **That's it — `index.html` Latest Devlogs auto-updates on the next build.**
 
-**New workshop post** (`pages/workshop/YYYY-MM-DD_shortname.html`): similar structure to devlogs - `.container` with `<h1>` title, `.card-subtitle` type/topic/date and author, content in `.post-content`. Add a card to `pages/nav/workshop.html` with `data-tags` (type: `tutorial`/`resource`/`writeup`; topic: `art`/`music`/`design`/`code`). Workshop nav tags are documented in an HTML comment at the top of `pages/nav/workshop.html`. Images for workshop posts go in `resources/workshop/`.
+**New workshop post** (`src/pages/workshop/YYYY-MM-DD_shortname.html`): similar structure to devlogs — `.container` with `<h1>` title, `.card-subtitle` type/topic/date and author, content in `.post-content`. Use `<!-- {{header}} -->` / `<!-- {{footer}} -->` and `{{root}}` for asset paths. Add a card to `src/pages/nav/workshop.html` with `data-tags` (type: `tutorial`/`resource`/`writeup`; topic: `art`/`music`/`design`/`code`). Workshop nav tags are documented in an HTML comment at the top of that file. Images go in `src/resources/workshop/`.
 
 ### Scripts
 
