@@ -4,14 +4,32 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Rat Haven Studios</title>
-  <link rel="stylesheet" href="{{root}}styles/styles.css"/>
-  <link rel="icon" type="image/png" href="{{root}}resources/logo-nt.png"/>
+  <link rel="stylesheet" href="styles/styles.css"/>
+  <link rel="icon" type="image/png" href="resources/logo-nt.png"/>
 </head>
 
 <body>
 
 <!-- HEADER -->
-<!-- {{header}} -->
+<header class="site-header">
+<div class="container header-inner">
+<a class="site-logo" href="index.html">
+<img alt="" src="resources/logo-nt.png"/>
+      Rat Haven Studios
+    </a>
+<ul class="site-nav">
+<li><a class="nav-active" href="index.html">Home</a></li>
+<span class="nav-sep">|</span>
+<li><a href="pages/nav/games.html">Games</a></li>
+<span class="nav-sep">|</span>
+<li><a href="pages/nav/devlogs.html">Devlogs</a></li>
+<span class="nav-sep">|</span>
+<li><a href="pages/nav/workshop.html">Workshop</a></li>
+<span class="nav-sep">|</span>
+<li><a href="pages/nav/developers.html">Devs</a></li>
+</ul>
+</div>
+</header>
 
 <!-- HERO -->
 <section class="section">
@@ -39,7 +57,7 @@
 
     <div class="logo-wrapper">
       <img class="logo"
-           src="{{root}}resources/logo.png"
+           src="resources/logo.png"
            alt="Rat Haven Studios logo"/>
     </div>
 
@@ -55,7 +73,7 @@
 
       <div class="card">
         <a class="card-img" href="pages/games/forgotten-paths-jam.html">
-          <img src="{{root}}resources/fp-jam.gif" alt="Game image"/>
+          <img src="resources/fp-jam.gif" alt="Game image"/>
         </a>
         <h3><a href="pages/games/forgotten-paths-jam.html">Forgotten Paths</a></h3>
         <span class="card-subtitle">Game Jam • Puzzle • Aug 5, 2025</span>
@@ -69,7 +87,7 @@
 
       <div class="card">
         <a class="card-img" href="pages/games/massaquerade.html">
-          <img src="{{root}}resources/massaquerade-jam.png" alt="Game image"/>
+          <img src="resources/massaquerade-jam.png" alt="Game image"/>
         </a>
         <h3><a href="pages/games/massaquerade.html">Massaquerade</a></h3>
         <span class="card-subtitle">Game Jam • Mystery • Dec 29, 2025</span>
@@ -82,7 +100,7 @@
 
       <div class="card">
         <a class="card-img" href="pages/games/solar-charged.html">
-          <img src="{{root}}resources/solarcharged-jam.gif" alt="Game image"/>
+          <img src="resources/solarcharged-jam.gif" alt="Game image"/>
         </a>
         <h3><a href="pages/games/solar-charged.html">Solar Charged</a></h3>
         <span class="card-subtitle">Game Jam • Tower Defense • July 20, 2025</span>
@@ -114,7 +132,7 @@
     <div class="grid grid-2">
       <div class="card">
         <div class="card-avatar-header">
-          <a href="pages/developers/hunter.html"><img src="{{root}}resources/developer-icons/hunter_rat.png" alt="Hunter Icon" class="card-avatar"></a>
+          <a href="pages/developers/hunter.html"><img src="resources/developer-icons/hunter_rat.png" alt="Hunter Icon" class="card-avatar"></a>
           <div class="card-avatar-text">
             <h3><a href="pages/developers/hunter.html">hutner</a></h3>
             <span class="card-subtitle">Lead Dev • Music</span>
@@ -129,7 +147,7 @@
       </div>
       <div class="card">
         <div class="card-avatar-header">
-          <a href="pages/developers/koborooski.html"><img src="{{root}}resources/developer-icons/kob.webp" alt="Kob Icon" class="card-avatar"></a>
+          <a href="pages/developers/koborooski.html"><img src="resources/developer-icons/kob.webp" alt="Kob Icon" class="card-avatar"></a>
           <div class="card-avatar-text">
             <h3><a href="pages/developers/koborooski.html">Kob</a></h3>
             <span class="card-subtitle">Dev • Art • Animations  Specialist</span>
@@ -143,7 +161,7 @@
       </div>
       <!-- <div class="card">
         <div class="card-avatar-header">
-          <a href="pages/developers/lopez.html"><img src="{{root}}resources/developer-icons/lopez.webp" alt="lop3ze Icon" class="card-avatar"></a>
+          <a href="pages/developers/lopez.html"><img src="resources/developer-icons/lopez.webp" alt="lop3ze Icon" class="card-avatar"></a>
           <div class="card-avatar-text">
             <h3><a href="pages/developers/lopez.html">lop3ze</a></h3>
             <span class="card-subtitle">Primary Artist</span>
@@ -168,7 +186,30 @@
 
     <div class="grid grid-3">
 
-<!-- {{latest-devlogs}} -->
+<!-- devlogs-start -->
+
+<div class="card" data-tags="forgotten-paths devlog">
+<h3><a href="pages/devlogs/2026-05-26_fp_progress.html">Forgotten Paths Progress</a></h3>
+<span class="card-subtitle">Forgotten Paths • Devlog • May 26, 2026</span>
+<p>Updates on the progress of the Forgotten Paths conversion.</p>
+<a class="btn" href="pages/devlogs/2026-05-26_fp_progress.html">Read</a>
+</div>
+
+<div class="card" data-tags="forgotten-paths devlog">
+<h3><a href="pages/devlogs/2026-04-09_fp.html">Forgotten Paths Revival</a></h3>
+<span class="card-subtitle">Forgotten Paths • Devlog • April 9, 2026</span>
+<p>Some updates, challenges, and changes on the Forgotten Paths conversion.</p>
+<a class="btn" href="pages/devlogs/2026-04-09_fp.html">Read</a>
+</div>
+
+<div class="card" data-tags="forgotten-paths announcement">
+<h3><a href="pages/devlogs/2026-03-25_fp-announcement.html">First Announcement!!</a></h3>
+<span class="card-subtitle">Forgotten Paths • Announcement • March 25, 2026</span>
+<p>An announcement about our first big project. Something <a href="pages/games/forgotten-paths-jam.html" target="_blank">familiar...</a></p>
+<a class="btn" href="pages/devlogs/2026-03-25_fp-announcement.html">Read</a>
+</div>
+
+<!-- devlogs-end -->
 
     
     </div>
@@ -198,7 +239,27 @@
 </section>
 
 <!-- FOOTER -->
-<!-- {{footer}} -->
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p class="footer-copy">&copy; 2026 Rat Haven Studios</p>
+    <div class="footer-links">
+      <a href="pages/nav/games.html">Games</a>
+      <span class="nav-sep">|</span>
+      <a href="pages/nav/devlogs.html">Devlogs</a>
+      <span class="nav-sep">|</span>
+      <a href="pages/nav/workshop.html">Workshop</a>
+      <span class="nav-sep">|</span>
+      <a href="pages/nav/developers.html">Devs</a>
+    </div>
+    <div class="footer-links">
+      <a href="https://github.com/Rat-Haven-Studios" target="_blank">GitHub</a>
+      <span class="nav-sep">|</span>
+      <a href="https://discord.gg/vk3X99kD3D" target="_blank">Discord</a>
+    </div>
+  </div>
+</footer>
+
+
 
 </body>
 </html>

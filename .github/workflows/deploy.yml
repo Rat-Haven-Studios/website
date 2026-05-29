@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Lint and Deploy
 
 on:
   push:
@@ -19,7 +19,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -37,19 +37,27 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Build site
+      - name: Sync latest devlogs
+        # Updates the devlogs section in index.html in case it wasn't run locally.
         run: python build.py
 
-      - name: Lint (source + build output)
-        # Errors (broken placeholders, missing templates) = exit 1, blocks deploy.
+      - name: Lint
+        # Errors (missing components, leftover placeholders) = exit 1, blocks deploy.
         # Warnings (card/file mismatches, broken links) = printed but non-blocking.
         # Change to: python lint.py --strict   to also block on warnings.
         run: python lint.py
 
+      - name: Prepare site
+        run: |
+          mkdir _site
+          cp index.html _site/
+          [ -f CNAME ] && cp CNAME _site/
+          cp -r pages styles scripts resources _site/
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/
+          path: _site/
 
       - name: Deploy to GitHub Pages
         id: deploy

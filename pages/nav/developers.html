@@ -4,13 +4,31 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Devlogs - Rat Haven Studios</title>
-  <link rel="stylesheet" href="{{root}}styles/styles.css"/>
-  <link rel="icon" type="image/png" href="{{root}}resources/logo-nt.png"/>
+  <link rel="stylesheet" href="../../styles/styles.css"/>
+  <link rel="icon" type="image/png" href="../../resources/logo-nt.png"/>
 </head>
 
 <body>
 
-<!-- {{header}} -->
+<header class="site-header">
+<div class="container header-inner">
+<a class="site-logo" href="../../index.html">
+<img alt="" src="../../resources/logo-nt.png"/>
+      Rat Haven Studios
+    </a>
+<ul class="site-nav">
+<li><a href="../../index.html">Home</a></li>
+<span class="nav-sep">|</span>
+<li><a href="../../pages/nav/games.html">Games</a></li>
+<span class="nav-sep">|</span>
+<li><a href="../../pages/nav/devlogs.html">Devlogs</a></li>
+<span class="nav-sep">|</span>
+<li><a href="../../pages/nav/workshop.html">Workshop</a></li>
+<span class="nav-sep">|</span>
+<li><a class="nav-active" href="../../pages/nav/developers.html">Devs</a></li>
+</ul>
+</div>
+</header>
 
 <section class="section">
   <div class="container">
@@ -25,7 +43,7 @@
     <div class="grid grid-2">
       <div class="card" data-tags="developer-card">
           <div class="card-avatar-header">
-            <a href="../developers/hunter.html"><img class="card-avatar" src="{{root}}resources/developer-icons/hunter_rat.png" alt="Hunter Icon"></a>
+            <a href="../developers/hunter.html"><img class="card-avatar" src="../../resources/developer-icons/hunter_rat.png" alt="Hunter Icon"></a>
             <div class="card-avatar-text">
               <h3><a href="../developers/hunter.html">hutner.</a></h3>
               <span class="card-subtitle">Lead Dev • Music</span>
@@ -37,7 +55,7 @@
 
       <div class="card" data-tags="developer-card">
           <div class="card-avatar-header">
-            <a href="../developers/koborooski.html"><img class="card-avatar" src="{{root}}resources/developer-icons/kob.webp" alt="Kob Icon"></a>
+            <a href="../developers/koborooski.html"><img class="card-avatar" src="../../resources/developer-icons/kob.webp" alt="Kob Icon"></a>
             <div class="card-avatar-text">
               <h3><a href="../developers/koborooski.html">Kob</a></h3>
               <span class="card-subtitle">Dev • Art • Animator</span>
@@ -53,7 +71,7 @@
     <div class="grid grid-3">
       <div class="card" data-tags="developer-card">
         <div class="card-avatar-header">
-          <img class="card-avatar" src="{{root}}resources/developer-icons/lopez.webp" alt="Lopez Icon">
+          <img class="card-avatar" src="../../resources/developer-icons/lopez.webp" alt="Lopez Icon">
           <div class="card-avatar-text">
             <h3>lop3ze</h3>
             <span class="card-subtitle">Artist</span>
@@ -65,8 +83,28 @@
 
 </section>
 
-<!-- {{footer}} -->
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p class="footer-copy">&copy; 2026 Rat Haven Studios</p>
+    <div class="footer-links">
+      <a href="../../pages/nav/games.html">Games</a>
+      <span class="nav-sep">|</span>
+      <a href="../../pages/nav/devlogs.html">Devlogs</a>
+      <span class="nav-sep">|</span>
+      <a href="../../pages/nav/workshop.html">Workshop</a>
+      <span class="nav-sep">|</span>
+      <a href="../../pages/nav/developers.html">Devs</a>
+    </div>
+    <div class="footer-links">
+      <a href="https://github.com/Rat-Haven-Studios" target="_blank">GitHub</a>
+      <span class="nav-sep">|</span>
+      <a href="https://discord.gg/vk3X99kD3D" target="_blank">Discord</a>
+    </div>
+  </div>
+</footer>
 
-<script src="{{root}}scripts/filter.js"></script>
+
+
+<script src="../../scripts/filter.js"></script>
 </body>
 </html>
