@@ -9,6 +9,7 @@
   --surface-2: #162030;
   --border: #243c5e;
   --accent: #4d7cfe;
+  --accent-dark: color-mix(in srgb, var(--accent) 75%, black);
   --text: #eef4ff;
   --text-muted: #96b8d8;
 
