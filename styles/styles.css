@@ -377,14 +377,14 @@ p + .formatted-list { margin-top: 1em; }
 }
 
 .filter-btn {
-  background: none;
+  background: var(--surface);
   border: 2px solid var(--border);
   color: var(--text-muted);
   font-family: var(--font-title);
   font-size: 0.5rem;
   padding: 6px 10px;
   cursor: pointer;
-  transition: border-color 0.15s ease, color 0.15s ease;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
 }
 
 .filter-btn:hover {
