@@ -1,0 +1,83 @@
+<!--
+  DEVELOPER PAGE TEMPLATE
+  Copy this into pages/developers/<name>.html, fill in the bracketed
+  placeholders. Then:
+    1. Run `python update_components.py` to inject the real header/footer.
+    2. Add a card to pages/nav/developers.html (and optionally index.html#about).
+
+  See pages/developers/koborooski.html for a richer example with project
+  write-ups, an embed, and an art gallery - add more <h2>/<h3> sections
+  below the same way if you want that.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>[Name] - Rat Haven Studios</title>
+  <meta name="description" content="Meet [Name], [role] at Rat Haven Studios."/>
+  <meta property="og:title" content="[Name] - Rat Haven Studios"/>
+  <meta property="og:description" content="Meet [Name], [role] at Rat Haven Studios."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://rathavenstudios.com/pages/developers/[name].html"/>
+  <meta property="og:image" content="https://rathavenstudios.com/resources/logo.png"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <link rel="stylesheet" href="../../styles/styles.css"/>
+  <link rel="icon" type="image/png" href="../../resources/logo-nt.png"/>
+</head>
+
+<body>
+
+<header class="site-header"></header>
+
+<!-- HERO -->
+<section class="dev-quick-facts">
+  <div class="container hero">
+    <div>
+      <h1>[Name]</h1>
+      <span class="card-subtitle">[Role] • [Role]</span>
+      <br>
+      <h2>Dev Quick Facts</h2>
+      <p>
+        [A couple sentences of quick, casual intro.]
+      </p>
+      <br>
+      <div class="btn-grid grid-gap-small">
+        <a href="[itch.io URL]" class="btn icon-btn itch-btn" target="_blank"><img src="https://static.itch.io/images/itchio-textless-white.svg">itch</a>
+        <a href="[GitHub URL]" class="btn btn-bg" target="_blank">GitHub</a>
+        <a href="../../pages/nav/developers.html" class="btn btn-bg">Back to Devs</a>
+      </div>
+    </div>
+    <div class="logo-wrapper">
+      <img src="[path to icon/portrait]" alt="[Name]" class="game-hero-img" style="width: 50%;" data-lightbox/>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-me">
+  <div class="container">
+    <div class="post-content">
+
+      <h2>[More About Me heading]</h2>
+      <p>
+        [Background paragraph.]
+      </p>
+
+      <h2>[Second section, e.g. a project or interest]</h2>
+      <p>
+        [Content.]
+      </p>
+
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer"></footer>
+
+<!-- Uncomment if this page embeds an itch.io project -->
+<!-- <script src="../../scripts/game-embed.js"></script> -->
+<script src="../../scripts/lightbox.js"></script>
+<script src="../../scripts/toc.js"></script>
+</body>
+</html>

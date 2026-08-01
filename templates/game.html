@@ -1,0 +1,133 @@
+<!--
+  GAME PAGE TEMPLATE
+  Copy this into pages/games/<name>.html, fill in the bracketed placeholders,
+  and delete any sections you don't need (e.g. "Jam Results" for a non-jam
+  release). Then:
+    1. Run `python update_components.py` to inject the real header/footer.
+    2. Add a card to pages/nav/games.html with appropriate data-tags.
+    3. Optionally add a featured card to index.html#games.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>[Game Title] - Rat Haven Studios</title>
+  <meta name="description" content="[One or two sentence description of the game.]"/>
+  <meta property="og:title" content="[Game Title] - Rat Haven Studios"/>
+  <meta property="og:description" content="[One or two sentence description of the game.]"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://rathavenstudios.com/pages/games/[game-slug].html"/>
+  <meta property="og:image" content="[Absolute URL to a hero/thumbnail image]"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <link rel="stylesheet" href="../../styles/styles.css"/>
+  <link rel="icon" type="image/png" href="../../resources/logo-nt.png"/>
+</head>
+
+<body>
+
+<header class="site-header"></header>
+
+<!-- HERO -->
+<section class="section">
+  <div class="container hero">
+    <div>
+      <h1>[Game Title]</h1>
+      <span class="card-subtitle">[Game Jam | Release] • [Genre] • [Month DD, YYYY]</span>
+      <br>
+      <p>
+        [One to three sentences describing the game and, if applicable, what jam it was made for and under what theme.]
+      </p>
+      <br>
+      <div class="btn-grid grid-gap-small">
+        <a href="[itch.io URL]" class="btn icon-btn itch-btn" target="_blank"><img src="https://static.itch.io/images/itchio-textless-white.svg">itch</a>
+        <a href="../devlogs/[related-devlog].html" class="btn btn-bg">Devlog</a>
+        <a href="[GitHub URL]" class="btn btn-bg" target="_blank">GitHub</a>
+        <a href="../nav/games.html" class="btn btn-bg">Back to Games</a>
+      </div>
+    </div>
+    <div class="logo-wrapper">
+      <img src="[hero image path]" alt="[Game Title] gameplay" class="game-hero-img" data-lightbox/>
+    </div>
+  </div>
+</section>
+
+<!-- PLAY -->
+<section class="game-section">
+  <div class="container">
+    <h2>Play</h2>
+    <div class="game-embed">
+      <div class="game-embed-placeholder"
+           data-src="https://itch.io/embed-upload/[upload-id]?color=[hex]"
+           data-width="640" data-height="380">
+        <img src="[thumbnail image path]" alt="[Game Title]"/>
+        <div class="play-overlay"><span class="play-btn">&#9654; Play</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCREENSHOTS -->
+<section class="game-section">
+  <div class="container">
+    <h2>Screenshots</h2>
+    <div class="screenshot-gallery">
+      <img src="[screenshot 1]" alt="[Game Title]" data-lightbox/>
+      <img src="[screenshot 2]" alt="[Game Title]" data-lightbox/>
+      <img src="[screenshot 3]" alt="[Game Title]" data-lightbox/>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO PLAY -->
+<section class="game-section">
+  <div class="container">
+    <h2>How to Play</h2>
+    <div class="how-to-play-grid">
+      <div>
+        <h3>Controls</h3>
+        <ul>
+          <li>[Key/Button] - [action]</li>
+          <li>[Key/Button] - [action]</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Goal</h3>
+        <p>
+          [What the player is trying to do / how to win.]
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS (delete this whole section if the game wasn't a jam entry) -->
+<section class="game-section">
+  <div class="container">
+    <h2>Jam Results</h2>
+    <div class="how-to-play-grid">
+      <div>
+        <h3><a href="[jam URL]" target="_blank">[Jam Name]</a></h3>
+        <ul>
+          <li>Theme - [theme]</li>
+          <li>Duration - [duration]</li>
+          <li>Submissions - [count]</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Rankings</h3>
+        <ul>
+          <li>Overall - [rank]</li>
+          <li>[Category] - [rank]</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer"></footer>
+
+<script src="../../scripts/game-embed.js"></script>
+<script src="../../scripts/lightbox.js"></script>
+</body>
+</html>

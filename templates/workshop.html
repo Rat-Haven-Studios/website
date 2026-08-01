@@ -1,0 +1,90 @@
+<!--
+  WORKSHOP POST TEMPLATE
+  Copy this into pages/workshop/YYYY-MM-DD_shortname.html, fill in the
+  bracketed placeholders, and delete any optional blocks you don't need.
+  Then:
+    1. Run `python update_components.py` to inject the real header/footer.
+    2. Add a card to pages/nav/workshop.html with data-tags
+       (type: tutorial | resource | writeup; topic: art | music | design | code
+       - see the comment at the top of that file).
+
+  Needs at least 2 headings (h2/h3) inside .post-content for the "On This
+  Page" sidebar nav (scripts/toc.js) to appear - it no-ops below that.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>[Post Title] - Rat Haven Studios</title>
+  <meta name="description" content="[One or two sentence summary of the post.]"/>
+  <meta property="og:title" content="[Post Title] - Rat Haven Studios"/>
+  <meta property="og:description" content="[One or two sentence summary of the post.]"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://rathavenstudios.com/pages/workshop/[YYYY-MM-DD_shortname].html"/>
+  <meta property="og:image" content="https://rathavenstudios.com/resources/logo.png"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <link rel="stylesheet" href="../../styles/styles.css"/>
+  <link rel="icon" type="image/png" href="../../resources/logo-nt.png"/>
+</head>
+
+<body>
+
+<header class="site-header"></header>
+
+<section class="section">
+  <div class="container">
+    <h1>[Post Title]</h1>
+    <span class="card-subtitle">[Writeup | Tutorial | Resource] • [Topic] • [Month DD, YYYY]</span>
+    <span class="card-subtitle">by [author]</span>
+
+    <div class="post-content">
+
+      <h2>[Motive / Intro Heading]</h2>
+      <p>
+        [Why you're writing this / what it covers.]
+      </p>
+
+      <h2>[Main Topic Heading]</h2>
+      <p>
+        [Content.]
+      </p>
+
+      <h3>[Sub-heading]</h3>
+      <p>
+        [Content.]
+      </p>
+
+      <!-- Optional code block - delete if not needed -->
+      <!--
+      <pre><code class="language-gdscript">extends Node
+
+func _ready() -> void:
+	pass</code></pre>
+      -->
+
+      <!-- Optional image - delete if not needed -->
+      <!-- <img src="../../resources/workshop/[folder]/[image].png" alt="[description]" class="post-img" data-lightbox/> -->
+
+      <h2>Sources</h2>
+      <p>
+        [Any sources used, if applicable.]
+      </p>
+      <ul class="formatted-list">
+        <li><a href="[url]" target="_blank">[label]</a></li>
+      </ul>
+
+    </div>
+
+    <br>
+    <a href="../nav/workshop.html" class="btn btn-bg">Back to Workshop</a>
+  </div>
+</section>
+
+<footer class="site-footer"></footer>
+
+<script src="../../scripts/gdscript-highlight.js"></script>
+<script src="../../scripts/lightbox.js"></script>
+<script src="../../scripts/toc.js"></script>
+</body>
+</html>
