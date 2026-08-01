@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game Scene Structures - Rat Haven Studios</title>
+    <meta name="description"
+        content="A rundown of a few ways to structure scenes in Godot, and which approach makes sense depending on how much persistent data your game needs." />
+    <meta property="og:title" content="Game Scene Structures - Rat Haven Studios" />
+    <meta property="og:description"
+        content="A rundown of a few ways to structure scenes in Godot, and which approach makes sense depending on how much persistent data your game needs." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url"
+        content="https://rathavenstudios.com/pages/workshop/2026-08-01_game-scene-structures.html" />
+    <meta property="og:image" content="https://rathavenstudios.com/resources/logo.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="stylesheet" href="../../styles/styles.css" />
+    <link rel="icon" type="image/png" href="../../resources/logo-nt.png" />
+</head>
+
+<body>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="site-logo" href="../../index.html">
+                <img alt="Rat Haven Studios logo" src="../../resources/logo-nt.png" />
+                Rat Haven Studios
+            </a>
+            <ul class="site-nav">
+                <li><a href="../../index.html">Home</a></li>
+                <span class="nav-sep">|</span>
+                <li><a href="../../pages/nav/games.html">Games</a></li>
+                <span class="nav-sep">|</span>
+                <li><a href="../../pages/nav/devlogs.html">Devlogs</a></li>
+                <span class="nav-sep">|</span>
+                <li><a class="nav-active" href="../../pages/nav/workshop.html">Workshop</a></li>
+                <span class="nav-sep">|</span>
+                <li><a href="../../pages/nav/developers.html">Devs</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <section class="section">
+        <div class="container">
+            <h1>THIS IS A WIP. REMOVE WHEN FINISHED. PLEASE IGNORE.</h1>
+            <h1>Game Scene Structures</h1>
+            <span class="card-subtitle">Writeup • Code • August 1, 2026</span>
+            <span class="card-subtitle">by hutner</span>
+
+            <div class="post-content">
+
+                <h2>Overview</h2>
+                <p>
+                    There are numerous ways a project can be structured. This is mostly me going through a couple of
+                    them and coming up with what I think is the best way to go about it.
+                </p>
+                <p>
+                    They boil down to a few ideas:
+                </p>
+                <ul class="formatted-list">
+                    <li>Main scene with everything loaded into it</li>
+                    <li>Scene switching (modular)</li>
+                    <li>Scene switching (globals)</li>
+                </ul>
+
+                <h2>Main Scene Always Loaded</h2>
+                <p>
+                    This works because while you can switch scenes, there are usually things you always want to keep
+                    loaded. HUD, other UI, etc.
+                </p>
+                <p>
+                    This approach is focused around having a main scene and then loading what you need into it. This
+                    avoids the problem of using globals, since you have your always-present stuff right in the main
+                    scene.
+                </p>
+                <p>
+                    Overall, in this approach, the main scene acts more like a scene container where you can load and
+                    unload scenes without deleting everything in the tree.
+                </p>
+                <p>
+                    One of the biggest downsides of this is that it isn't very lightweight. It's also extremely coupled,
+                    since scenes can't even consider running on their own - they rely on being inside this container.
+                </p>
+
+                <pre><code>GameController (Node)
+    World (Node2D)
+    GUI (Control)
+        SplashScreenManager (Control) # this is for an example</code></pre>
+
+                <p>
+                    Below is an example of how this might be implemented.
+                </p>
+
+                <pre><code class="language-gdscript"># make this a global/autoload script, e.g. global.gd
+extends Node
+
+var gameController: GameController</code></pre>
+
+                <pre><code class="language-gdscript">class_name GameController extends Node
+
+@export var world: Node2D
+@export var gui: Control
+
+var currentWorld: Node2D
+var currentGUI: Control
+
+func _ready() -> void:
+	Global.gameController = self
+	currentGUI = $GUI/SplashScreenManager
+
+func changeGUIScene(newScene: String, delete: bool = true, keepRunning: bool = false) -> void:
+	if currentGUI != null:
+		if delete:
+			currentGUI.queue_free() # remove entirely
+		elif keepRunning:
+			currentGUI.visible = false # just make it invisible
+		else:
+			gui.remove_child(currentGUI) # keep in memory, does not run
+	var newGUI = load(newScene).instantiate()
+	gui.add_child(newGUI)
+	currentGUI = newGUI
+
+func changeWorld(newScene: String, delete: bool = true, keepRunning: bool = false) -> void:
+	if currentWorld != null:
+		if delete:
+			currentWorld.queue_free() # remove entirely
+		elif keepRunning:
+			currentWorld.visible = false # just make it invisible
+		else:
+			world.remove_child(currentWorld) # keep in memory, does not run
+	var newWorld = load(newScene).instantiate()
+	world.add_child(newWorld)
+	currentWorld = newWorld</code></pre>
+
+                <h2>Scene Switching (Modular)</h2>
+                <p>
+                    In a perfect world, this is the best solution. Each scene is able to run on its own, completely
+                    decoupled from the rest of the game. The problem is that this is unlikely in many games.
+                </p>
+                <p>
+                    This approach probably works fine for a level-based game like a puzzle platformer, but falls apart
+                    when there's some sort of data that needs to always be present.
+                </p>
+                <p>
+                    To imagine an implementation of this, you could have a Main Menu scene, Settings, Level 1, etc.,
+                    each swapped in directly with no shared container.
+                </p>
+                <p>
+                    Overall, if state needs to exist between different scenes, this fully decoupled approach falls apart
+                    and just isn't that possible.
+                </p>
+
+                <h2>Scene Switching With Globals</h2>
+                <p>
+                    This is the above approach, but it additionally uses globals as something like glue to keep it
+                    together. For a lot of games, this is likely the best approach, especially if the amount of data
+                    that needs to be kept is small.
+                </p>
+                <p>
+                    To implement this, you could simply create a general <code>Bus</code> global which stores all of the
+                    data that needs to be shared, or maybe more individual ones like <code>Player</code>. It depends on
+                    your needs.
+                </p>
+
+                <h2>Scene Switching With Data Passing</h2>
+                <p>
+                    This, again, is very similar to the two above, but utilizes something like a
+                    <code>change_scene</code> function to pass along specific data. This keeps the globals clean, but
+                    still suffers from the problem of not being entirely self-contained.
+                </p>
+
+                <h2>Conclusion</h2>
+                <p>
+                    If you're creating a game with no data that needs to be persistent, and each scene can be structured
+                    entirely independently, then the simplest and cleanest way to do it is by just changing scenes
+                    directly.
+                </p>
+                <p>
+                    If you're creating a game that requires some sort of data to be persistent across scenes, there are
+                    3 approaches you can take:
+                </p>
+                <ol class="formatted-list">
+                    <li><strong>Passing data between scenes:</strong> Likely the worst approach out of these three. It's
+                        the least reliable and requires a lot of setup in the area of passing data around through
+                        functions, etc.</li>
+                    <li><strong>Storing and referencing data:</strong> Putting the data you need in a file/global script
+                        that all of the levels have access to and can reference to get what they need. This way you can
+                        still have generally self-contained levels, and they have a way to get the data they need. Be
+                        careful of over-reliance on the global scripts.</li>
+                    <li><strong>Loading and unloading:</strong> While this approach means the levels aren't
+                        self-contained - they can't function outside of their main parent container - it's probably the
+                        best approach for when there's a large amount of data around. If the cost of keeping track of
+                        data outweighs the cost of loading and unloading, this is likely the best approach.</li>
+                </ol>
+
+                <p>
+                    <strong>TL;DR</strong>
+                </p>
+                <ul class="formatted-list">
+                    <li>If there's no persistent data and each scene can be self-contained, using a simple
+                        <code>change_scene</code> is the best approach.</li>
+                    <li>If you have a little to a normal amount of persistent data, you should store your data in a
+                        global/file and reference it.</li>
+                    <li>If your game has tons and tons of data, you should store everything in a main scene, and
+                        load/unload the parts that need to change.</li>
+                </ul>
+
+            </div>
+
+            <br>
+            <a href="../nav/workshop.html" class="btn btn-bg">Back to Workshop</a>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p class="footer-copy">&copy; 2026 Rat Haven Studios</p>
+            <div class="footer-links">
+                <a href="../../pages/nav/games.html">Games</a>
+                <span class="nav-sep">|</span>
+                <a href="../../pages/nav/devlogs.html">Devlogs</a>
+                <span class="nav-sep">|</span>
+                <a href="../../pages/nav/workshop.html">Workshop</a>
+                <span class="nav-sep">|</span>
+                <a href="../../pages/nav/developers.html">Devs</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://github.com/Rat-Haven-Studios" target="_blank">GitHub</a>
+                <span class="nav-sep">|</span>
+                <a href="https://discord.gg/vk3X99kD3D" target="_blank">Discord</a>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="../../scripts/gdscript-highlight.js"></script>
+    <script src="../../scripts/copy-code.js"></script>
+    <script src="../../scripts/lightbox.js"></script>
+    <script src="../../scripts/toc.js"></script>
+</body>
+
+</html>

@@ -5,7 +5,8 @@ lint.py — Rat Haven Studios site linter
 ERRORS  — always exit 1:
   • Leftover {{...}} placeholder in any HTML page (forgot to run update_components.py)
   • Missing <header> or <footer> in any HTML page
-  • Missing <!-- devlogs-start --> / <!-- devlogs-end --> markers in index.html
+  • Missing <!-- devlogs-start --> / <!-- devlogs-end --> or
+    <!-- workshop-start --> / <!-- workshop-end --> markers in index.html
 
 WARNINGS — exit 0 by default, exit 1 with --strict:
   • Card count in a nav page doesn't match .html file count in that directory
@@ -95,13 +96,15 @@ def check_components_injected() -> None:
 
 
 def check_devlogs_markers() -> None:
-    """index.html must have devlogs-start / devlogs-end markers for build.py."""
+    """index.html must have devlogs/workshop start/end markers for build.py."""
     index = ROOT / "index.html"
     if not index.exists():
         return
     content = index.read_text(encoding="utf-8")
     if "<!-- devlogs-start -->" not in content or "<!-- devlogs-end -->" not in content:
         _err("index.html  ←  missing devlogs markers — run: python build.py")
+    if "<!-- workshop-start -->" not in content or "<!-- workshop-end -->" not in content:
+        _err("index.html  ←  missing workshop markers — run: python build.py")
 
 
 def check_card_file_consistency() -> None:

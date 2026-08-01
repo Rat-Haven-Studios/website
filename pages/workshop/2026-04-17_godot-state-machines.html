@@ -128,14 +128,20 @@ func changeState(newState: EnumState) -> void:
 
 	# exit logic for the old state
 	match currentState:
-		pass
+		EnumState.On:
+			pass # e.g. stop_effects()
+		EnumState.Off:
+			pass
 
 	prevState = currentState
 	currentState = newState
 
 	# enter logic for the new state
 	match currentState:
-		pass
+		EnumState.On:
+			pass # e.g. start_effects()
+		EnumState.Off:
+			pass
 
 	stateChanged.emit(prevState, newState)</code></pre>
 
@@ -188,7 +194,7 @@ func processFrame(_delta: float) -> void:
         From then on it just holds the current state and routes process calls into it.
         <code>changeState()</code> calls <code>exit()</code> on the old state and <code>enter()</code> on the new one before swapping.
         States are keyed by their <code>stateName</code> lowercased, and <code>changeState()</code> also lowercases the input before lookup, so casing in state scripts is normalized automatically.
-        Using strings instead of typed node references keeps the it flexible. 
+        Using strings instead of typed node references keeps it flexible.
         Any state can trigger a transition to any other state without needing a direct reference to it.
       </p>
 
@@ -233,10 +239,11 @@ func processFrame(delta: float) -> void:
 
 
 func changeState(newStateName: String):
-	if newStateName not in states:
+	var key = newStateName.to_lower()
+	if key not in states:
 		return
 
-	var newState = states.get(newStateName.to_lower())
+	var newState = states.get(key)
 	if !newState or newState == currentState:
 		return
 
@@ -373,6 +380,7 @@ func processPhysics(delta: float):
     </div>
   </div>
 </footer>
+
 
 
 
