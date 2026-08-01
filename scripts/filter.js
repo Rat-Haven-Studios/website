@@ -30,3 +30,20 @@ document.querySelectorAll('.filter-group[data-param]').forEach(group => {
   btn.classList.add('active');
 });
 applyFilters();
+
+// View toggle (grid/list)
+const viewButtons = document.querySelectorAll('.view-btn');
+if (viewButtons.length) {
+  const grids = document.querySelectorAll('.grid');
+  const applyView = (view) => {
+    grids.forEach(g => g.classList.toggle('list-view', view === 'list'));
+    viewButtons.forEach(b => b.classList.toggle('active', b.dataset.view === view));
+  };
+  viewButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      localStorage.setItem('nav-view', btn.dataset.view);
+      applyView(btn.dataset.view);
+    });
+  });
+  applyView(localStorage.getItem('nav-view') || 'grid');
+}

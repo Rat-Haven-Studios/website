@@ -421,6 +421,118 @@ p + .formatted-list { margin-top: 1em; }
   background: var(--surface-2);
 }
 
+.view-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.view-btn {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  color: var(--text-muted);
+  font-family: var(--font-title);
+  font-size: 0.5rem;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.view-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.view-btn.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--surface-2);
+}
+
+/* -------------------- */
+/* LIST VIEW */
+/* -------------------- */
+.grid.list-view {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.grid.list-view > .card {
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 16px;
+  border-width: 0 0 2px 0;
+}
+
+.grid.list-view > .card:first-child {
+  border-top-width: 2px;
+}
+
+.grid.list-view > .card:hover {
+  transform: none;
+  background: var(--surface-2);
+}
+
+.grid.list-view > .card > .card-img {
+  flex: 0 0 56px;
+  width: 56px;
+  height: 56px;
+}
+
+.grid.list-view > .card > .card-avatar-header {
+  flex: 0 0 auto;
+  padding: 0;
+}
+
+.grid.list-view > .card > h3 {
+  flex: 0 0 200px;
+  padding: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.grid.list-view > .card > .card-subtitle {
+  flex: 0 0 200px;
+  padding: 0;
+}
+
+.grid.list-view > .card > p {
+  flex: 1;
+  padding: 0;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.grid.list-view > .card > .btn-grid {
+  flex: 0 0 auto;
+  padding: 0;
+  margin: 0;
+}
+
+.grid.list-view > .card > .btn {
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+@media (max-width: 700px) {
+  .grid.list-view > .card {
+    flex-wrap: wrap;
+  }
+
+  .grid.list-view > .card > h3,
+  .grid.list-view > .card > .card-subtitle,
+  .grid.list-view > .card > p {
+    flex: 1 1 100%;
+    white-space: normal;
+  }
+}
+
 /* -------------------- */
 /* FOOTER */
 /* -------------------- */
