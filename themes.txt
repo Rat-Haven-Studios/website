@@ -1,0 +1,71 @@
+Theme presets for styles/styles.css :root block
+==================================================
+To switch themes, copy the variable lines for a theme below and paste them
+over the corresponding lines inside :root { ... } in styles/styles.css
+(lines 6-20 as of this writing).
+
+--------------------------------------------------
+[original] - the theme the site shipped with before any tweaks
+--------------------------------------------------
+--bg: #06090f;
+--surface: #0e1520;
+--surface-2: #162030;
+--border: #243c5e;
+--accent: #4d7cfe;
+--accent-dark: color-mix(in srgb, var(--accent) 75%, black);
+--text: #eef4ff;
+--text-muted: #96b8d8;
+--bg-pattern: #0d1828;
+(body::before had no opacity override - pattern at full strength)
+
+--------------------------------------------------
+[bright-navy] - brighter/more saturated navy, unified bright text, subdued pattern
+--------------------------------------------------
+--bg: #0a1424;
+--surface: #10203a;
+--surface-2: #172c4d;
+--border: #2f4f80;
+--accent: #4d7cfe;
+--accent-dark: color-mix(in srgb, var(--accent) 75%, black);
+--text: #eef4ff;
+--text-muted: var(--text);
+--bg-pattern: color-mix(in srgb, #1f3a63 45%, var(--bg));
+
+--------------------------------------------------
+[orange] - neutral dark gray base, single orange accent
+--------------------------------------------------
+--bg: #141210;
+--surface: #1e1b17;
+--surface-2: #2b2723;
+--border: #423b33;
+--accent: #ff8f3f;
+--accent-dark: color-mix(in srgb, var(--accent) 75%, black);
+--text: #f2ede6;
+--text-muted: var(--text);
+--bg-pattern: color-mix(in srgb, var(--accent) 15%, var(--bg));
+
+--------------------------------------------------
+[green] - neutral dark gray base, single green accent
+--------------------------------------------------
+--bg: #141210;
+--surface: #1e1b17;
+--surface-2: #2b2723;
+--border: #423b33;
+--accent: #4fd57a;
+--accent-dark: color-mix(in srgb, var(--accent) 75%, black);
+--text: #f2ede6;
+--text-muted: var(--text);
+--bg-pattern: color-mix(in srgb, var(--accent) 15%, var(--bg));
+
+--------------------------------------------------
+[current] - neutral dark gray base, single cyan-blue accent
+--------------------------------------------------
+--bg: #141210;
+--surface: #1e1b17;
+--surface-2: #2b2723;
+--border: #423b33;
+--accent: #3fb8e6;
+--accent-dark: color-mix(in srgb, var(--accent) 75%, black);
+--text: #f2ede6;
+--text-muted: var(--text);
+--bg-pattern: color-mix(in srgb, var(--accent) 15%, var(--bg));

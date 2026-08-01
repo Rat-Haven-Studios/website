@@ -1,22 +1,24 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+/* To swap a font: change the family name here AND in the matching --font-* variable below */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'); /* --font-title */
+@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;600&display=swap'); /* --font-body */
 
 /* -------------------- */
 /* BASE */
 /* -------------------- */
 :root {
-  --bg: #06090f;
-  --surface: #0e1520;
-  --surface-2: #162030;
-  --border: #243c5e;
-  --accent: #4d7cfe;
+  --bg: #141210;
+  --surface: #1e1b17;
+  --surface-2: #2b2723;
+  --border: #423b33;
+  --accent: #3fb8e6;
   --accent-dark: color-mix(in srgb, var(--accent) 75%, black);
-  --text: #eef4ff;
-  --text-muted: #96b8d8;
+  --text: #f2ede6;
+  --text-muted: var(--text);
 
-  --bg-pattern: #0d1828;
+  --bg-pattern: color-mix(in srgb, var(--accent) 6%, var(--bg));
 
   --font-title: 'Press Start 2P', monospace;
-  --font-body: 'VT323', monospace;
+  --font-body: 'Geist Mono', monospace;
 }
 
 * {
@@ -41,7 +43,7 @@ body {
   isolation: isolate;
   color: var(--text);
   font-family: var(--font-body);
-  font-size: 1.25rem;
+  font-size: 1rem;
   line-height: 1.6;
   display: flex;
   flex-direction: column;
@@ -73,6 +75,13 @@ body::before {
 
 .section {
   padding: 20px 0;
+}
+
+.section h2 {
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--border);
+  color: var(--text);
 }
 
 .grid {
@@ -183,12 +192,12 @@ p + .formatted-list { margin-top: 1em; }
 }
 
 .hero h1 {
-  font-size: 3rem;
+  font-size: 2.2rem;
   margin-bottom: 16px;
 }
 
 .hero p {
-  font-size: 1.3rem;
+  font-size: 1.05rem;
   max-width: 480px;
   line-height: 1.6;
 }
@@ -225,6 +234,7 @@ p + .formatted-list { margin-top: 1em; }
 
 .card h3 {
   padding: 10px 16px 2px;
+  font-size: 0.8rem;
 }
 
 .card h3 a {
@@ -239,7 +249,7 @@ p + .formatted-list { margin-top: 1em; }
 .card-subtitle {
   display: block;
   padding: 0 16px 10px;
-  font-size: 0.85rem;
+  font-size: 0.7rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--text-muted);
@@ -272,8 +282,10 @@ p + .formatted-list { margin-top: 1em; }
   padding: 0 16px 16px;
 }
 
-.card .btn {
+.card > .btn {
+  display: block;
   margin: auto 16px 16px;
+  text-align: center;
 }
 
 .card-img {
