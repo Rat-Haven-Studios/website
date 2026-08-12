@@ -1,100 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Godot State Machines - Rat Haven Studios</title>
-  <meta name="description" content="An opinionated writeup on implementing State Machines in Godot, covering both the Enum and Node approaches."/>
-  <meta property="og:title" content="Godot State Machines - Rat Haven Studios"/>
-  <meta property="og:description" content="An opinionated writeup on implementing State Machines in Godot, covering both the Enum and Node approaches."/>
-  <meta property="og:type" content="website"/>
-  <meta property="og:url" content="https://rathavenstudios.com/pages/workshop/2026-04-17_godot-state-machines.html"/>
-  <meta property="og:image" content="https://rathavenstudios.com/resources/logo.png"/>
-  <meta name="twitter:card" content="summary_large_image"/>
-  <link rel="stylesheet" href="../../styles/styles.css"/>
-  <link rel="icon" type="image/png" href="../../resources/logo-nt.png"/>
+  <meta name="description"
+    content="An opinionated writeup on implementing State Machines in Godot, covering both the Enum and Node approaches." />
+  <meta property="og:title" content="Godot State Machines - Rat Haven Studios" />
+  <meta property="og:description"
+    content="An opinionated writeup on implementing State Machines in Godot, covering both the Enum and Node approaches." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://rathavenstudios.com/pages/workshop/2026-04-17_godot-state-machines.html" />
+  <meta property="og:image" content="https://rathavenstudios.com/resources/logo.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="../../styles/styles.css" />
+  <link rel="icon" type="image/png" href="../../resources/logo-nt.png" />
 </head>
 
 <body>
 
-<header class="site-header">
-<div class="container header-inner">
-<a class="site-logo" href="../../index.html">
-<img alt="Rat Haven Studios logo" src="../../resources/logo-nt.png"/>
-      Rat Haven Studios
-    </a>
-<ul class="site-nav">
-<li><a href="../../index.html">Home</a></li>
-<span class="nav-sep">|</span>
-<li><a href="../../pages/nav/games.html">Games</a></li>
-<span class="nav-sep">|</span>
-<li><a href="../../pages/nav/devlogs.html">Devlogs</a></li>
-<span class="nav-sep">|</span>
-<li><a class="nav-active" href="../../pages/nav/workshop.html">Workshop</a></li>
-<span class="nav-sep">|</span>
-<li><a href="../../pages/nav/developers.html">Devs</a></li>
-</ul>
-</div>
-</header>
-
-<section class="section">
-  <div class="container">
-    <h1>Godot State Machines</h1>
-    <span class="card-subtitle">Writeup • Code • April 17, 2026</span>
-    <span class="card-subtitle">by hutner</span>
-    <!-- <br> -->
-
-    <div class="post-content">
-
-      <h2>Motive</h2>
-      <p>
-        Recently, I've been researching State Machines and how to use them in Godot.
-        I wanted to share what I've learned, some thoughts, and some code examples.
-        I've consumed various sources and the implementation I ended up with is a bit of a mix of different ideas and approaches from all of them.
-        Simply put, this is my opinionated take on how to implement State Machines in Godot, and I figured it might be useful to share.
-      </p>
-
-      <h2>State Machines</h2>
-      <p>
-        A State Machine is simply a programming pattern that lets you manage the state in an organized way.
-        It consists of a set of states, transitions between those states, and actions that happen when entering, exiting, or transitioning between states.
-      </p>
-      <p>
-        They're a phenomenal tool for managing complex behavior. Below are some benefits:
-      </p>
-      <ul class="formatted-list">
-        <li>Improved organization and maintainability</li>
-        <li>States are decoupled from each other. To extend behavior, only the relevant state needs to be touched</li>
-        <li>Transitions are explicit and easy to follow, which helps debugging</li>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="site-logo" href="../../index.html">
+        <img alt="Rat Haven Studios logo" src="../../resources/logo-nt.png" />
+        Rat Haven Studios
+      </a>
+      <ul class="site-nav">
+        <li><a href="../../index.html">Home</a></li>
+        <span class="nav-sep">|</span>
+        <li><a href="../../pages/nav/games.html">Games</a></li>
+        <span class="nav-sep">|</span>
+        <li><a href="../../pages/nav/devlogs.html">Devlogs</a></li>
+        <span class="nav-sep">|</span>
+        <li><a class="nav-active" href="../../pages/nav/workshop.html">Workshop</a></li>
+        <span class="nav-sep">|</span>
+        <li><a href="../../pages/nav/developers.html">Devs</a></li>
       </ul>
-      <p>
-        State Machines are best when you have a handful of distinct states an object can be in.
-        If you've ever had a massive <code>_physics_process</code> full of nested if-statements checking whether the player is jumping, running, attacking, or stunned all at once, you might realize the value they provide.
-      </p>
+    </div>
+  </header>
 
-      <h2>Two Approaches</h2>
-      <p>
-        There are two main ways to do State Machines in Godot: the Enum approach and the Node approach.
-        The Enum approach is simpler and works well for small cases.
-        The Node approach is more powerful but adds some overhead. 
-        There are more nodes in the scene tree, more setup cost, and some jumping around when debugging.
-        If you're not reusing state logic or don't need per-state encapsulation, Node is probably overkill.
-        Start with Enum, and only upgrade when you feel the burn.
-      </p>
+  <section class="section">
+    <div class="container">
+      <h1>Godot State Machines</h1>
+      <span class="card-subtitle">Writeup • Code • April 17, 2026</span>
+      <span class="card-subtitle">by <a href="../../pages/developers/hunter.html">hutner</a></span>
+      <!-- <br> -->
 
-      <h2>Enum State Machine</h2>
-      <p>
-        To make the Enum Machine, define your states as an enum, track the current state in a variable, and use a <code>match</code> block in <code>_process</code> to run the right logic each frame.
-        A <code>changeState()</code> function handles transitions, fires a signal, and is where you'd put any enter/exit logic.
-        You can see this in the example below. 
-      </p>
-      <p>
-        This is best for simple cases such as a door that's either open or closed, a switch with a few modes, anything with 2-5 states and no complex per-state behavior, etc.
-        It is very lightweight and readable while still providing some structure and organization.
-        Once states start needing their own helper functions, or you find yourself copying transition logic across multiple objects, that's probably a sign to move to the Node approach.
-      </p>
+      <div class="post-content">
 
-<pre><code class="language-gdscript">extends Node
+        <h2>Motive</h2>
+        <p>
+          Recently, I've been researching State Machines and how to use them in Godot.
+          I wanted to share what I've learned, some thoughts, and some code examples.
+          I've consumed various sources and the implementation I ended up with is a bit of a mix of different ideas and
+          approaches from all of them.
+          Simply put, this is my opinionated take on how to implement State Machines in Godot, and I figured it might be
+          useful to share.
+        </p>
+
+        <h2>State Machines</h2>
+        <p>
+          A State Machine is simply a programming pattern that lets you manage the state in an organized way.
+          It consists of a set of states, transitions between those states, and actions that happen when entering,
+          exiting, or transitioning between states.
+        </p>
+        <p>
+          They're a phenomenal tool for managing complex behavior. Below are some benefits:
+        </p>
+        <ul class="formatted-list">
+          <li>Improved organization and maintainability</li>
+          <li>States are decoupled from each other. To extend behavior, only the relevant state needs to be touched</li>
+          <li>Transitions are explicit and easy to follow, which helps debugging</li>
+        </ul>
+        <p>
+          State Machines are best when you have a handful of distinct states an object can be in.
+          If you've ever had a massive <code>_physics_process</code> full of nested if-statements checking whether the
+          player is jumping, running, attacking, or stunned all at once, you might realize the value they provide.
+        </p>
+
+        <h2>Two Approaches</h2>
+        <p>
+          There are two main ways to do State Machines in Godot: the Enum approach and the Node approach.
+          The Enum approach is simpler and works well for small cases.
+          The Node approach is more powerful but adds some overhead.
+          There are more nodes in the scene tree, more setup cost, and some jumping around when debugging.
+          If you're not reusing state logic or don't need per-state encapsulation, Node is probably overkill.
+          Start with Enum, and only upgrade when you feel the burn.
+        </p>
+
+        <h2>Enum State Machine</h2>
+        <p>
+          To make the Enum Machine, define your states as an enum, track the current state in a variable, and use a
+          <code>match</code> block in <code>_process</code> to run the right logic each frame.
+          A <code>changeState()</code> function handles transitions, fires a signal, and is where you'd put any
+          enter/exit logic.
+          You can see this in the example below.
+        </p>
+        <p>
+          This is best for simple cases such as a door that's either open or closed, a switch with a few modes, anything
+          with 2-5 states and no complex per-state behavior, etc.
+          It is very lightweight and readable while still providing some structure and organization.
+          Once states start needing their own helper functions, or you find yourself copying transition logic across
+          multiple objects, that's probably a sign to move to the Node approach.
+        </p>
+
+        <pre><code class="language-gdscript">extends Node
 
 # simple enum state machine
 # good for small, self-contained state logic
@@ -145,26 +156,32 @@ func changeState(newState: EnumState) -> void:
 
 	stateChanged.emit(prevState, newState)</code></pre>
 
-      <h2>Node State Machine</h2>
-      <p>
-        The Node approach gives each state its own script and node in the scene tree.
-        A central <code>StateMachine</code> node manages the current state, delegates <code>_process</code>/<code>_physics_process</code>/input calls down to it, and handles transitions.
-        This keeps every state fully self-contained and makes the whole thing much easier to extend.
-      </p>
-      <p>
-        There are three pieces: the <code>State</code> base class, the <code>StateMachine</code> manager, and the individual state scripts.
-        The player (or whatever object you're managing) owns the <code>StateMachine</code> as a child node and just forwards its process calls into it.
-      </p>
-      <br>
+        <h2>Node State Machine</h2>
+        <p>
+          The Node approach gives each state its own script and node in the scene tree.
+          A central <code>StateMachine</code> node manages the current state, delegates
+          <code>_process</code>/<code>_physics_process</code>/input calls down to it, and handles transitions.
+          This keeps every state fully self-contained and makes the whole thing much easier to extend.
+        </p>
+        <p>
+          There are three pieces: the <code>State</code> base class, the <code>StateMachine</code> manager, and the
+          individual state scripts.
+          The player (or whatever object you're managing) owns the <code>StateMachine</code> as a child node and just
+          forwards its process calls into it.
+        </p>
+        <br>
 
-      <h3>State Base Class</h3>
-      <p>
-        Each state extends the base class below.
-        It defines the interface. <code>enter()</code>, <code>exit()</code>, and the three process methods as empty overrideable functions.
-        The <code>parent</code> and <code>machine</code> references are dependency injected by the <code>StateMachine</code> on setup, so any state can access the character it's running on and trigger transitions.
-      </p>
+        <h3>State Base Class</h3>
+        <p>
+          Each state extends the base class below.
+          It defines the interface. <code>enter()</code>, <code>exit()</code>, and the three process methods as empty
+          overrideable functions.
+          The <code>parent</code> and <code>machine</code> references are dependency injected by the
+          <code>StateMachine</code> on setup, so any state can access the character it's running on and trigger
+          transitions.
+        </p>
 
-<pre><code class="language-gdscript">class_name State extends Node
+        <pre><code class="language-gdscript">class_name State extends Node
 
 var stateName: String = "BASE"
 
@@ -188,17 +205,20 @@ func processPhysics(_delta: float) -> void:
 func processFrame(_delta: float) -> void:
 	pass</code></pre>
 
-      <h3>StateMachine</h3>
-      <p>
-        The <code>StateMachine</code> iterates its children on setup, registers each state by name, and sets the <code>parent</code> and <code>machine</code> references on all of them.
-        From then on it just holds the current state and routes process calls into it.
-        <code>changeState()</code> calls <code>exit()</code> on the old state and <code>enter()</code> on the new one before swapping.
-        States are keyed by their <code>stateName</code> lowercased, and <code>changeState()</code> also lowercases the input before lookup, so casing in state scripts is normalized automatically.
-        Using strings instead of typed node references keeps it flexible.
-        Any state can trigger a transition to any other state without needing a direct reference to it.
-      </p>
+        <h3>StateMachine</h3>
+        <p>
+          The <code>StateMachine</code> iterates its children on setup, registers each state by name, and sets the
+          <code>parent</code> and <code>machine</code> references on all of them.
+          From then on it just holds the current state and routes process calls into it.
+          <code>changeState()</code> calls <code>exit()</code> on the old state and <code>enter()</code> on the new one
+          before swapping.
+          States are keyed by their <code>stateName</code> lowercased, and <code>changeState()</code> also lowercases
+          the input before lookup, so casing in state scripts is normalized automatically.
+          Using strings instead of typed node references keeps it flexible.
+          Any state can trigger a transition to any other state without needing a direct reference to it.
+        </p>
 
-<pre><code class="language-gdscript">class_name StateMachine extends Node
+        <pre><code class="language-gdscript">class_name StateMachine extends Node
 
 signal stateChanged(old, new)
 
@@ -256,15 +276,18 @@ func changeState(newStateName: String):
 
 	stateChanged.emit(prevState, newState)</code></pre>
 
-      <h3>Player Example</h3>
-      <p>
-        The player script is pretty simple in this example.
-        It calls <code>stateMachine.setup(self)</code> in <code>_ready()</code> to pass itself as the parent, then just forwards its process callbacks into the machine.
-        All the actual behavior lives in the state scripts.
-        One benefit of this design is that you can do things in the process methods before handing off to the state machine, such as handling global cooldowns, checking for death, or whatever else should run regardless of the current state.
-      </p>
+        <h3>Player Example</h3>
+        <p>
+          The player script is pretty simple in this example.
+          It calls <code>stateMachine.setup(self)</code> in <code>_ready()</code> to pass itself as the parent, then
+          just forwards its process callbacks into the machine.
+          All the actual behavior lives in the state scripts.
+          One benefit of this design is that you can do things in the process methods before handing off to the state
+          machine, such as handling global cooldowns, checking for death, or whatever else should run regardless of the
+          current state.
+        </p>
 
-<pre><code class="language-gdscript">class_name StatePlayer extends CharacterBody2D
+        <pre><code class="language-gdscript">class_name StatePlayer extends CharacterBody2D
 
 @onready var stateMachine = $StateMachine
 
@@ -280,13 +303,15 @@ func _physics_process(delta: float) -> void:
 func _process(delta: float) -> void:
 	stateMachine.processFrame(delta)</code></pre>
 
-      <h3>The Idle State</h3>
-      <p>
-        The idle state handles gravity when airborne, transitions to <code>jump</code> on a jump input, transitions to <code>move</code> if there's horizontal input, and decelerates the player otherwise.
-        It accesses the player through <code>parent</code> and triggers transitions through <code>machine.changeState()</code>.
-      </p>
+        <h3>The Idle State</h3>
+        <p>
+          The idle state handles gravity when airborne, transitions to <code>jump</code> on a jump input, transitions to
+          <code>move</code> if there's horizontal input, and decelerates the player otherwise.
+          It accesses the player through <code>parent</code> and triggers transitions through
+          <code>machine.changeState()</code>.
+        </p>
 
-<pre><code class="language-gdscript">extends State
+        <pre><code class="language-gdscript">extends State
 
 func _ready():
 	stateName = "idle" # state names are internal FSM identifiers, not inspector-facing
@@ -306,80 +331,100 @@ func processPhysics(delta: float):
 
 	parent.move_and_slide()</code></pre>
 
-      <p>
-        The jump and move states follow the same pattern. Each one just handles its own input checks and transitions.
-        The jump state sets the velocity on <code>enter()</code> so the jump happens exactly once when the state is entered, not every frame.
-      </p>
-      <p>
-        In the scene tree, the <code>StateMachine</code> node has <code>Idle</code>, <code>Move</code>, and <code>Jump</code> as children, each with their respective scripts attached.
-        The <code>initialState</code> export on <code>StateMachine</code> gets set to the <code>Idle</code> node in the inspector.
-        That's all the wiring needed.
-      </p>
+        <p>
+          The jump and move states follow the same pattern. Each one just handles its own input checks and transitions.
+          The jump state sets the velocity on <code>enter()</code> so the jump happens exactly once when the state is
+          entered, not every frame.
+        </p>
+        <p>
+          In the scene tree, the <code>StateMachine</code> node has <code>Idle</code>, <code>Move</code>, and
+          <code>Jump</code> as children, each with their respective scripts attached.
+          The <code>initialState</code> export on <code>StateMachine</code> gets set to the <code>Idle</code> node in
+          the inspector.
+          That's all the wiring needed.
+        </p>
+
+        <br>
+        <img src="../../resources/workshop/state-machines/scenetree-example.png" alt="Scene Tree Example"
+          class="post-img" data-lightbox />
+
+        <h2>Things to Watch Out For</h2>
+        <p>
+          The system above is clean, but there are a few "gotchas" worth knowing when using it.
+        </p>
+        <ul class="formatted-list">
+          <li>
+            If <code>initialState</code> is not set in the inspector, <code>setup()</code> will crash when it tries to
+            read <code>initialState.stateName</code>.
+          </li>
+          <li>
+            If two child nodes share the same <code>stateName</code>, the second one silently overwrites the first and
+            that state just disappears.
+            The setup code above calls <code>push_warning()</code> to catch this, but it's still worth keeping an eye
+            on.
+          </li>
+          <li>
+            Calling changeState() inside enter() or exit() is risky.
+            It works technically, but you're swapping states mid-transition, which can produce confusing behavior or
+            infinite loops.
+            If you need to chain transitions, <code>call_deferred("changeState", ...)</code> is a bit safer.
+          </li>
+          <li>
+            If certain transitions should be blocked under specific conditions, the cleanest place to handle that is in
+            the state's <code>processPhysics</code> before calling <code>machine.changeState()</code>.
+            You can also add a guard check at the top of <code>changeState()</code> itself if the condition is global.
+          </li>
+        </ul>
+
+        <h2>Sources</h2>
+        <p>
+          Below are the main sources I used when building out this implementation.
+          If this writeup didn't click for you, or you want to go deeper, check these out.
+        </p>
+        <ul class="formatted-list">
+          <li><a href="https://www.youtube.com/playlist?list=PLaiU9HSaKMWtmAIR345HGIz_ijQiyr3kH" target="_blank">The
+              Shaggy Dev - State Machines Playlist</a></li>
+          <li><a href="https://www.youtube.com/watch?v=ow_Lum-Agbs" target="_blank">Bitlytic - Finite State Machines in
+              Godot 4 in Under 10 Minutes</a></li>
+          <li><a href="https://www.youtube.com/watch?v=E9h9VnbPGuw" target="_blank">Godotneers - State machines and
+              state charts in Godot</a></li>
+          <li><a href="https://www.youtube.com/watch?v=vZHzMO90IwQ" target="_blank">DevWorm - Simplest Way to Create a
+              State Machine in Godot 4 (detailed tutorial)</a></li>
+        </ul>
+
+        <h2>Disagree with me?</h2>
+        <p>
+          If you think I'm wrong or disagree with me, I'd love to talk and hear why!
+          I'm always looking to learn.
+          Reach out through <a href="https://www.hunter-baker.com/pages/nav/contact.html" target="_blank">this form</a>.
+        </p>
+
+      </div>
 
       <br>
-      <img src="../../resources/workshop/state-machines/scenetree-example.png" alt="Scene Tree Example" class="post-img" data-lightbox/>
-
-      <h2>Things to Watch Out For</h2>
-      <p>
-        The system above is clean, but there are a few "gotchas" worth knowing when using it.
-      </p>
-      <ul class="formatted-list">
-        <li>
-          If <code>initialState</code> is not set in the inspector, <code>setup()</code> will crash when it tries to read <code>initialState.stateName</code>.
-        </li>
-        <li>
-          If two child nodes share the same <code>stateName</code>, the second one silently overwrites the first and that state just disappears.
-          The setup code above calls <code>push_warning()</code> to catch this, but it's still worth keeping an eye on.
-        </li>
-        <li>
-          Calling changeState() inside enter() or exit() is risky.
-          It works technically, but you're swapping states mid-transition, which can produce confusing behavior or infinite loops.
-          If you need to chain transitions, <code>call_deferred("changeState", ...)</code> is a bit safer.
-        </li>
-        <li>
-          If certain transitions should be blocked under specific conditions, the cleanest place to handle that is in the state's <code>processPhysics</code> before calling <code>machine.changeState()</code>.
-          You can also add a guard check at the top of <code>changeState()</code> itself if the condition is global.
-        </li>
-      </ul>
-
-      <h2>Sources</h2>
-      <p>
-        Below are the main sources I used when building out this implementation.
-        If this writeup didn't click for you, or you want to go deeper, check these out.
-      </p>
-      <ul class="formatted-list">
-        <li><a href="https://www.youtube.com/playlist?list=PLaiU9HSaKMWtmAIR345HGIz_ijQiyr3kH" target="_blank">The Shaggy Dev - State Machines Playlist</a></li>
-        <li><a href="https://www.youtube.com/watch?v=ow_Lum-Agbs" target="_blank">Bitlytic - Finite State Machines in Godot 4 in Under 10 Minutes</a></li>
-        <li><a href="https://www.youtube.com/watch?v=E9h9VnbPGuw" target="_blank">Godotneers - State machines and state charts in Godot</a></li>
-        <li><a href="https://www.youtube.com/watch?v=vZHzMO90IwQ" target="_blank">DevWorm - Simplest Way to Create a State Machine in Godot 4 (detailed tutorial)</a></li>
-      </ul>
-
+      <a href="../nav/workshop.html" class="btn btn-bg">Back to Workshop</a>
     </div>
+  </section>
 
-    <br>
-    <a href="../nav/workshop.html" class="btn btn-bg">Back to Workshop</a>
-  </div>
-</section>
-
-<footer class="site-footer">
-  <div class="container footer-inner">
-    <p class="footer-copy">&copy; 2026 Rat Haven Studios</p>
-    <div class="footer-links">
-      <a href="../../pages/nav/games.html">Games</a>
-      <span class="nav-sep">|</span>
-      <a href="../../pages/nav/devlogs.html">Devlogs</a>
-      <span class="nav-sep">|</span>
-      <a href="../../pages/nav/workshop.html">Workshop</a>
-      <span class="nav-sep">|</span>
-      <a href="../../pages/nav/developers.html">Devs</a>
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p class="footer-copy">&copy; 2026 Rat Haven Studios</p>
+      <div class="footer-links">
+        <a href="../../pages/nav/games.html">Games</a>
+        <span class="nav-sep">|</span>
+        <a href="../../pages/nav/devlogs.html">Devlogs</a>
+        <span class="nav-sep">|</span>
+        <a href="../../pages/nav/workshop.html">Workshop</a>
+        <span class="nav-sep">|</span>
+        <a href="../../pages/nav/developers.html">Devs</a>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/Rat-Haven-Studios" target="_blank">GitHub</a>
+        <span class="nav-sep">|</span>
+        <a href="https://discord.gg/vk3X99kD3D" target="_blank">Discord</a>
+      </div>
     </div>
-    <div class="footer-links">
-      <a href="https://github.com/Rat-Haven-Studios" target="_blank">GitHub</a>
-      <span class="nav-sep">|</span>
-      <a href="https://discord.gg/vk3X99kD3D" target="_blank">Discord</a>
-    </div>
-  </div>
-</footer>
+  </footer>
 
 
 
@@ -387,9 +432,10 @@ func processPhysics(delta: float):
 
 
 
-<script src="../../scripts/gdscript-highlight.js"></script>
-<script src="../../scripts/copy-code.js"></script>
-<script src="../../scripts/lightbox.js"></script>
-<script src="../../scripts/toc.js"></script>
+  <script src="../../scripts/gdscript-highlight.js"></script>
+  <script src="../../scripts/copy-code.js"></script>
+  <script src="../../scripts/lightbox.js"></script>
+  <script src="../../scripts/toc.js"></script>
 </body>
+
 </html>

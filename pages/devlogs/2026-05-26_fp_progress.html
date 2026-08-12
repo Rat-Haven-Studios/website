@@ -5,44 +5,46 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FP Progress - Rat Haven Studios</title>
-    <meta name="description" content="Progress update on Forgotten Paths: level editor improvements, animations, and early levels."/>
-    <meta property="og:title" content="FP Progress - Rat Haven Studios"/>
-    <meta property="og:description" content="Progress update on Forgotten Paths: level editor improvements, animations, and early levels."/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:url" content="https://rathavenstudios.com/pages/devlogs/2026-05-26_fp_progress.html"/>
-    <meta property="og:image" content="https://rathavenstudios.com/resources/logo.png"/>
-    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="description"
+        content="Progress update on Forgotten Paths: level editor improvements, animations, and early levels." />
+    <meta property="og:title" content="FP Progress - Rat Haven Studios" />
+    <meta property="og:description"
+        content="Progress update on Forgotten Paths: level editor improvements, animations, and early levels." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://rathavenstudios.com/pages/devlogs/2026-05-26_fp_progress.html" />
+    <meta property="og:image" content="https://rathavenstudios.com/resources/logo.png" />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="stylesheet" href="../../styles/styles.css" />
     <link rel="icon" type="image/png" href="../../resources/logo-nt.png" />
 </head>
 
 <body>
 
-<header class="site-header">
-<div class="container header-inner">
-<a class="site-logo" href="../../index.html">
-<img alt="Rat Haven Studios logo" src="../../resources/logo-nt.png"/>
-      Rat Haven Studios
-    </a>
-<ul class="site-nav">
-<li><a href="../../index.html">Home</a></li>
-<span class="nav-sep">|</span>
-<li><a href="../../pages/nav/games.html">Games</a></li>
-<span class="nav-sep">|</span>
-<li><a class="nav-active" href="../../pages/nav/devlogs.html">Devlogs</a></li>
-<span class="nav-sep">|</span>
-<li><a href="../../pages/nav/workshop.html">Workshop</a></li>
-<span class="nav-sep">|</span>
-<li><a href="../../pages/nav/developers.html">Devs</a></li>
-</ul>
-</div>
-</header>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="site-logo" href="../../index.html">
+                <img alt="Rat Haven Studios logo" src="../../resources/logo-nt.png" />
+                Rat Haven Studios
+            </a>
+            <ul class="site-nav">
+                <li><a href="../../index.html">Home</a></li>
+                <span class="nav-sep">|</span>
+                <li><a href="../../pages/nav/games.html">Games</a></li>
+                <span class="nav-sep">|</span>
+                <li><a class="nav-active" href="../../pages/nav/devlogs.html">Devlogs</a></li>
+                <span class="nav-sep">|</span>
+                <li><a href="../../pages/nav/workshop.html">Workshop</a></li>
+                <span class="nav-sep">|</span>
+                <li><a href="../../pages/nav/developers.html">Devs</a></li>
+            </ul>
+        </div>
+    </header>
 
     <section class="section">
         <div class="container">
             <h1>Forgotten Paths Progress</h1>
             <span class="card-subtitle">Forgotten Paths • Devlog • May 26, 2026</span>
-            <span class="card-subtitle">by hutner</span>
+            <span class="card-subtitle">by <a href="../../pages/developers/hunter.html">hutner</a></span>
             <br>
 
             <div class="post-content">
@@ -52,21 +54,28 @@
                 </p>
                 <h2>Level Editor</h2>
                 <p>
-                    The biggest thing we've recently done is improve the Level Editor. Before we made an individual <code>.tscn</code> file
-                    for each level, which didn't really scale all that well. Since we changed to a more data driven approach, we use <code>.tres</code>
-                    files to store level data which can be loaded by the UI, simulator, or anything else that wants to know about how a level is defined.
-                    The Level Editor's entire purpose is to be a fast and fluid way to create and edit these <code>.tres</code> files.
-                    This is likely going to just be an internal dev tool, but maybe sometime in the future, we can encorporate it into the game
+                    The biggest thing we've recently done is improve the Level Editor. Before we made an individual
+                    <code>.tscn</code> file
+                    for each level, which didn't really scale all that well. Since we changed to a more data driven
+                    approach, we use <code>.tres</code>
+                    files to store level data which can be loaded by the UI, simulator, or anything else that wants to
+                    know about how a level is defined.
+                    The Level Editor's entire purpose is to be a fast and fluid way to create and edit these
+                    <code>.tres</code> files.
+                    This is likely going to just be an internal dev tool, but maybe sometime in the future, we can
+                    encorporate it into the game
                     as a way for players to create and share their own levels.
                 </p>
                 <h2>Animations</h2>
                 <p>
-                    Other things we've done is begin working on the animations (by we I mean <a href="../../pages/developers/koborooski.html">Kob</a>).
+                    Other things we've done is begin working on the animations (by we I mean <a
+                        href="../../pages/developers/koborooski.html">Kob</a>).
                     We still haven't nailed down the final palette, style, etc..., but we're getting pretty close.
                 </p>
                 <h2>Levels &amp; Content</h2>
                 <p>
-                    And for the final bit of good news, we're finally getting started on making the inital levels of the game.
+                    And for the final bit of good news, we're finally getting started on making the inital levels of the
+                    game.
                     We also added some new tiles, items, and enemies. We hope to have a playable demo
                     by the end of the year, but we'll see how it goes.
                 </p>
@@ -76,8 +85,10 @@
 
                 <br>
                 <div class="grid grid-2">
-                    <img src="../../resources/devlogs/forgotten-paths/fp_level_1.png" alt="Forgotten Paths level 1" class="post-img" data-lightbox/>
-                    <img src="../../resources/devlogs/forgotten-paths/fp_level_editor.png" alt="Forgotten Paths level editor" class="post-img" data-lightbox/>
+                    <img src="../../resources/devlogs/forgotten-paths/fp_level_1.png" alt="Forgotten Paths level 1"
+                        class="post-img" data-lightbox />
+                    <img src="../../resources/devlogs/forgotten-paths/fp_level_editor.png"
+                        alt="Forgotten Paths level editor" class="post-img" data-lightbox />
                 </div>
             </div>
 
@@ -86,25 +97,25 @@
         </div>
     </section>
 
-<footer class="site-footer">
-  <div class="container footer-inner">
-    <p class="footer-copy">&copy; 2026 Rat Haven Studios</p>
-    <div class="footer-links">
-      <a href="../../pages/nav/games.html">Games</a>
-      <span class="nav-sep">|</span>
-      <a href="../../pages/nav/devlogs.html">Devlogs</a>
-      <span class="nav-sep">|</span>
-      <a href="../../pages/nav/workshop.html">Workshop</a>
-      <span class="nav-sep">|</span>
-      <a href="../../pages/nav/developers.html">Devs</a>
-    </div>
-    <div class="footer-links">
-      <a href="https://github.com/Rat-Haven-Studios" target="_blank">GitHub</a>
-      <span class="nav-sep">|</span>
-      <a href="https://discord.gg/vk3X99kD3D" target="_blank">Discord</a>
-    </div>
-  </div>
-</footer>
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p class="footer-copy">&copy; 2026 Rat Haven Studios</p>
+            <div class="footer-links">
+                <a href="../../pages/nav/games.html">Games</a>
+                <span class="nav-sep">|</span>
+                <a href="../../pages/nav/devlogs.html">Devlogs</a>
+                <span class="nav-sep">|</span>
+                <a href="../../pages/nav/workshop.html">Workshop</a>
+                <span class="nav-sep">|</span>
+                <a href="../../pages/nav/developers.html">Devs</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://github.com/Rat-Haven-Studios" target="_blank">GitHub</a>
+                <span class="nav-sep">|</span>
+                <a href="https://discord.gg/vk3X99kD3D" target="_blank">Discord</a>
+            </div>
+        </div>
+    </footer>
 
 
 

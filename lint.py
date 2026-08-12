@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-lint.py — Rat Haven Studios site linter
+lint.py: Rat Haven Studios site linter
 
-ERRORS  — always exit 1:
+ERRORS  (always exit 1):
   • Leftover {{...}} placeholder in any HTML page (forgot to run update_components.py)
   • Missing <header> or <footer> in any HTML page
   • Missing <!-- devlogs-start --> / <!-- devlogs-end --> or
     <!-- workshop-start --> / <!-- workshop-end --> markers in index.html
 
-WARNINGS — exit 0 by default, exit 1 with --strict:
+WARNINGS (exit 0 by default, exit 1 with --strict):
   • Card count in a nav page doesn't match .html file count in that directory
   • A card in a nav page links to a file that doesn't exist
   • A file in pages/devlogs|games|workshop/ has no card in its nav page
@@ -74,7 +74,7 @@ def _cards_in_nav(nav_file: Path) -> list[dict]:
 # ── Checks ────────────────────────────────────────────────────────────────────
 
 def check_no_placeholders() -> None:
-    """No page should have leftover {{...}} tokens — means update_components.py wasn't run."""
+    """No page should have leftover {{...}} tokens (means update_components.py wasn't run)."""
     for f in _html_pages():
         tokens = re.findall(r'\{\{[^}]+\}\}', f.read_text(encoding="utf-8"))
         if tokens:
@@ -90,9 +90,9 @@ def check_components_injected() -> None:
         content = f.read_text(encoding="utf-8")
         rel = f.relative_to(ROOT)
         if "<header" not in content:
-            _err(f"{rel}  ←  missing <header> — run: python update_components.py")
+            _err(f"{rel}  ←  missing <header>, run: python update_components.py")
         if "<footer" not in content:
-            _err(f"{rel}  ←  missing <footer> — run: python update_components.py")
+            _err(f"{rel}  ←  missing <footer>, run: python update_components.py")
 
 
 def check_devlogs_markers() -> None:
@@ -102,9 +102,9 @@ def check_devlogs_markers() -> None:
         return
     content = index.read_text(encoding="utf-8")
     if "<!-- devlogs-start -->" not in content or "<!-- devlogs-end -->" not in content:
-        _err("index.html  ←  missing devlogs markers — run: python build.py")
+        _err("index.html  ←  missing devlogs markers, run: python build.py")
     if "<!-- workshop-start -->" not in content or "<!-- workshop-end -->" not in content:
-        _err("index.html  ←  missing workshop markers — run: python build.py")
+        _err("index.html  ←  missing workshop markers, run: python build.py")
 
 
 def check_card_file_consistency() -> None:
@@ -142,7 +142,7 @@ def check_card_file_consistency() -> None:
             if f.resolve() not in card_targets:
                 _warn(
                     f"{f.relative_to(ROOT)}  ←  "
-                    f"no card in {nav_file.relative_to(ROOT)} — unreachable from nav"
+                    f"no card in {nav_file.relative_to(ROOT)}, unreachable from nav"
                 )
 
 
@@ -187,7 +187,7 @@ def main() -> int:
                         help="Skip the broken-link crawl (faster)")
     args = parser.parse_args()
 
-    print("=== Rat Haven Studios — Linter ===\n")
+    print("=== Rat Haven Studios Linter ===\n")
 
     check_no_placeholders()
     check_components_injected()
@@ -198,7 +198,7 @@ def main() -> int:
         check_links()
 
     if not _errors and not _warnings:
-        print("✓  All checks passed — no issues found.")
+        print("✓  All checks passed, no issues found.")
         return 0
 
     if _errors:

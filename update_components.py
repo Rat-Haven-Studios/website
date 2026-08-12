@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
 """
-update_components.py — Propagate header/footer changes to all pages.
+update_components.py: Propagate header/footer changes to all pages.
 
-Run this after editing components/header.html or components/footer.html.
+Run this ONLY after editing components/header.html or components/footer.html.
+You do not need to run it after creating a new page, just copy the header/footer
+block from an existing sibling page (they're plain HTML, no build step needed).
+
 Rewrites every HTML page in place; skips files where nothing changed.
-
-Requires: pip install beautifulsoup4
+Does pure text substitution, never reparses or reformats your HTML, so
+whatever indentation/style you use in the component files is preserved exactly.
 """
 
 import re
 import sys
 from pathlib import Path
-from bs4 import BeautifulSoup
 
 ROOT       = Path(__file__).parent
 COMPONENTS = ROOT / "components"
@@ -45,15 +47,19 @@ def _infer_nav_active(file_path: Path) -> str:
     return "home"
 
 
+_NAV_A_RE = re.compile(r'<a\b[^>]*\bdata-nav="([^"]*)"[^>]*>')
+
+
 def _render_header(template: str, root: str, active_key: str) -> str:
     html = template.replace("{{root}}", root)
-    soup = BeautifulSoup(html, "html.parser")
-    for a in soup.find_all("a", attrs={"data-nav": True}):
-        if a["data-nav"] == active_key:
-            a["class"] = a.get("class", []) + ["nav-active"]
-        del a["data-nav"]
-    tag = soup.find("header")
-    return str(tag) if tag else str(soup)
+
+    def repl(m: re.Match) -> str:
+        tag = re.sub(r'\s+data-nav="[^"]*"', '', m.group(0))
+        if m.group(1) == active_key:
+            tag = tag.replace('<a ', '<a class="nav-active" ', 1)
+        return tag
+
+    return _NAV_A_RE.sub(repl, html)
 
 
 def _render_footer(template: str, root: str) -> str:

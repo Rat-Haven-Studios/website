@@ -23,13 +23,13 @@
 
   // ordered by priority - first match wins
   var PATTERNS = [
-    ['comment',    /#[^\n]*/],
-    ['string',     /"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'/],
+    ['comment', /#[^\n]*/],
+    ['string', /"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'/],
     ['annotation', /@\w+/],
-    ['nodepath',   /\$[A-Za-z_]\w*(?:\/[A-Za-z_]\w*)*|%[A-Za-z_]\w*/],
-    ['number',     /\b(?:0x[\da-fA-F]+|0b[01]+|\d[\d_]*(?:\.[\d_]+)?)\b/],
-    ['word',       /[a-zA-Z_]\w*/],
-    ['other',      /[\s\S]/],
+    ['nodepath', /\$[A-Za-z_]\w*(?:\/[A-Za-z_]\w*)*|%[A-Za-z_]\w*/],
+    ['number', /\b(?:0x[\da-fA-F]+|0b[01]+|\d[\d_]*(?:\.[\d_]+)?)\b/],
+    ['word', /[a-zA-Z_]\w*/],
+    ['other', /[\s\S]/],
   ];
 
   function esc(s) {

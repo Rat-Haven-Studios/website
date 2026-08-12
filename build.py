@@ -1,20 +1,23 @@
 #!/usr/bin/env python3
 """
-build.py — Sync the Latest Devlogs and Workshop sections on index.html.
+build.py: Sync the Latest Devlogs and Workshop sections on index.html.
 
 Reads the top 3 cards from pages/nav/devlogs.html and pages/nav/workshop.html
 (newest first) and rewrites the <!-- devlogs-start --> … <!-- devlogs-end -->
 and <!-- workshop-start --> … <!-- workshop-end --> blocks in index.html in
 place.
 
-Run this after adding a new devlog or workshop card to its nav page.
+Run this ONLY when a new devlog/workshop card changes what belongs in the
+homepage's top-3 (i.e. you added the newest post). Editing existing card text
+doesn't require a rebuild; index.html only mirrors the top 3 cards' raw HTML.
 
-Requires: pip install beautifulsoup4
+Does pure text extraction, never reparses or reformats the cards, so
+whatever indentation/style is in the nav page is carried over exactly.
 """
 
+import re
 import sys
 from pathlib import Path
-from bs4 import BeautifulSoup
 
 ROOT     = Path(__file__).parent
 INDEX    = ROOT / "index.html"
@@ -26,15 +29,29 @@ _SECTIONS = [
     ("workshop section", WORKSHOP, "<!-- workshop-start -->", "<!-- workshop-end -->"),
 ]
 
+_CARD_OPEN_RE = re.compile(r'<div class="card"[^>]*>')
+_DIV_RE       = re.compile(r'<(/?)div\b')
+
 
 def _top_cards(nav_file: Path, count: int = 3) -> str:
-    soup  = BeautifulSoup(nav_file.read_text(encoding="utf-8"), "html.parser")
-    cards = soup.select(".card")[:count]
-    html  = "\n\n".join(str(c) for c in cards)
-    # Cards are written relative to pages/nav/ — rewrite hrefs for root context
-    html  = html.replace('href="../devlogs/',  'href="pages/devlogs/')
-    html  = html.replace('href="../games/',    'href="pages/games/')
-    html  = html.replace('href="../workshop/', 'href="pages/workshop/')
+    text  = nav_file.read_text(encoding="utf-8")
+    cards: list[str] = []
+
+    for m in _CARD_OPEN_RE.finditer(text):
+        if len(cards) >= count:
+            break
+        depth = 1
+        for dm in _DIV_RE.finditer(text, m.end()):
+            depth += -1 if dm.group(1) else 1
+            if depth == 0:
+                cards.append(text[m.start():dm.end()])
+                break
+
+    html = "\n\n".join(cards)
+    # Cards are written relative to pages/nav/, rewrite hrefs for root context
+    html = html.replace('href="../devlogs/',  'href="pages/devlogs/')
+    html = html.replace('href="../games/',    'href="pages/games/')
+    html = html.replace('href="../workshop/', 'href="pages/workshop/')
     return html
 
 
