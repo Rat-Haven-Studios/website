@@ -51,22 +51,21 @@
 
         <h2>Motive</h2>
         <p>
-          Recently, I've been researching State Machines and how to use them in Godot.
-          I wanted to share what I've learned, some thoughts, and some code examples.
-          I've consumed various sources and the implementation I ended up with is a bit of a mix of different ideas and
-          approaches from all of them.
-          Simply put, this is my opinionated take on how to implement State Machines in Godot, and I figured it might be
-          useful to share.
+          I've spent a chunk of the last few weeks down a State Machine rabbit hole in Godot, and figured I'd write up
+          what I landed on.
+          I read through a bunch of different takes on this (sources are linked at the bottom if you want to go down the
+          same rabbit hole), stole the parts I liked from each, and mashed them together into what's below.
+          So fair warning, this is my opinionated take, not the one true way to do it.
         </p>
 
         <h2>State Machines</h2>
         <p>
-          A State Machine is simply a programming pattern that lets you manage the state in an organized way.
-          It consists of a set of states, transitions between those states, and actions that happen when entering,
-          exiting, or transitioning between states.
+          A State Machine is just a pattern for managing state without it turning into a mess.
+          You've got a set of states, transitions between them, and some logic that runs when you enter, exit, or move
+          between states.
         </p>
         <p>
-          They're a phenomenal tool for managing complex behavior. Below are some benefits:
+          They're genuinely great for managing complex behavior. A few reasons why:
         </p>
         <ul class="formatted-list">
           <li>Improved organization and maintainability</li>
@@ -74,35 +73,36 @@
           <li>Transitions are explicit and easy to follow, which helps debugging</li>
         </ul>
         <p>
-          State Machines are best when you have a handful of distinct states an object can be in.
-          If you've ever had a massive <code>_physics_process</code> full of nested if-statements checking whether the
-          player is jumping, running, attacking, or stunned all at once, you might realize the value they provide.
+          State Machines are best when an object only has a handful of distinct states it can be in.
+          If you've ever written a massive <code>_physics_process</code> with a ton of nested if-statements checking
+          whether the player is jumping, running, attacking, or stunned all at once, that's exactly what these fix.
         </p>
 
         <h2>Two Approaches</h2>
         <p>
-          There are two main ways to do State Machines in Godot: the Enum approach and the Node approach.
-          The Enum approach is simpler and works well for small cases.
-          The Node approach is more powerful but adds some overhead.
-          There are more nodes in the scene tree, more setup cost, and some jumping around when debugging.
-          If you're not reusing state logic or don't need per-state encapsulation, Node is probably overkill.
-          Start with Enum, and only upgrade when you feel the burn.
+          There are two main ways I've seen people do this in Godot: the Enum approach and the Node approach.
+          Enum is simpler and works fine for small cases.
+          Node is more powerful, but it comes with more overhead: more nodes in the scene tree, more setup, more jumping
+          around when you're debugging.
+          Honestly, if you're not reusing state logic or don't need each state fully encapsulated, Node is probably
+          overkill.
+          Start with Enum and only upgrade once you actually feel the pain.
         </p>
 
         <h2>Enum State Machine</h2>
         <p>
-          To make the Enum Machine, define your states as an enum, track the current state in a variable, and use a
-          <code>match</code> block in <code>_process</code> to run the right logic each frame.
-          A <code>changeState()</code> function handles transitions, fires a signal, and is where you'd put any
-          enter/exit logic.
-          You can see this in the example below.
+          To build the Enum version, define your states as an enum, track the current one in a variable, and use a
+          <code>match</code> block in <code>_process</code> to run whatever logic belongs to that frame.
+          A <code>changeState()</code> function handles the actual transition, fires a signal, and is where any
+          enter/exit logic goes.
+          Here's what that looks like:
         </p>
         <p>
-          This is best for simple cases such as a door that's either open or closed, a switch with a few modes, anything
-          with 2-5 states and no complex per-state behavior, etc.
-          It is very lightweight and readable while still providing some structure and organization.
-          Once states start needing their own helper functions, or you find yourself copying transition logic across
-          multiple objects, that's probably a sign to move to the Node approach.
+          This is great for simple cases: a door that's open or closed, a switch with a few modes, anything with maybe
+          2-5 states and nothing complicated happening per-state.
+          It stays lightweight and easy to read while still giving you some structure.
+          Once your states start needing their own helper functions, or you catch yourself copying transition logic
+          across multiple objects, that's your sign to move to the Node approach.
         </p>
 
         <pre><code class="language-gdscript">extends Node
@@ -158,27 +158,25 @@ func changeState(newState: EnumState) -> void:
 
         <h2>Node State Machine</h2>
         <p>
-          The Node approach gives each state its own script and node in the scene tree.
-          A central <code>StateMachine</code> node manages the current state, delegates
+          The Node approach gives each state its own script and its own node in the scene tree.
+          A central <code>StateMachine</code> node manages whatever the current state is, forwards
           <code>_process</code>/<code>_physics_process</code>/input calls down to it, and handles transitions.
-          This keeps every state fully self-contained and makes the whole thing much easier to extend.
+          Every state ends up fully self-contained, which makes the whole thing a lot easier to extend later.
         </p>
         <p>
-          There are three pieces: the <code>State</code> base class, the <code>StateMachine</code> manager, and the
-          individual state scripts.
-          The player (or whatever object you're managing) owns the <code>StateMachine</code> as a child node and just
-          forwards its process calls into it.
+          There are three moving pieces: the <code>State</code> base class, the <code>StateMachine</code> manager, and
+          the individual state scripts.
+          The player (or whatever you're managing) just owns the <code>StateMachine</code> as a child node and forwards
+          its process calls into it.
         </p>
         <br>
 
         <h3>State Base Class</h3>
         <p>
-          Each state extends the base class below.
-          It defines the interface. <code>enter()</code>, <code>exit()</code>, and the three process methods as empty
-          overrideable functions.
-          The <code>parent</code> and <code>machine</code> references are dependency injected by the
-          <code>StateMachine</code> on setup, so any state can access the character it's running on and trigger
-          transitions.
+          Each state extends the base class below, which just defines the interface: <code>enter()</code>,
+          <code>exit()</code>, and the three process methods, all empty and overridable.
+          The <code>parent</code> and <code>machine</code> references get set by the <code>StateMachine</code> during
+          setup, so any state can reach the character it's running on and trigger transitions whenever it needs to.
         </p>
 
         <pre><code class="language-gdscript">class_name State extends Node
@@ -207,13 +205,13 @@ func processFrame(_delta: float) -> void:
 
         <h3>StateMachine</h3>
         <p>
-          The <code>StateMachine</code> iterates its children on setup, registers each state by name, and sets the
+          On setup, the <code>StateMachine</code> loops through its children, registers each one by name, and sets the
           <code>parent</code> and <code>machine</code> references on all of them.
-          From then on it just holds the current state and routes process calls into it.
-          <code>changeState()</code> calls <code>exit()</code> on the old state and <code>enter()</code> on the new one
-          before swapping.
-          States are keyed by their <code>stateName</code> lowercased, and <code>changeState()</code> also lowercases
-          the input before lookup, so casing in state scripts is normalized automatically.
+          After that it just tracks the current state and routes process calls into it.
+          <code>changeState()</code> calls <code>exit()</code> on whatever the old state was and <code>enter()</code> on
+          the new one before actually swapping.
+          States get keyed by their <code>stateName</code> lowercased, and <code>changeState()</code> lowercases
+          whatever you pass in too, so casing in state scripts never bites you.
           Using strings instead of typed node references keeps it flexible.
           Any state can trigger a transition to any other state without needing a direct reference to it.
         </p>
@@ -278,13 +276,12 @@ func changeState(newStateName: String):
 
         <h3>Player Example</h3>
         <p>
-          The player script is pretty simple in this example.
-          It calls <code>stateMachine.setup(self)</code> in <code>_ready()</code> to pass itself as the parent, then
-          just forwards its process callbacks into the machine.
-          All the actual behavior lives in the state scripts.
-          One benefit of this design is that you can do things in the process methods before handing off to the state
-          machine, such as handling global cooldowns, checking for death, or whatever else should run regardless of the
-          current state.
+          The player script itself stays pretty simple.
+          It calls <code>stateMachine.setup(self)</code> in <code>_ready()</code> to hand itself over as the parent,
+          then just forwards its process callbacks into the machine.
+          All the real behavior lives in the state scripts.
+          One nice side effect of this setup is you can slot in logic before handing off to the state machine, things
+          like global cooldowns, checking for death, or anything else that should run no matter what state you're in.
         </p>
 
         <pre><code class="language-gdscript">class_name StatePlayer extends CharacterBody2D
@@ -305,9 +302,9 @@ func _process(delta: float) -> void:
 
         <h3>The Idle State</h3>
         <p>
-          The idle state handles gravity when airborne, transitions to <code>jump</code> on a jump input, transitions to
-          <code>move</code> if there's horizontal input, and decelerates the player otherwise.
-          It accesses the player through <code>parent</code> and triggers transitions through
+          The idle state handles gravity while airborne, transitions into <code>jump</code> on a jump input, transitions
+          into <code>move</code> if there's horizontal input, and decelerates the player if none of that applies.
+          It reaches the player through <code>parent</code> and fires transitions through
           <code>machine.changeState()</code>.
         </p>
 
@@ -332,16 +329,16 @@ func processPhysics(delta: float):
 	parent.move_and_slide()</code></pre>
 
         <p>
-          The jump and move states follow the same pattern. Each one just handles its own input checks and transitions.
-          The jump state sets the velocity on <code>enter()</code> so the jump happens exactly once when the state is
-          entered, not every frame.
+          The jump and move states follow the same pattern, each one just handles its own input checks and fires its own
+          transitions.
+          The jump state sets velocity in <code>enter()</code> specifically so the jump only happens once, right when
+          you enter the state, instead of every single frame.
         </p>
         <p>
-          In the scene tree, the <code>StateMachine</code> node has <code>Idle</code>, <code>Move</code>, and
-          <code>Jump</code> as children, each with their respective scripts attached.
-          The <code>initialState</code> export on <code>StateMachine</code> gets set to the <code>Idle</code> node in
-          the inspector.
-          That's all the wiring needed.
+          In the scene tree, the <code>StateMachine</code> node just has <code>Idle</code>, <code>Move</code>, and
+          <code>Jump</code> as children, each with their script attached.
+          Set the <code>initialState</code> export on <code>StateMachine</code> to the <code>Idle</code> node in the
+          inspector, and that's genuinely all the wiring you need.
         </p>
 
         <br>
@@ -350,36 +347,36 @@ func processPhysics(delta: float):
 
         <h2>Things to Watch Out For</h2>
         <p>
-          The system above is clean, but there are a few "gotchas" worth knowing when using it.
+          The system above is clean, but there's a handful of gotchas worth knowing about before you go build on it.
         </p>
         <ul class="formatted-list">
           <li>
-            If <code>initialState</code> is not set in the inspector, <code>setup()</code> will crash when it tries to
-            read <code>initialState.stateName</code>.
+            If <code>initialState</code> isn't set in the inspector, <code>setup()</code> will crash the moment it tries
+            to read <code>initialState.stateName</code>.
           </li>
           <li>
-            If two child nodes share the same <code>stateName</code>, the second one silently overwrites the first and
-            that state just disappears.
-            The setup code above calls <code>push_warning()</code> to catch this, but it's still worth keeping an eye
-            on.
+            If two child nodes end up with the same <code>stateName</code>, the second one silently overwrites the first
+            and that state just vanishes.
+            The setup code above throws a <code>push_warning()</code> so you at least get a heads up, but it's still
+            easy to miss.
           </li>
           <li>
-            Calling changeState() inside enter() or exit() is risky.
-            It works technically, but you're swapping states mid-transition, which can produce confusing behavior or
-            infinite loops.
-            If you need to chain transitions, <code>call_deferred("changeState", ...)</code> is a bit safer.
+            Calling changeState() from inside enter() or exit() is asking for trouble.
+            It technically works, but you're swapping states mid-transition, and that can spiral into confusing behavior
+            or straight up infinite loops.
+            If you need to chain transitions, <code>call_deferred("changeState", ...)</code> is the safer route.
           </li>
           <li>
-            If certain transitions should be blocked under specific conditions, the cleanest place to handle that is in
-            the state's <code>processPhysics</code> before calling <code>machine.changeState()</code>.
-            You can also add a guard check at the top of <code>changeState()</code> itself if the condition is global.
+            Need to block certain transitions under specific conditions? The cleanest place to do that is in the state's
+            <code>processPhysics</code>, right before calling <code>machine.changeState()</code>.
+            If the condition is more global, a guard check at the top of <code>changeState()</code> itself works too.
           </li>
         </ul>
 
         <h2>Sources</h2>
         <p>
-          Below are the main sources I used when building out this implementation.
-          If this writeup didn't click for you, or you want to go deeper, check these out.
+          Here's what I actually used while putting this together.
+          If this writeup didn't click for you, or you just want to go deeper, these are worth a watch.
         </p>
         <ul class="formatted-list">
           <li><a href="https://www.youtube.com/playlist?list=PLaiU9HSaKMWtmAIR345HGIz_ijQiyr3kH" target="_blank">The
@@ -394,8 +391,8 @@ func processPhysics(delta: float):
 
         <h2>Disagree with me?</h2>
         <p>
-          If you think I'm wrong or disagree with me, I'd love to talk and hear why!
-          I'm always looking to learn.
+          If you think I'm wrong about any of this, tell me!
+          I'm always looking to get better at this stuff, and I'd rather hear it than keep doing something wrong.
           Reach out through <a href="https://www.hunter-baker.com/pages/nav/contact.html" target="_blank">this form</a>.
         </p>
 

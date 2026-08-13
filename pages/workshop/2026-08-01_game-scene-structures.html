@@ -51,17 +51,18 @@
 
                 <h2>Overview</h2>
                 <p>
-                    <strong>Problem:</strong> how should you organize the main structure of a game to reduce
-                    unnecessary duplication, keep systems decoupled, and minimize global state?
+                    <strong>Problem:</strong> how do you structure the main shape of a game so you're not
+                    duplicating stuff everywhere, keeping systems decoupled, and not leaning on global state too
+                    hard?
                 </p>
                 <p>
-                    There are near infinite ways to structure a project, but there are a few common patterns
-                    I've seen others use, and have used myself. I want to go through a few of them and talk
-                    about the pros and cons of each.
+                    There's basically infinite ways to structure a project, but there's a handful of patterns I
+                    keep seeing (and have used myself), so I wanted to walk through a few of them and talk about
+                    what's good and bad about each.
                 </p>
                 <p>
-                    This is about project structure, but specifically about the different ways a game can
-                    handle its main scene, or its levels if it has them. They boil down to a few ideas:
+                    This is about project structure specifically as it relates to how a game handles its main
+                    scene, or its levels if it has them. It really comes down to a few ideas:
                 </p>
                 <ul class="formatted-list">
                     <li><code>Game.tscn</code>: loading and unloading map data</li>
@@ -72,8 +73,8 @@
 
                 <h2>The Problem Restated</h2>
                 <p>
-                    Imagine a puzzle game with 5 levels. How would you organize this game? You've probably
-                    thought of one of the two structures below.
+                    Say you're making a puzzle game with 5 levels. How do you organize that? You've probably
+                    already pictured one of the two structures below.
                 </p>
 
                 <pre><code>Main Menu -> Level 1 -> Level 2 -> Level n -> End
@@ -81,13 +82,14 @@ Main Menu -> Game -> End</code></pre>
 
                 <h3>The Data Problem</h3>
                 <p>
-                    Imagine you have data that's relevant to each level. Take a chess puzzle: only the board
-                    data matters, and there's no state that needs to carry over between puzzles.
+                    Now think about data that matters per level. Take a chess puzzle: only the board state
+                    matters, and nothing needs to carry over between puzzles.
                 </p>
                 <p>
-                    Now imagine a puzzle game with 5 levels, where the player has 5 abilities to solve the
-                    puzzles, and each time they finish a level they lose whichever ability they used the most.
-                    That's state that has to be passed from level to level for the game to keep making sense.
+                    Now imagine a different puzzle game, still 5 levels, but the player has 5 abilities to solve
+                    them with, and every time they finish a level they lose whichever ability they used the
+                    most. Now you've got state that has to carry from level to level or the game stops making
+                    sense.
                 </p>
 
                 <h3>Level Representations</h3>
@@ -99,28 +101,27 @@ Main Menu -> Game -> End</code></pre>
                     <li>The level is its own unique <code>level_n.tscn</code> scene file</li>
                 </ol>
                 <p>
-                    Level data on disk works considerably better for something like a chess puzzle. The flow
-                    would be: load the level data from disk, and use it to repopulate a world node that's
-                    already in the tree, rather than instantiate a new scene per level. This fits naturally
-                    with
-                    <a href="#game-tscn-map-data">Game.tscn Approach: Loading &amp; Unloading Map Data</a>,
-                    below.
+                    Level data on disk works a lot better for something like that chess puzzle. The flow ends up
+                    being: load the level data, and use it to repopulate a world node that's already sitting in
+                    the tree, instead of instantiating a whole new scene per level. That's basically the
+                    <a href="#game-tscn-map-data">Game.tscn Approach: Loading &amp; Unloading Map Data</a>
+                    section below.
                 </p>
                 <p>
-                    Representing a level as its own scene file works better for games where levels are more
-                    varied and different from each other (think something like Mario). This is what is
-                    primarily being discussed in this workshop.
+                    Representing a level as its own scene file works better when levels are more varied and
+                    different from each other, think something like Mario. That's mostly what this workshop is
+                    actually about.
                 </p>
 
                 <h2 id="game-tscn-map-data">Game.tscn Approach: Loading &amp; Unloading Map Data</h2>
                 <p>
-                    The first way to use a persistent <code>Game.tscn</code> container is to never actually swap
+                    The first way to use a persistent <code>Game.tscn</code> container is to just never swap
                     child scenes at all. This is the
-                    <a href="#level-representations">level data stored on disk</a> representation: you keep a
-                    single, reusable world node in the tree, and each "level" is just data (a resource,
-                    dictionary, save file, etc...) that gets loaded from disk and handed to that node, which
-                    rebuilds itself (clears the tilemap, respawns entities, resets whatever state the level
-                    needs) rather than a whole new scene getting instantiated.
+                    <a href="#level-representations">level data stored on disk</a> approach: you keep one
+                    reusable world node sitting in the tree, and each "level" is just data (a resource,
+                    dictionary, save file, whatever) that gets loaded and handed to that node. The node rebuilds
+                    itself, clears the tilemap, respawns entities, resets whatever state the level needs,
+                    instead of a whole new scene getting instantiated.
                 </p>
 
                 <pre><code class="language-gdscript">func load_level(data: LevelData) -> void:
@@ -136,31 +137,31 @@ func unload_level() -> void:
 	# etc...</code></pre>
 
                 <p>
-                    This is lightweight compared to instantiating a whole new scene per level, since you're
-                    reusing the same node structure and just changing the data that drives it. It works
-                    especially well when levels share a common shape, like grid puzzles, chess boards, etc...
-                    The problem is that it falls apart once levels stop being structurally similar.
+                    It's lightweight compared to instantiating a whole new scene per level, since you're reusing
+                    the same node structure and just swapping the data driving it. Works especially well when
+                    levels share a common shape, like grid puzzles, chess boards, etc... Where it falls apart is
+                    the moment your levels stop being structurally similar to each other.
                 </p>
 
                 <h2 id="game-tscn-scenes">Game.tscn Approach: Loading &amp; Unloading Scenes</h2>
                 <p>
-                    This works because while you can switch scenes, there are usually things you always want to
-                    keep loaded, like the HUD, managers, or other UI.
+                    This one exists because even though you're switching scenes, there's usually stuff you
+                    always want to keep loaded, the HUD, managers, other persistent UI.
                 </p>
                 <p>
-                    This approach is focused around having a main scene, then loading what you need into it.
-                    This avoids leaning too heavily on globals, since the stuff that always needs to be present
-                    already lives right in your main scene and can be handed in as a dependency to whatever you
-                    load, instead of reached for through an autoload.
+                    The idea is you have a main scene, then load whatever you need into it. That keeps you from
+                    leaning too hard on globals, because the stuff that always needs to exist already lives in
+                    your main scene and can just get handed in as a dependency to whatever you load, instead of
+                    being grabbed through an autoload.
                 </p>
                 <p>
-                    Overall, in this approach, the main scene acts more like a container: you can load and
-                    unload scenes without deleting everything in the tree.
+                    Basically the main scene acts more like a container here. You can load and unload scenes
+                    without nuking everything in the tree.
                 </p>
                 <p>
-                    One of the biggest downsides of this is that it isn't very lightweight. It can also lead to
-                    tight coupling, since some scenes may rely on the existence of this parent container and
-                    aren't able to run entirely on their own.
+                    The big downside is that it isn't very lightweight. It can also create tight coupling, since
+                    some scenes end up depending on that parent container existing and can't really run on their
+                    own anymore.
                 </p>
 
                 <h3>Code Example</h3>
@@ -173,11 +174,11 @@ func unload_level() -> void:
     etc...</code></pre>
 
                 <p>
-                    Below is an example of how this might be implemented. Nothing here needs to be global:
-                    anything that needs to trigger a scene change gets a direct reference to the
-                    <code>GameController</code>, wired up either with <code>@export</code> in the editor or
+                    Here's roughly how you'd implement this. Nothing here needs to be global: anything that
+                    needs to trigger a scene change just gets a direct reference to the
+                    <code>GameController</code>, either wired up with <code>@export</code> in the editor or
                     passed in through a setup call when it's instantiated. That keeps every dependency explicit
-                    and visible.
+                    instead of hidden behind a global lookup.
                 </p>
 
                 <pre><code class="language-gdscript">class_name GameController extends Node
@@ -213,32 +214,31 @@ func change_world(new_scene: String, delete: bool = true, keep_running: bool = f
 
                 <h2>change_scene() Without Data</h2>
                 <p>
-                    In a perfect world, you'd just call <code>change_scene()</code> and let each scene run
+                    In a perfect world you'd just call <code>change_scene()</code> and let each scene run
                     entirely on its own, fully decoupled, with no container and no shared state.
                 </p>
                 <p>
-                    That's very clean, but it is often unreasonable: the moment any state needs to persist
-                    across the swap, calling <code>change_scene()</code> alone isn't enough, since it throws
-                    away the entire previous tree. You need some way to patch state back together across that
-                    gap.
+                    Sounds great, but it's rarely realistic. The second any state needs to survive the swap,
+                    plain <code>change_scene()</code> isn't enough, because it throws away the entire previous
+                    tree. You need some way to patch things back together across that gap.
                 </p>
 
                 <h2>change_scene() With Data</h2>
                 <p>
-                    In the case you have individual scenes and also need some sort of data to persist, there
-                    are 2 main ways you can achieve this.
+                    If you've got individual scenes but also need some data to survive between them, there's
+                    really 2 ways to pull that off.
                 </p>
 
                 <h3>Using Globals/Autoloads</h3>
                 <p>
-                    For a Game Jam or some testing sample project, this is likely the best approach. While it
-                    utilizes a lot of globals (which is often a bad idea), it would definitely work and is very
-                    simple and painless to setup.
+                    For a Game Jam or some quick test project, this is honestly probably your best bet. It leans
+                    on a lot of globals, which is usually a bad habit, but it works, and it's dead simple to set
+                    up.
                 </p>
                 <p>
-                    To implement this, you could simply create a general <code>Bus</code> global which stores
-                    all of the data that needs to be shared, or maybe more individual ones like
-                    <code>Player</code>. It depends on your needs.
+                    You could just make one general <code>Bus</code> global that holds whatever needs to be
+                    shared, or split it into more specific ones like <code>Player</code>. Depends what you
+                    actually need.
                 </p>
 
                 <pre><code class="language-gdscript"># in player.gd
@@ -251,15 +251,14 @@ func hurt():
 
                 <h3>Passing Another Way</h3>
                 <p>
-                    This, again, is very similar, but utilizes a custom <code>change_scene(data)</code>
-                    function to pass along specific data instead of reaching through a global. This keeps the
-                    globals clean, but still suffers from the problem of scenes not being able to run entirely
-                    on their own.
+                    This is similar in spirit, but instead of reaching through a global, you use a custom
+                    <code>change_scene(data)</code> function to pass specific data along directly. Keeps your
+                    globals clean, but you still run into the same problem: scenes can't fully run on their own.
                 </p>
                 <p>
-                    The swap function that instantiates the new scene, hands it data directly, then swaps it
-                    into the tree. The receiving scene just needs to expose an entry point like
-                    <code>initialize()</code>.
+                    The swap function instantiates the new scene, hands it the data directly, then swaps it into
+                    the tree. The receiving scene just needs an entry point like <code>initialize()</code> to
+                    receive it.
                 </p>
 
                 <pre><code class="language-gdscript"># scene_switcher.gd (can be a plain function, doesn't have to be an autoload)
@@ -286,29 +285,29 @@ func _on_level_complete() -> void:
 	})</code></pre>
 
                 <p>
-                    The tradeoff is that whatever triggers the swap needs a reference to
-                    <code>change_scene_with_data()</code> itself (an autoload, or passed in), and the receiving
-                    scene still has to know what shape of data to expect.
+                    The tradeoff is whatever triggers the swap needs a reference to
+                    <code>change_scene_with_data()</code> itself (an autoload, or passed in some other way), and
+                    the receiving scene still has to already know what shape of data it's getting.
                 </p>
 
                 <h2>change_scene() Caveats</h2>
                 <p>
-                    One thing to note about the two <code>change_scene()</code> solutions is that both of these
-                    suffer from a duplication or global reliance problem.
+                    Worth pointing out: both <code>change_scene()</code> solutions above run into either a
+                    duplication problem or a global reliance problem.
                 </p>
                 <p>
-                    For example, each scene likely needs a ton of the same things. <code>AudioPlayer</code>
-                    would likely be existing in each level. There are things you can do to mitigate this
-                    problem such as wrapping all the duplicated stuff in a single tscn and putting that in the
-                    <code>level_n.tscn</code>, but this creates an additional layer to work through. Either
-                    way, it involves some boilerplate each time you create a new level scene.
+                    Each scene probably needs a bunch of the same stuff. An <code>AudioPlayer</code>, for
+                    instance, is probably sitting in every single level. You can mitigate that by wrapping the
+                    duplicated stuff into one tscn and dropping that into each <code>level_n.tscn</code>, but now
+                    you've got an extra layer to deal with. Either way, you're eating some boilerplate every time
+                    you add a new level scene.
                 </p>
                 <p>
-                    Or... instead of doing that, you can just make some of these globals (which is generally a
-                    bad practice!).
+                    Or, instead of dealing with any of that, you just make some of it global (which, again, is
+                    generally not great practice!).
                 </p>
                 <p>
-                    For this reason, I tend to lean towards the main <code>Game.tscn</code> solutions above.
+                    That's basically why I lean towards the main <code>Game.tscn</code> solutions above.
                 </p>
 
                 <pre><code>Level_n (Node2D)
@@ -319,43 +318,46 @@ func _on_level_complete() -> void:
 
                 <h2>Conclusion</h2>
                 <p>
-                    If you're creating a game with no persistent data and each scene can be structured entirely
-                    independently, the simplest and cleanest way to do it is by just changing scenes directly,
-                    with no globals and no container.
+                    If your game has no persistent data and every scene can stand entirely on its own, the
+                    simplest and cleanest option is just changing scenes directly. No globals, no container,
+                    nothing to manage.
                 </p>
                 <p>
-                    Despite that, a <code>Game.tscn</code> with everything you need in it is likely the most
-                    sustainable, scalable, and best practice way to do it.
+                    That said, a <code>Game.tscn</code> with everything you need baked into it is probably still
+                    the most sustainable, scalable way to actually build a real game.
                 </p>
 
                 <p>
-                    <strong>No persistent data, each scene runs entirely on its own</strong> &rarr; plain
-                    <code>change_scene()</code>, no container, no globals. Simplest and cleanest option, but
-                    only works as long as nothing needs to survive the swap.
+                    So, if you don't have persistent data and each scene can run entirely on its own, just go
+                    with plain <code>change_scene()</code>. No container, no globals. It's the simplest and
+                    cleanest option, but it only works as long as nothing needs to survive the swap.
                 </p>
                 <p>
-                    <strong>Some persistent data, nothing needs to keep running across the swap</strong>
-                    &rarr; <code>change_scene()</code> with data. Globals (a <code>Bus</code> style autoload)
-                    are the fastest way to wire this up and are fine for a jam or prototype; passing data
-                    explicitly through a custom <code>change_scene(data)</code> avoids the global but each
-                    scene still can't run fully standalone.
+                    If you've got some persistent data but nothing needs to keep running across the swap,
+                    <code>change_scene()</code> with data is the move. A <code>Bus</code> style autoload is the
+                    fastest way to wire that up and it's fine for a jam or a prototype. Passing data explicitly
+                    through your own <code>change_scene(data)</code> avoids the global, but scenes still can't
+                    fully stand on their own.
                 </p>
                 <p>
-                    <strong>Levels are structurally similar and can be represented as data</strong> &rarr;
-                    <code>Game.tscn</code> loading/unloading map data. Keep one reusable world node in the
-                    tree and rebuild it from level data on disk instead of instantiating a new scene each time.
+                    If your levels are structurally similar and can basically be represented as data, go with
+                    the <code>Game.tscn</code> approach that loads and unloads map data. Keep one reusable world
+                    node in the tree and rebuild it from data on disk instead of spinning up a new scene every
+                    time.
                 </p>
                 <p>
-                    <strong>Levels are structurally different from each other, or things need to keep running
-                        across the swap (HUD, music, managers)</strong> &rarr; <code>Game.tscn</code>
-                    loading/unloading scenes. Heavier and more tightly coupled to the container, but generally
-                    the most sustainable and scalable option.
+                    And if your levels are structurally different from each other, or you've got stuff that
+                    needs to keep running across the swap like a HUD, music, or managers, that's when you want
+                    the <code>Game.tscn</code> approach that loads and unloads scenes. It's heavier and more
+                    tightly coupled to the container, but it's generally the most sustainable and scalable
+                    option out of all of these.
                 </p>
 
                 <h2>Disagree with me?</h2>
                 <p>
-                    If you think I'm wrong or disagree with me, I'd love to talk and hear why!
-                    I'm always looking to learn.
+                    If you think I'm wrong about any of this, tell me!
+                    I'm always looking to get better at this stuff, and I'd rather hear it than keep doing something
+                    wrong.
                     Reach out through <a href="https://www.hunter-baker.com/pages/nav/contact.html" target="_blank">this
                         form</a>.
                 </p>

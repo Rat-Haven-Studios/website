@@ -55,8 +55,8 @@
         </p>
         <h2>The New Structure</h2>
         <p>
-          The biggest lesson from the jam version was that clean, extensible code makes everything easier.
-          The jam gave us 96 hours so shortcuts were taken.
+          The biggest lesson from the jam version was that clean code makes everything easier (what a surprise...).
+          The jam gave us 96 hours so shortcuts were definitely taken.
           This time we don't have that excuse, and we're building the backend right from the start.
         </p>
         <p>
@@ -65,13 +65,13 @@
           It handles the game loop, processes tiles and entities each tick, tracks the player's command budget, and
           determines win/lose conditions.
           The tick order is always tiles → enemies → player, and every tick returns an array of <code>GameEvent</code>s
-          instead of directly mutating the scene.
-          This means the UI and logic are fully decoupled - the engine doesn't care how anything gets displayed, it just
+          instead of changing the scene itself.
+          This means the UI and logic are fully decoupled. The engine doesn't care how anything gets displayed, it just
           processes state and emits events.
           This also lets us run the engine headless for the Simulator, which I'll get to later.
         </p>
         <p>
-          This type of decision somewhat goes against the grain of how Godot projects are often structured, with a lot
+          This type of decision somewhat goes against how Godot projects are often structured, with a lot
           of logic embedded in scenes and nodes.
           In this case, we're using Godot more as a rendering and input layer, while the core game logic lives in pure
           GDScript classes that don't depend on the scene tree at all.
@@ -83,14 +83,12 @@
         <p>
           The grid itself is managed by the <code>GridManager</code>, which uses two dictionaries instead of 2D arrays.
           One mapping positions to tiles, one mapping positions to entities.
-          Dictionary-based grids are just more flexible for this kind of puzzle game.
-          Sparse maps, irregular shapes, and fast lookups all work naturally.
           The tile grid is set once when a map loads and never changes.
-          The entity grid is the live, mutable state.
+          The entity grid is the live state.
         </p>
 
         <p>
-          Maps are defined by <code>MapData</code> resources - plain Godot <code>.tres</code> files that describe grid
+          Maps are defined by <code>MapData</code> resources. These are plain Godot <code>.tres</code> files that describe grid
           dimensions, tile spawns, entity spawns, the player's starting position, and constraints like the command
           budget and max loop length.
           The <code>GridManager</code> loads these at the start of each level to populate its dictionaries.
@@ -127,10 +125,10 @@ func tick() -> Array[GameEvent]:
 
         <h2>The Command Loop</h2>
 
-        <p>The core mechanic of Forgotten Paths is the command loop.
-          The player doesn't directly control their character tick by tick.
-          Instead, they set up a sequence of commands that the character then executes repeatedly in a cycle.
-          Getting that loop right is the puzzle.
+        <p>
+          The core mechanic of Forgotten Paths is the command loop.
+          The player doesn't directly control their character.
+          They set up their sequence of commands and then they get executed in a loop.
         </p>
 
         <p>
@@ -140,17 +138,15 @@ func tick() -> Array[GameEvent]:
           the behavior of the original jam version.
           Each one has an <code>execute()</code> method that takes an entity and the grid and returns a list of
           <code>GameEvent</code>s.
-          This pattern makes adding new commands straightforward - you create a new class, implement
-          <code>execute()</code>, and it plugs right in without touching anything else.
-          We have a long list of commands we want to add, and this structure means we can do that without breaking
-          existing behavior.
+          This pattern makes adding new commands pretty easy and straightforward. When you create a new class, implement
+          <code>execute()</code>, and it just works...
         </p>
 
         <p>
           <code>MoveCommand</code> supports all four directions and is aware of the player's current rotation, so "move
           up" might actually move the player right if they've been rotated 90 degrees clockwise.
           <code>RotateCommand</code> changes that rotation state.
-          <code>WaitCommand</code> is a simple no-op, which will be useful for timing-based puzzles later.
+          <code>WaitCommand</code> is a simple "do nothing" command, which will be useful for timing-based puzzles later.
           Each command also has a <code>cost</code> field that gets deducted from the map's budget when it runs, making
           some actions more expensive than others.
         </p>
@@ -160,7 +156,7 @@ func tick() -> Array[GameEvent]:
           specifically a <code>Player</code>.
           This means we can reuse the same command system for enemy behavior.
           If we want an enemy that moves in a pattern, we give it a command loop and let it run.
-          The snippet below shows how <code>MoveCommand</code> uses this - rotation is applied only when the entity is a
+          The snippet below shows how <code>MoveCommand</code> uses this. Rotation is applied only when the entity is a
           <code>Player</code>, while enemies just move in a fixed direction.
         </p>
 
@@ -176,7 +172,7 @@ func execute(entity: Entity, grid: GridManager) -> Array[GameEvent]:
 	var target: Vector2i
 	if entity is Player:
 		# rotation is applied here, so the loop's directions are relative to
-		# the player's current facing - not the world grid.
+		# the player's current facing. not the world grid.
 		var actual_dir = RotationHelper.rotate_direction(direction, entity.current_rotation)
 		target = GridHelper.get_movement_in_direction(entity.position, actual_dir)
 	else:
@@ -194,7 +190,7 @@ static func right() -> MoveCommand: return MoveCommand.new(Consts.Direction.RIGH
         <p>
           Both tiles and entities follow the same philosophy: a base class that defines the interface, and subclasses
           that override specific behavior.
-          The <code>BaseTile</code> class has two overridable methods - <code>is_passable()</code> and
+          The <code>BaseTile</code> class has two overridable methods: <code>is_passable()</code> and
           <code>on_entered()</code>.
           Most tiles are passable and do nothing when stepped on, but some override those to create walls, traps,
           portals, and so on.
@@ -212,8 +208,8 @@ static func right() -> MoveCommand: return MoveCommand.new(Consts.Direction.RIGH
           On the entity side, <code>BaseEnemy</code> extends <code>Entity</code> and adds the concept of being alive and
           an <code>on_entered()</code> callback for when the player walks into it.
           The first concrete enemy type is <code>StaticEnemy</code>, which just stands there and dies when the player
-          bumps into it - same as the jam.
-          But now the system is ready to support enemies that move, have patterns, and react to rotations.
+          bumps into it. This is the same as the jam.
+          But now the system is ready to support complex enemies.
           We'll get there.
         </p>
 
@@ -228,7 +224,6 @@ static func right() -> MoveCommand: return MoveCommand.new(Consts.Direction.RIGH
         </p>
 
         <p>
-          The really useful function is <code>simulate_all()</code>.
           It generates every possible command loop up to the map's <code>max_loop_length</code> using base-N enumeration
           over the command palette, runs each one, and collects every winning loop.
           This lets us verify a map is solvable and find all solutions.
@@ -237,10 +232,9 @@ static func right() -> MoveCommand: return MoveCommand.new(Consts.Direction.RIGH
         </p>
 
         <p>
-          It's essentially a built-in puzzle validator.
           It means we can design levels with far more confidence than we had during the jam, where we were mostly just
           playtesting by hand.
-          It's going to be indispensable as the puzzle complexity grows.
+          It's going to be so useful as the puzzle complexity grows.
         </p>
 
         <pre><code class="language-gdscript"># simulate_all() brute-forces every possible loop up to max_loop_length.
@@ -272,8 +266,7 @@ func simulate_all(max_ticks: int = 100) -> Array[SimResult]:
           The backend is in a solid place.
           The <code>BattleEngine</code> ticks correctly, the <code>Simulator</code> validates maps, entities and tiles
           are extensible, and the event system keeps everything decoupled.
-          What doesn't exist yet is anything visual - there's no renderer, no UI, no actual Godot scene to run it in.
-          That's the next big chunk of work.
+          Next we need to build the frontend and connect everything together.
         </p>
 
         <p>
