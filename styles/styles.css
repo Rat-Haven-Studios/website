@@ -21,6 +21,152 @@
   --font-body: 'Geist Mono', monospace;
 }
 
+/* Theme presets, see themes.txt. Applied via data-theme on <html>
+   (scripts/theme.js), default :root above is "current". */
+:root[data-theme="original"] {
+  --bg: #06090f;
+  --surface: #0e1520;
+  --surface-2: #162030;
+  --border: #243c5e;
+  --accent: #4d7cfe;
+  --accent-dark: color-mix(in srgb, var(--accent) 75%, black);
+  --text: #eef4ff;
+  --text-muted: #96b8d8;
+  --bg-pattern: color-mix(in srgb, #0d1828 60%, var(--bg));
+}
+
+:root[data-theme="bright-navy"] {
+  --bg: #0a1424;
+  --surface: #10203a;
+  --surface-2: #172c4d;
+  --border: #2f4f80;
+  --accent: #4d7cfe;
+  --accent-dark: color-mix(in srgb, var(--accent) 75%, black);
+  --text: #eef4ff;
+  --text-muted: var(--text);
+  --bg-pattern: color-mix(in srgb, #1f3a63 27%, var(--bg));
+}
+
+:root[data-theme="orange"] {
+  --bg: #141210;
+  --surface: #1e1b17;
+  --surface-2: #2b2723;
+  --border: #423b33;
+  --accent: #ff8f3f;
+  --accent-dark: color-mix(in srgb, var(--accent) 75%, black);
+  --text: #f2ede6;
+  --text-muted: var(--text);
+  --bg-pattern: color-mix(in srgb, var(--accent) 9%, var(--bg));
+}
+
+:root[data-theme="purple"] {
+  --bg: #141210;
+  --surface: #1e1b17;
+  --surface-2: #2b2723;
+  --border: #423b33;
+  --accent: #b183f0;
+  --accent-dark: color-mix(in srgb, var(--accent) 75%, black);
+  --text: #f2ede6;
+  --text-muted: var(--text);
+  --bg-pattern: color-mix(in srgb, var(--accent) 9%, var(--bg));
+}
+
+:root[data-theme="crimson"] {
+  --bg: #141210;
+  --surface: #1e1b17;
+  --surface-2: #2b2723;
+  --border: #423b33;
+  --accent: #ff5470;
+  --accent-dark: color-mix(in srgb, var(--accent) 75%, black);
+  --text: #f2ede6;
+  --text-muted: var(--text);
+  --bg-pattern: color-mix(in srgb, var(--accent) 9%, var(--bg));
+}
+
+:root[data-theme="green"] {
+  --bg: #141210;
+  --surface: #1e1b17;
+  --surface-2: #2b2723;
+  --border: #423b33;
+  --accent: #4fd57a;
+  --accent-dark: color-mix(in srgb, var(--accent) 75%, black);
+  --text: #f2ede6;
+  --text-muted: var(--text);
+  --bg-pattern: color-mix(in srgb, var(--accent) 9%, var(--bg));
+}
+
+:root[data-theme="magenta"] {
+  --bg: #141210;
+  --surface: #1e1b17;
+  --surface-2: #2b2723;
+  --border: #423b33;
+  --accent: #f04fd6;
+  --accent-dark: color-mix(in srgb, var(--accent) 75%, black);
+  --text: #f2ede6;
+  --text-muted: var(--text);
+  --bg-pattern: color-mix(in srgb, var(--accent) 9%, var(--bg));
+}
+
+:root[data-theme="yellow"] {
+  --bg: #141210;
+  --surface: #1e1b17;
+  --surface-2: #2b2723;
+  --border: #423b33;
+  --accent: #f5c84c;
+  --accent-dark: color-mix(in srgb, var(--accent) 75%, black);
+  --text: #f2ede6;
+  --text-muted: var(--text);
+  --bg-pattern: color-mix(in srgb, var(--accent) 9%, var(--bg));
+}
+
+:root[data-theme="teal"] {
+  --bg: #141210;
+  --surface: #1e1b17;
+  --surface-2: #2b2723;
+  --border: #423b33;
+  --accent: #2dd4bf;
+  --accent-dark: color-mix(in srgb, var(--accent) 75%, black);
+  --text: #f2ede6;
+  --text-muted: var(--text);
+  --bg-pattern: color-mix(in srgb, var(--accent) 9%, var(--bg));
+}
+
+:root[data-theme="sky"] {
+  --bg: #141210;
+  --surface: #1e1b17;
+  --surface-2: #2b2723;
+  --border: #423b33;
+  --accent: #4aa8ff;
+  --accent-dark: color-mix(in srgb, var(--accent) 75%, black);
+  --text: #f2ede6;
+  --text-muted: var(--text);
+  --bg-pattern: color-mix(in srgb, var(--accent) 9%, var(--bg));
+}
+
+:root[data-theme="amber"] {
+  --bg: #141210;
+  --surface: #1e1b17;
+  --surface-2: #2b2723;
+  --border: #423b33;
+  --accent: #ffab40;
+  --accent-dark: color-mix(in srgb, var(--accent) 75%, black);
+  --text: #f2ede6;
+  --text-muted: var(--text);
+  --bg-pattern: color-mix(in srgb, var(--accent) 9%, var(--bg));
+}
+
+:root[data-theme="slate"] {
+  --bg: #141210;
+  --surface: #1e1b17;
+  --surface-2: #2b2723;
+  --border: #423b33;
+  --accent: #9fb0c3;
+  --accent-dark: color-mix(in srgb, var(--accent) 75%, black);
+  --text: #f2ede6;
+  --text-muted: var(--text);
+  --bg-pattern: color-mix(in srgb, var(--accent) 9%, var(--bg));
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -176,6 +322,15 @@ p + .formatted-list { margin-top: 1em; }
   text-decoration: underline;
 }
 
+.theme-select {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 4px 6px;
+}
 
 .nav-sep {
   color: var(--text-muted);

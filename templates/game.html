@@ -4,8 +4,10 @@
   and delete any sections you don't need (e.g. "Jam Results" for a non-jam
   release). Then:
     1. Run `python update_components.py` to inject the real header/footer.
-    2. Add a card to pages/nav/games.html with appropriate data-tags.
-    3. Optionally add a featured card to index.html#games.
+    2. Add cards/games/<slug>.json (see cards/ in CLAUDE.md); set
+       "featured_order" only if it should appear in the homepage's
+       Featured Games section.
+    3. Run `python build.py` to regenerate the nav grid and homepage section.
 -->
 <!DOCTYPE html>
 <html lang="en">

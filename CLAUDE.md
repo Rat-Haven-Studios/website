@@ -1,95 +1,99 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Guidance for Claude Code when working in this repository.
 
-**Do not use em dashes (—) anywhere in this project** - not in code comments, docstrings, docs, or content pages. Use a comma, period, semicolon, or parentheses instead.
+**Do not use em dashes (—) anywhere in this project.** Not in code, comments, docs, or content pages. Use a comma, period, semicolon, or parentheses instead.
 
 ## Project Overview
 
-Static HTML/CSS website for Rat Haven Studios - a small indie game studio. All site files live directly at the project root, no `src/` or `dist/` separation. Open any `.html` file in a browser directly for local development. GitHub Actions deploys on every push to `main`.
+Static HTML/CSS site for Rat Haven Studios, a small indie game studio. Everything lives at the project root, no `src`/`dist` split. Open any `.html` file directly in a browser for local development. GitHub Actions (`.github/workflows/deploy.yml`) builds and deploys to GitHub Pages on every push to `main`.
 
 ## Scripts
 
 ```
-python build.py               # sync Latest Devlogs/Workshop sections on index.html
-python update_components.py   # propagate header/footer changes to all pages
-python lint.py                # check for issues (run before pushing)
-# lint.py requires: pip install beautifulsoup4  (or use .venv/bin/python)
+python build.py               # regenerate card grids from cards/*.json (nav pages + homepage)
+python update_components.py   # propagate header.html/footer.html changes to every page
 ```
 
-Both `build.py` and `update_components.py` do pure text surgery (regex, no HTML parsing/reserialization): they only touch the exact block they own and never reformat anything else in a file. Neither needs `beautifulsoup4`.
+Both do plain text surgery (regex / marker-scoped string replacement, no HTML parsing or reserialization): each only touches the exact block it owns and leaves the rest of the file untouched. Both are stdlib-only, no dependencies to install.
 
-**Don't run these reflexively on every change.** They exist for two narrow, infrequent cases:
+- **`update_components.py`**: run only after editing `components/header.html` or `components/footer.html` themselves. For a brand-new page, don't run it, just copy the `<header>`/`<footer>` from an existing sibling page (same depth) and swap `class="nav-active"` onto the right link by hand.
+- **`build.py`**: run every time you add, edit, or remove a file under `cards/`. This is the one required step, not an occasional sync, the generated grids are the only place that content shows up.
 
-- **`update_components.py`**: run this *only* after editing `components/header.html` or `components/footer.html` themselves. For a brand-new page, don't run it, just copy the `<header>`/`<footer>` block verbatim from an existing sibling page (same depth) and swap the `nav-active` class onto the right link by hand. It's plain HTML; there's no build step required for that.
-- **`build.py`**: run this *only* when the newest devlog/workshop post changes what belongs in the homepage's top-3 featured cards (i.e. you just added the newest-dated post). It's fine to hand-edit the `<!-- devlogs-start -->`/`<!-- workshop-start -->` block in `index.html` directly to match instead, it's just a copy of the top 3 `.card` blocks from the nav page with `../devlogs/` etc. rewritten to `pages/devlogs/`.
-- **`lint.py`**: safe to run anytime (read-only, never writes files); run before pushing.
+## cards/ and build.py
 
-### build.py
-Updates the `<!-- devlogs-start -->` / `<!-- devlogs-end -->` and `<!-- workshop-start -->` / `<!-- workshop-end -->` blocks in `index.html` with the top 3 cards from `pages/nav/devlogs.html` / `pages/nav/workshop.html`.
+Games, devlogs, and workshop posts each have a card (the tile shown in the nav grid and, sometimes, on the homepage). Card data lives in `cards/games/*.json`, `cards/devlogs/*.json`, `cards/workshop/*.json`, one JSON file per card. `build.py` reads them and writes the generated HTML into marker-delimited blocks:
 
-### update_components.py
-Reads `components/header.html` and `components/footer.html`, re-injects them into every page in place. Automatically infers `nav-active` from each file's path, do **not** set it manually. Components use `{{root}}` internally; all pages get real relative paths after injection.
+- `<!-- cards-start -->` / `<!-- cards-end -->` in `pages/nav/games.html`, `pages/nav/devlogs.html`, `pages/nav/workshop.html`, all cards from that folder, newest `date` first.
+- `<!-- devlogs-start -->`/`-end` and `<!-- workshop-start -->`/`-end` in `index.html`, top 3 cards by `date`.
+- `<!-- games-start -->`/`-end` in `index.html`, only cards with a `featured_order` key, sorted by it (homepage game curation is manual, independent of `date`).
 
-### Architecture
+Never hand-edit inside those marker blocks, edit the JSON and rerun `python build.py` instead. (`pages/nav/developers.html` is the one nav page *not* driven by `cards/`, its cards are still hand-written.)
+
+**Every card has a `"variant"` field** (`"game"` or `"post"`) that picks which shape it renders as. `build.py` dispatches on `variant`, not on which `cards/<folder>/` the file lives in, the folder only controls *placement* (which nav page, which homepage section, which date-sort group). Each renderer only reads the fields its own variant needs.
+
+Common fields: `variant`, `title`, `page` (root-relative, e.g. `"pages/games/foo.html"`), `tags` (space-separated, matches `data-tags` filter conventions), `subtitle`, `date` (`YYYY-MM-DD`), `description_html` (raw HTML; internal links inside it must use root-relative `href="pages/..."`, `build.py` rewrites them for whatever file it's writing).
+
+`variant: "game"` adds: `cover`, `cover_alt` (root-relative image path), `itch_url`, optional `featured_order` (int, presence = shown on homepage).
+
+`variant: "post"` (devlogs and workshop) adds nothing beyond the common fields.
+
+To add a card: drop a new `.json` file in `cards/<kind>/` and run `python build.py`. To remove one: delete the file and rerun.
+
+## Architecture
 
 ```
-index.html                           (homepage)
+index.html                    homepage
+cards/
+  games/<slug>.json           source data, renders "game" variant
+  devlogs/<slug>.json         source data, renders "post" variant
+  workshop/<slug>.json        source data, renders "post" variant
 pages/
-  nav/games.html                     (games nav, top-3 cards auto-populate homepage)
-  nav/devlogs.html
-  nav/workshop.html
-  nav/developers.html
+  nav/games.html              card grid generated by build.py from cards/games/
+  nav/devlogs.html            card grid generated by build.py from cards/devlogs/
+  nav/workshop.html           card grid generated by build.py from cards/workshop/
+  nav/developers.html         hand-maintained, not part of the cards/ system
   games/<game>.html
   devlogs/YYYY-MM-DD_name.html
   workshop/YYYY-MM-DD_name.html
   developers/<name>.html
+templates/                    starter templates for new pages (see below)
 components/
-  header.html                        (template, uses {{root}} and data-nav="...")
-  footer.html                        (template, uses {{root}})
+  header.html                 template, uses {{root}} and data-nav="..."
+  footer.html                 template, uses {{root}}
 styles/styles.css
-scripts/filter.js  lightbox.js  game-embed.js  gdscript-highlight.js
-resources/                           (images/GIFs)
-resources/workshop/                  (images for workshop posts)
+scripts/
+  filter.js                   nav-page tag filtering
+  lightbox.js                 click-to-enlarge for [data-lightbox] images
+  game-embed.js                lazy-loads itch.io iframes
+  gdscript-highlight.js       syntax highlighting for GDScript code blocks
+  toc.js                      "On This Page" sidebar nav (needs 2+ h2/h3 in .post-content)
+  copy-code.js                copy button on <pre> code blocks
+  theme.js                     applies/persists the header's theme picker (data-theme on <html>)
+resources/                    images/GIFs (resources/workshop/ for workshop post images)
+themes.txt                    reference copy of the presets backing the theme picker (see Design System)
 CNAME
 build.py
 update_components.py
-lint.py
-requirements.txt
 .github/workflows/deploy.yml
 ```
 
-### Asset paths in HTML pages
+### Asset paths
 
-All pages use real relative paths, no placeholder tokens. `index.html` uses bare paths (`styles/styles.css`, `resources/logo.png`). Depth-2 pages (`pages/*/*.html`) use `../../` prefix (`../../styles/styles.css`, `../../resources/logo.png`).
-
-### GitHub Pages setup
-Pages source must be set to **GitHub Actions** (not a branch):
-Repo Settings → Pages → Build and deployment → Source → **GitHub Actions**
+Real relative paths everywhere, no placeholder tokens in the committed HTML. `index.html` uses bare paths (`styles/styles.css`, `resources/logo.png`). Depth-2 pages (`pages/*/*.html`) use `../../` (`../../styles/styles.css`). `cards/*.json` is the one place paths are stored root-relative (`pages/games/foo.html`), `build.py` converts them per output file.
 
 ### Adding new content
 
-For all three: copy an existing sibling page as the starting point, including its already-injected `<header>`/`<footer>`, just swap `class="nav-active"` onto the correct nav link if the section differs. No script run needed for this step.
+Start from `templates/{game,devlog,workshop,developer}.html`, each has its own header comment with the exact steps (fill placeholders, run `update_components.py`, add a `cards/` JSON file and run `build.py` for games/devlogs/workshop; developers still gets a hand-written card in `pages/nav/developers.html`). `data-tags` conventions for each content type are documented in a comment at the top of the corresponding `pages/nav/*.html` file.
 
-**New game page** (`pages/games/<name>.html`): copy an existing game page. Use the hero layout with `.container.hero`. Asset paths use `../../` prefix. Add a card to `pages/nav/games.html` with appropriate `data-tags` (documented in a comment at the top of that file), and optionally add a featured card to `index.html#games`.
+### GitHub Pages setup
 
-**New devlog** (`pages/devlogs/YYYY-MM-DD_shortname.html`): copy an existing devlog. Asset paths use `../../` prefix. Add a card to `pages/nav/devlogs.html` (newest first) with `data-tags`. Only if this is now the newest devlog: update `index.html`'s `<!-- devlogs-start -->` block to match (either by hand or via `python build.py`).
-
-**New workshop post** (`pages/workshop/YYYY-MM-DD_shortname.html`): similar to devlogs, `.container` with `<h1>` title, `.card-subtitle` type/topic/date and author, content in `.post-content`. Add a card to `pages/nav/workshop.html` with `data-tags` (type: `tutorial`/`resource`/`writeup`; topic: `art`/`music`/`design`/`code`). Tags are documented in a comment at the top of that file. Images go in `resources/workshop/`. Same rule as devlogs: only touch `index.html` if this is now the newest workshop post.
-
-### Scripts (JS)
-
-**`scripts/filter.js`**: used by all three nav pages. Cards need `data-tags="tag1 tag2"`; filter buttons use `data-filter="tagname"` (or `"all"`). Each `.filter-group` is independent, all active filters must match.
-
-**`scripts/lightbox.js`**: click-to-enlarge for any `<img data-lightbox>`. Click overlay or press Escape to close.
-
-**`scripts/game-embed.js`**: lazy-loads itch.io iframes. Use `<div class="game-embed-placeholder" data-src="..." data-width="..." data-height="...">` as placeholder.
+Pages source must be **GitHub Actions**, not a branch: Repo Settings → Pages → Build and deployment → Source → GitHub Actions.
 
 ## Design System
 
-CSS custom properties in `:root` (`styles/styles.css:6-17`):
-- Colors: dark navy bg (`--bg`, `--surface`, `--surface-2`), cyan accent (`--accent: #4fc3f7`)
-- Fonts: `Press Start 2P` (headings/nav/buttons), `VT323` (body), both from Google Fonts
-- Retro pixel aesthetic, keep new UI consistent
+CSS custom properties in `:root` (`styles/styles.css`): dark warm background (`--bg`, `--surface`, `--surface-2`), cyan accent (`--accent`). Fonts: `Press Start 2P` (headings/nav/buttons) and `Geist Mono` (body), both from Google Fonts. Keep new UI consistent with the current `:root` values, not whatever's in `themes.txt`.
 
-Key layout classes: `.container`, `.section`, `.grid`, `.grid-2`, `.grid-3`, `.card`, `.btn`, `.btn-grid`, `.btn-grid.grid-gap-small`, `.icon-btn.itch-btn`
+`themes.txt` documents the same presets that back the live theme picker: each preset also exists as a `:root[data-theme="name"] { ... }` block right after `:root` in `styles.css` (the default `:root` values are the "current" preset, no separate block for it). `scripts/theme.js`, loaded right after `<header>` (in `components/header.html`, so it's on every page) reads `localStorage["rhs-theme"]` and sets `data-theme` on `<html>` before the rest of the page renders, and wires up the `#theme-select` dropdown in the header to change and persist it. To add a preset: add a block to `themes.txt` for reference, a matching `:root[data-theme="name"]` block in `styles.css`, and an `<option>` in the `#theme-select` in `components/header.html` (then `python update_components.py`). `localStorage` is per-origin, so theme choice won't persist across pages if you open files directly via `file://` in some browsers, use a local server (e.g. `python -m http.server`) to test it properly.
+
+Key layout classes: `.container`, `.section`, `.grid`, `.grid-2`, `.grid-3`, `.card`, `.btn`, `.btn-grid`, `.icon-btn.itch-btn`.

@@ -15,8 +15,7 @@ over the corresponding lines inside :root { ... } in styles/styles.css
 --accent-dark: color-mix(in srgb, var(--accent) 75%, black);
 --text: #eef4ff;
 --text-muted: #96b8d8;
---bg-pattern: #0d1828;
-(body::before had no opacity override - pattern at full strength)
+--bg-pattern: color-mix(in srgb, #0d1828 60%, var(--bg));
 
 --------------------------------------------------
 [bright-navy] - brighter/more saturated navy, unified bright text, subdued pattern
@@ -29,7 +28,7 @@ over the corresponding lines inside :root { ... } in styles/styles.css
 --accent-dark: color-mix(in srgb, var(--accent) 75%, black);
 --text: #eef4ff;
 --text-muted: var(--text);
---bg-pattern: color-mix(in srgb, #1f3a63 45%, var(--bg));
+--bg-pattern: color-mix(in srgb, #1f3a63 27%, var(--bg));
 
 --------------------------------------------------
 [orange] - neutral dark gray base, single orange accent
@@ -42,7 +41,7 @@ over the corresponding lines inside :root { ... } in styles/styles.css
 --accent-dark: color-mix(in srgb, var(--accent) 75%, black);
 --text: #f2ede6;
 --text-muted: var(--text);
---bg-pattern: color-mix(in srgb, var(--accent) 15%, var(--bg));
+--bg-pattern: color-mix(in srgb, var(--accent) 9%, var(--bg));
 
 --------------------------------------------------
 [green] - neutral dark gray base, single green accent
@@ -55,7 +54,7 @@ over the corresponding lines inside :root { ... } in styles/styles.css
 --accent-dark: color-mix(in srgb, var(--accent) 75%, black);
 --text: #f2ede6;
 --text-muted: var(--text);
---bg-pattern: color-mix(in srgb, var(--accent) 15%, var(--bg));
+--bg-pattern: color-mix(in srgb, var(--accent) 9%, var(--bg));
 
 --------------------------------------------------
 [current] - neutral dark gray base, single cyan-blue accent
@@ -68,4 +67,108 @@ over the corresponding lines inside :root { ... } in styles/styles.css
 --accent-dark: color-mix(in srgb, var(--accent) 75%, black);
 --text: #f2ede6;
 --text-muted: var(--text);
---bg-pattern: color-mix(in srgb, var(--accent) 15%, var(--bg));
+--bg-pattern: color-mix(in srgb, var(--accent) 9%, var(--bg));
+
+--------------------------------------------------
+[purple] - neutral dark gray base, single purple accent
+--------------------------------------------------
+--bg: #141210;
+--surface: #1e1b17;
+--surface-2: #2b2723;
+--border: #423b33;
+--accent: #b183f0;
+--accent-dark: color-mix(in srgb, var(--accent) 75%, black);
+--text: #f2ede6;
+--text-muted: var(--text);
+--bg-pattern: color-mix(in srgb, var(--accent) 9%, var(--bg));
+
+--------------------------------------------------
+[crimson] - neutral dark gray base, single red/crimson accent
+--------------------------------------------------
+--bg: #141210;
+--surface: #1e1b17;
+--surface-2: #2b2723;
+--border: #423b33;
+--accent: #ff5470;
+--accent-dark: color-mix(in srgb, var(--accent) 75%, black);
+--text: #f2ede6;
+--text-muted: var(--text);
+--bg-pattern: color-mix(in srgb, var(--accent) 9%, var(--bg));
+
+--------------------------------------------------
+[magenta] - neutral dark gray base, single magenta/fuchsia accent
+--------------------------------------------------
+--bg: #141210;
+--surface: #1e1b17;
+--surface-2: #2b2723;
+--border: #423b33;
+--accent: #f04fd6;
+--accent-dark: color-mix(in srgb, var(--accent) 75%, black);
+--text: #f2ede6;
+--text-muted: var(--text);
+--bg-pattern: color-mix(in srgb, var(--accent) 9%, var(--bg));
+
+--------------------------------------------------
+[yellow] - neutral dark gray base, single yellow/gold accent
+--------------------------------------------------
+--bg: #141210;
+--surface: #1e1b17;
+--surface-2: #2b2723;
+--border: #423b33;
+--accent: #f5c84c;
+--accent-dark: color-mix(in srgb, var(--accent) 75%, black);
+--text: #f2ede6;
+--text-muted: var(--text);
+--bg-pattern: color-mix(in srgb, var(--accent) 9%, var(--bg));
+
+--------------------------------------------------
+[teal] - neutral dark gray base, single teal accent
+--------------------------------------------------
+--bg: #141210;
+--surface: #1e1b17;
+--surface-2: #2b2723;
+--border: #423b33;
+--accent: #2dd4bf;
+--accent-dark: color-mix(in srgb, var(--accent) 75%, black);
+--text: #f2ede6;
+--text-muted: var(--text);
+--bg-pattern: color-mix(in srgb, var(--accent) 9%, var(--bg));
+
+--------------------------------------------------
+[sky] - neutral dark gray base, single sky-blue accent
+--------------------------------------------------
+--bg: #141210;
+--surface: #1e1b17;
+--surface-2: #2b2723;
+--border: #423b33;
+--accent: #4aa8ff;
+--accent-dark: color-mix(in srgb, var(--accent) 75%, black);
+--text: #f2ede6;
+--text-muted: var(--text);
+--bg-pattern: color-mix(in srgb, var(--accent) 9%, var(--bg));
+
+--------------------------------------------------
+[amber] - neutral dark gray base, single amber accent
+--------------------------------------------------
+--bg: #141210;
+--surface: #1e1b17;
+--surface-2: #2b2723;
+--border: #423b33;
+--accent: #ffab40;
+--accent-dark: color-mix(in srgb, var(--accent) 75%, black);
+--text: #f2ede6;
+--text-muted: var(--text);
+--bg-pattern: color-mix(in srgb, var(--accent) 9%, var(--bg));
+
+--------------------------------------------------
+[slate] - neutral dark gray base, single muted slate blue-gray accent
+--------------------------------------------------
+--bg: #141210;
+--surface: #1e1b17;
+--surface-2: #2b2723;
+--border: #423b33;
+--accent: #9fb0c3;
+--accent-dark: color-mix(in srgb, var(--accent) 75%, black);
+--text: #f2ede6;
+--text-muted: var(--text);
+--bg-pattern: color-mix(in srgb, var(--accent) 9%, var(--bg));

@@ -22,24 +22,40 @@
 
   <!-- HEADER -->
   <header class="site-header">
-    <div class="container header-inner">
-      <a class="site-logo" href="index.html">
-        <img alt="Rat Haven Studios logo" src="resources/logo-nt.png" />
-        Rat Haven Studios
-      </a>
-      <ul class="site-nav">
-        <li><a class="nav-active" href="index.html">Home</a></li>
-        <span class="nav-sep">|</span>
-        <li><a href="pages/nav/games.html">Games</a></li>
-        <span class="nav-sep">|</span>
-        <li><a href="pages/nav/devlogs.html">Devlogs</a></li>
-        <span class="nav-sep">|</span>
-        <li><a href="pages/nav/workshop.html">Workshop</a></li>
-        <span class="nav-sep">|</span>
-        <li><a href="pages/nav/developers.html">Devs</a></li>
-      </ul>
-    </div>
-  </header>
+  <div class="container header-inner">
+    <a href="index.html" class="site-logo">
+      <img src="resources/logo-nt.png" alt="Rat Haven Studios logo"/>
+      Rat Haven Studios
+    </a>
+    <ul class="site-nav">
+      <li><a class="nav-active" href="index.html">Home</a></li>
+      <span class="nav-sep">|</span>
+      <li><a href="pages/nav/games.html">Games</a></li>
+      <span class="nav-sep">|</span>
+      <li><a href="pages/nav/devlogs.html">Devlogs</a></li>
+      <span class="nav-sep">|</span>
+      <li><a href="pages/nav/workshop.html">Workshop</a></li>
+      <span class="nav-sep">|</span>
+      <li><a href="pages/nav/developers.html">Devs</a></li>
+    </ul>
+    <select id="theme-select" class="theme-select" aria-label="Theme">
+      <option value="current">Current</option>
+      <option value="original">Original</option>
+      <option value="bright-navy">Bright Navy</option>
+      <option value="orange">Orange</option>
+      <option value="green">Green</option>
+      <option value="purple">Purple</option>
+      <option value="crimson">Crimson</option>
+      <option value="magenta">Magenta</option>
+      <option value="yellow">Yellow</option>
+      <option value="teal">Teal</option>
+      <option value="sky">Sky</option>
+      <option value="amber">Amber</option>
+      <option value="slate">Slate</option>
+    </select>
+  </div>
+  <script src="scripts/theme.js"></script>
+</header>
 
   <!-- HERO -->
   <section class="section">
@@ -78,51 +94,51 @@
 
       <div class="grid grid-3">
 
+        <!-- games-start -->
+
         <div class="card">
           <a class="card-img" href="pages/games/forgotten-paths-jam.html">
-            <img src="resources/games/forgotten-paths/fp-jam.gif" alt="Game image" />
+            <img src="resources/games/forgotten-paths/fp-jam.gif" alt="Forgotten Paths" />
           </a>
-          <h3><a href="pages/games/forgotten-paths-jam.html">Forgotten Paths</a></h3>
+          <h3><a href="pages/games/forgotten-paths-jam.html">Forgotten Paths (Jam)</a></h3>
           <span class="card-subtitle">Game Jam • Puzzle • Aug 5, 2025</span>
-          <p>Looping movement puzzle game. Entry for the <a href="https://itch.io/jam/gmtk-2025" target="_blank">GMTK
-              Game Jam 2025</a></p>
+          <p>Looping movement puzzle game. Entry for the <a href="https://itch.io/jam/gmtk-2025" target="_blank">GMTK Game Jam 2025</a>.</p>
           <div class="btn-grid">
             <a href="pages/games/forgotten-paths-jam.html" class="btn">View</a>
-            <a href="https://hutnerr.itch.io/forgotten-paths" class="btn icon-btn itch-btn"><img
+            <a href="https://hutnerr.itch.io/forgotten-paths" class="btn icon-btn itch-btn" target="_blank"><img
                 src="resources/icons/itch-icon.svg">itch</a>
-            <!-- <a href="#" class="btn icon-btn steam-btn"><img src="resources/icons/steam-icon.png">Steam</a> -->
           </div>
         </div>
 
         <div class="card">
           <a class="card-img" href="pages/games/massaquerade.html">
-            <img src="resources/games/massaquerade/cover.png" alt="Game image" />
+            <img src="resources/games/massaquerade/cover.png" alt="Massaquerade" />
           </a>
           <h3><a href="pages/games/massaquerade.html">Massaquerade</a></h3>
           <span class="card-subtitle">Game Jam • Mystery • Dec 29, 2025</span>
-          <p>Murder mystery but you're the murderer. Entry for <a href="https://itch.io/jam/wmj2025"
-              target="_blank">Winter Melon Jam 2025</a></p>
+          <p>Murder mystery but you're the murderer. Entry for <a href="https://itch.io/jam/wmj2025" target="_blank">Winter Melon Jam 2025</a>.</p>
           <div class="btn-grid">
             <a href="pages/games/massaquerade.html" class="btn">View</a>
-            <a href="https://hutnerr.itch.io/massaquerade" class="btn icon-btn itch-btn"><img
+            <a href="https://hutnerr.itch.io/massaquerade" class="btn icon-btn itch-btn" target="_blank"><img
                 src="resources/icons/itch-icon.svg">itch</a>
           </div>
         </div>
 
         <div class="card">
           <a class="card-img" href="pages/games/delta-t.html">
-            <img src="resources/games/delta-t/cover.png" alt="Game image" />
+            <img src="resources/games/delta-t/cover.png" alt="Delta T" />
           </a>
           <h3><a href="pages/games/delta-t.html">Delta T</a></h3>
           <span class="card-subtitle">Game Jam • Story Puzzle • July 26, 2026</span>
-          <p>Aliens are invading the world and you have 2 minutes to stop them. Entry for <a
-              href="https://itch.io/jam/gmtk-jam-2026" target="_blank">GMTK 2026</a></p>
+          <p>Aliens are invading the world and you have 2 minutes to stop them. Entry for <a href="https://itch.io/jam/gmtk-jam-2026" target="_blank">GMTK 2026</a>.</p>
           <div class="btn-grid">
             <a href="pages/games/delta-t.html" class="btn">View</a>
-            <a href="https://hutnerr.itch.io/delta-t" class="btn icon-btn itch-btn"><img
+            <a href="https://hutnerr.itch.io/delta-t" class="btn icon-btn itch-btn" target="_blank"><img
                 src="resources/icons/itch-icon.svg">itch</a>
           </div>
         </div>
+
+<!-- games-end -->
 
       </div>
       <br>
@@ -206,28 +222,25 @@
         <div class="card" data-tags="game-jam">
           <h3><a href="pages/devlogs/2026-08-30_what-a-steel.html">Brackeys 2026.2 - What a STEEL!</a></h3>
           <span class="card-subtitle">Game Jam • Aug 30, 2026</span>
-          <p>Our experience at the <a href="https://itch.io/jam/brackeys-16" target="_blank">Brackeys Game Jam
-              2026.2</a> and making <a href="pages/games/what-a-steel.html" target="_blank">What a
-              STEEL!</a>.</p>
-          <a class="btn" href="pages/devlogs/2026-08-30_what-a-steel.html">Read</a>
+          <p>Our experience at the <a href="https://itch.io/jam/brackeys-16" target="_blank">Brackeys Game Jam 2026.2</a> and making <a href="pages/games/what-a-steel.html" target="_blank">What a STEEL!</a>.</p>
+          <a href="pages/devlogs/2026-08-30_what-a-steel.html" class="btn">Read</a>
         </div>
 
         <div class="card" data-tags="game-jam">
           <h3><a href="pages/devlogs/2026-07-26_delta-t-jam.html">GMTK 2026 - Delta T</a></h3>
           <span class="card-subtitle">Game Jam • July 26, 2026</span>
-          <p>Our experience at the <a href="https://itch.io/jam/gmtk-jam-2026" target="_blank">GMTK 2026</a> and making
-            <a href="pages/games/delta-t.html" target="_blank">Delta T</a>.</p>
-          <a class="btn" href="pages/devlogs/2026-07-26_delta-t-jam.html">Read</a>
+          <p>Our experience at the <a href="https://itch.io/jam/gmtk-jam-2026" target="_blank">GMTK 2026</a> and making <a href="pages/games/delta-t.html" target="_blank">Delta T</a>.</p>
+          <a href="pages/devlogs/2026-07-26_delta-t-jam.html" class="btn">Read</a>
         </div>
 
         <div class="card" data-tags="forgotten-paths devlog">
           <h3><a href="pages/devlogs/2026-05-26_fp_progress.html">Forgotten Paths Progress</a></h3>
           <span class="card-subtitle">Forgotten Paths • Devlog • May 26, 2026</span>
           <p>Updates on the progress of the Forgotten Paths conversion.</p>
-          <a class="btn" href="pages/devlogs/2026-05-26_fp_progress.html">Read</a>
+          <a href="pages/devlogs/2026-05-26_fp_progress.html" class="btn">Read</a>
         </div>
 
-        <!-- devlogs-end -->
+<!-- devlogs-end -->
 
 
       </div>
@@ -248,25 +261,25 @@
         <div class="card" data-tags="resource art music design code">
           <h3><a href="pages/workshop/2026-09-10_community-resources.html">Community Resource Hub</a></h3>
           <span class="card-subtitle">Resource • Sept 10, 2026</span>
-          <p>A living collection of tools, links, and resources for the community. Updated regularly.</p>
-          <a class="btn" href="pages/workshop/2026-09-10_community-resources.html">Read</a>
+          <p>A collection of tools, links, and resources that we find useful. Updated regularly.</p>
+          <a href="pages/workshop/2026-09-10_community-resources.html" class="btn">Read</a>
         </div>
 
         <div class="card" data-tags="writeup code">
           <h3><a href="pages/workshop/2026-08-01_game-scene-structures.html">Game Scene Structures</a></h3>
           <span class="card-subtitle">Writeup • Code • August 1, 2026</span>
           <p>Comparing a few ways to structure scenes in Godot, and when to reach for each one.</p>
-          <a class="btn" href="pages/workshop/2026-08-01_game-scene-structures.html">Read</a>
+          <a href="pages/workshop/2026-08-01_game-scene-structures.html" class="btn">Read</a>
         </div>
 
         <div class="card" data-tags="writeup code">
           <h3><a href="pages/workshop/2026-04-17_godot-state-machines.html">Godot State Machines</a></h3>
           <span class="card-subtitle">Writeup • Code • April 17, 2026</span>
           <p>Notes, thoughts, and opinions about State Machines in Godot.</p>
-          <a class="btn" href="pages/workshop/2026-04-17_godot-state-machines.html">Read</a>
+          <a href="pages/workshop/2026-04-17_godot-state-machines.html" class="btn">Read</a>
         </div>
 
-        <!-- workshop-end -->
+<!-- workshop-end -->
 
       </div>
       <br>
@@ -276,30 +289,24 @@
 
   <!-- FOOTER -->
   <footer class="site-footer">
-    <div class="container footer-inner">
-      <p class="footer-copy">&copy; 2026 Rat Haven Studios</p>
-      <div class="footer-links">
-        <a href="pages/nav/games.html">Games</a>
-        <span class="nav-sep">|</span>
-        <a href="pages/nav/devlogs.html">Devlogs</a>
-        <span class="nav-sep">|</span>
-        <a href="pages/nav/workshop.html">Workshop</a>
-        <span class="nav-sep">|</span>
-        <a href="pages/nav/developers.html">Devs</a>
-      </div>
-      <div class="footer-links">
-        <a href="https://github.com/Rat-Haven-Studios" target="_blank">GitHub</a>
-        <span class="nav-sep">|</span>
-        <a href="https://discord.gg/vk3X99kD3D" target="_blank">Discord</a>
-      </div>
+  <div class="container footer-inner">
+    <p class="footer-copy">&copy; 2026 Rat Haven Studios</p>
+    <div class="footer-links">
+      <a href="pages/nav/games.html">Games</a>
+      <span class="nav-sep">|</span>
+      <a href="pages/nav/devlogs.html">Devlogs</a>
+      <span class="nav-sep">|</span>
+      <a href="pages/nav/workshop.html">Workshop</a>
+      <span class="nav-sep">|</span>
+      <a href="pages/nav/developers.html">Devs</a>
     </div>
-  </footer>
-
-
-
-
-
-
+    <div class="footer-links">
+      <a href="https://github.com/Rat-Haven-Studios" target="_blank">GitHub</a>
+      <span class="nav-sep">|</span>
+      <a href="https://discord.gg/vk3X99kD3D" target="_blank">Discord</a>
+    </div>
+  </div>
+</footer>
 
 </body>
 

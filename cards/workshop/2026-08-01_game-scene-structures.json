@@ -1,0 +1,9 @@
+{
+  "variant": "post",
+  "title": "Game Scene Structures",
+  "page": "pages/workshop/2026-08-01_game-scene-structures.html",
+  "tags": "writeup code",
+  "subtitle": "Writeup • Code • August 1, 2026",
+  "date": "2026-08-01",
+  "description_html": "Comparing a few ways to structure scenes in Godot, and when to reach for each one."
+}

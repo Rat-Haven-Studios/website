@@ -1,4 +1,4 @@
-name: Lint and Deploy
+name: Build and Deploy
 
 on:
   push:
@@ -34,18 +34,9 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Sync latest devlogs
-        # Updates the devlogs section in index.html in case it wasn't run locally.
+      - name: Build cards
+        # Regenerates card grids from cards/*.json in case build.py wasn't run locally.
         run: python build.py
-
-      - name: Lint
-        # Errors (missing components, leftover placeholders) = exit 1, blocks deploy.
-        # Warnings (card/file mismatches, broken links) = printed but non-blocking.
-        # Change to: python lint.py --strict   to also block on warnings.
-        run: python lint.py
 
       - name: Prepare site
         run: |

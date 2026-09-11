@@ -1,0 +1,13 @@
+{
+  "variant": "game",
+  "title": "Delta T",
+  "page": "pages/games/delta-t.html",
+  "cover": "resources/games/delta-t/cover.png",
+  "cover_alt": "Delta T",
+  "tags": "game-jam puzzle",
+  "subtitle": "Game Jam • Story Puzzle • July 26, 2026",
+  "date": "2026-07-26",
+  "description_html": "Aliens are invading the world and you have 2 minutes to stop them. Entry for <a href=\"https://itch.io/jam/gmtk-jam-2026\" target=\"_blank\">GMTK 2026</a>.",
+  "itch_url": "https://hutnerr.itch.io/delta-t",
+  "featured_order": 3
+}

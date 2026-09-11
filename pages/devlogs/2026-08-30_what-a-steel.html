@@ -19,24 +19,40 @@
 <body>
 
   <header class="site-header">
-    <div class="container header-inner">
-      <a class="site-logo" href="../../index.html">
-        <img alt="Rat Haven Studios logo" src="../../resources/logo-nt.png" />
-        Rat Haven Studios
-      </a>
-      <ul class="site-nav">
-        <li><a href="../../index.html">Home</a></li>
-        <span class="nav-sep">|</span>
-        <li><a href="../../pages/nav/games.html">Games</a></li>
-        <span class="nav-sep">|</span>
-        <li><a class="nav-active" href="../../pages/nav/devlogs.html">Devlogs</a></li>
-        <span class="nav-sep">|</span>
-        <li><a href="../../pages/nav/workshop.html">Workshop</a></li>
-        <span class="nav-sep">|</span>
-        <li><a href="../../pages/nav/developers.html">Devs</a></li>
-      </ul>
-    </div>
-  </header>
+  <div class="container header-inner">
+    <a href="../../index.html" class="site-logo">
+      <img src="../../resources/logo-nt.png" alt="Rat Haven Studios logo"/>
+      Rat Haven Studios
+    </a>
+    <ul class="site-nav">
+      <li><a href="../../index.html">Home</a></li>
+      <span class="nav-sep">|</span>
+      <li><a href="../../pages/nav/games.html">Games</a></li>
+      <span class="nav-sep">|</span>
+      <li><a class="nav-active" href="../../pages/nav/devlogs.html">Devlogs</a></li>
+      <span class="nav-sep">|</span>
+      <li><a href="../../pages/nav/workshop.html">Workshop</a></li>
+      <span class="nav-sep">|</span>
+      <li><a href="../../pages/nav/developers.html">Devs</a></li>
+    </ul>
+    <select id="theme-select" class="theme-select" aria-label="Theme">
+      <option value="current">Current</option>
+      <option value="original">Original</option>
+      <option value="bright-navy">Bright Navy</option>
+      <option value="orange">Orange</option>
+      <option value="green">Green</option>
+      <option value="purple">Purple</option>
+      <option value="crimson">Crimson</option>
+      <option value="magenta">Magenta</option>
+      <option value="yellow">Yellow</option>
+      <option value="teal">Teal</option>
+      <option value="sky">Sky</option>
+      <option value="amber">Amber</option>
+      <option value="slate">Slate</option>
+    </select>
+  </div>
+  <script src="../../scripts/theme.js"></script>
+</header>
 
   <section class="section">
     <div class="container">
@@ -63,24 +79,24 @@
   </section>
 
   <footer class="site-footer">
-    <div class="container footer-inner">
-      <p class="footer-copy">&copy; 2026 Rat Haven Studios</p>
-      <div class="footer-links">
-        <a href="../../pages/nav/games.html">Games</a>
-        <span class="nav-sep">|</span>
-        <a href="../../pages/nav/devlogs.html">Devlogs</a>
-        <span class="nav-sep">|</span>
-        <a href="../../pages/nav/workshop.html">Workshop</a>
-        <span class="nav-sep">|</span>
-        <a href="../../pages/nav/developers.html">Devs</a>
-      </div>
-      <div class="footer-links">
-        <a href="https://github.com/Rat-Haven-Studios" target="_blank">GitHub</a>
-        <span class="nav-sep">|</span>
-        <a href="https://discord.gg/vk3X99kD3D" target="_blank">Discord</a>
-      </div>
+  <div class="container footer-inner">
+    <p class="footer-copy">&copy; 2026 Rat Haven Studios</p>
+    <div class="footer-links">
+      <a href="../../pages/nav/games.html">Games</a>
+      <span class="nav-sep">|</span>
+      <a href="../../pages/nav/devlogs.html">Devlogs</a>
+      <span class="nav-sep">|</span>
+      <a href="../../pages/nav/workshop.html">Workshop</a>
+      <span class="nav-sep">|</span>
+      <a href="../../pages/nav/developers.html">Devs</a>
     </div>
-  </footer>
+    <div class="footer-links">
+      <a href="https://github.com/Rat-Haven-Studios" target="_blank">GitHub</a>
+      <span class="nav-sep">|</span>
+      <a href="https://discord.gg/vk3X99kD3D" target="_blank">Discord</a>
+    </div>
+  </div>
+</footer>
 
   <script src="../../scripts/toc.js"></script>
 </body>

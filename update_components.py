@@ -67,8 +67,11 @@ def _render_footer(template: str, root: str) -> str:
 
 
 def main() -> int:
-    header_tpl = (COMPONENTS / "header.html").read_text(encoding="utf-8")
-    footer_tpl = (COMPONENTS / "footer.html").read_text(encoding="utf-8")
+    # .rstrip(): the regex match below ends exactly at </header> or </footer>
+    # (no trailing newline), so the replacement must not have one either, or
+    # a blank line would accumulate after it on every run.
+    header_tpl = (COMPONENTS / "header.html").read_text(encoding="utf-8").rstrip()
+    footer_tpl = (COMPONENTS / "footer.html").read_text(encoding="utf-8").rstrip()
 
     pages = [ROOT / "index.html"] + list(PAGES.rglob("*.html"))
     updated = skipped = 0

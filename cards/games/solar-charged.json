@@ -1,0 +1,12 @@
+{
+  "variant": "game",
+  "title": "Solar Charged",
+  "page": "pages/games/solar-charged.html",
+  "cover": "resources/games/solar-charged/solarcharged-jam.gif",
+  "cover_alt": "Solar Charged",
+  "tags": "game-jam tower-defense",
+  "subtitle": "Game Jam • Tower Defense • July 20, 2025",
+  "date": "2025-07-20",
+  "description_html": "A resource management tower defense. Entry for the <a href=\"https://itch.io/jam/kenney-jam-2025\" target=\"_blank\">Kenney Game Jam 2025</a>.",
+  "itch_url": "https://hutnerr.itch.io/solarcharged"
+}

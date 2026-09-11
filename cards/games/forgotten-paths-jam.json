@@ -1,0 +1,13 @@
+{
+  "variant": "game",
+  "title": "Forgotten Paths (Jam)",
+  "page": "pages/games/forgotten-paths-jam.html",
+  "cover": "resources/games/forgotten-paths/fp-jam.gif",
+  "cover_alt": "Forgotten Paths",
+  "tags": "game-jam puzzle",
+  "subtitle": "Game Jam • Puzzle • Aug 5, 2025",
+  "date": "2025-08-05",
+  "description_html": "Looping movement puzzle game. Entry for the <a href=\"https://itch.io/jam/gmtk-2025\" target=\"_blank\">GMTK Game Jam 2025</a>.",
+  "itch_url": "https://hutnerr.itch.io/forgotten-paths",
+  "featured_order": 1
+}

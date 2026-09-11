@@ -1,0 +1,12 @@
+{
+  "variant": "game",
+  "title": "What a STEEL!",
+  "page": "pages/games/what-a-steel.html",
+  "cover": "resources/games/what-a-steel/cover.png",
+  "cover_alt": "What a STEEL!",
+  "tags": "game-jam roguelike",
+  "subtitle": "Game Jam • Roguelike • Aug 30, 2026",
+  "date": "2026-08-30",
+  "description_html": "A roguelike about fighting robots and buying upgrades from shopkeepers you can't trust. Entry for <a href=\"https://itch.io/jam/brackeys-16\" target=\"_blank\">Brackeys Game Jam 2026.2</a>.",
+  "itch_url": "https://hutnerr.itch.io/what-a-steel"
+}

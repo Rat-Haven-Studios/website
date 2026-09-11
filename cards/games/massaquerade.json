@@ -1,0 +1,13 @@
+{
+  "variant": "game",
+  "title": "Massaquerade",
+  "page": "pages/games/massaquerade.html",
+  "cover": "resources/games/massaquerade/cover.png",
+  "cover_alt": "Massaquerade",
+  "tags": "game-jam mystery puzzle",
+  "subtitle": "Game Jam • Mystery • Dec 29, 2025",
+  "date": "2025-12-29",
+  "description_html": "Murder mystery but you're the murderer. Entry for <a href=\"https://itch.io/jam/wmj2025\" target=\"_blank\">Winter Melon Jam 2025</a>.",
+  "itch_url": "https://hutnerr.itch.io/massaquerade",
+  "featured_order": 2
+}

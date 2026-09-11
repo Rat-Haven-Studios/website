@@ -4,8 +4,8 @@
   bracketed placeholders, and delete any optional blocks you don't need.
   Then:
     1. Run `python update_components.py` to inject the real header/footer.
-    2. Add a card to pages/nav/devlogs.html (newest first) with data-tags.
-    3. Run `python build.py` to refresh the homepage's Latest Devlogs section.
+    2. Add cards/devlogs/YYYY-MM-DD_shortname.json (see cards/ in CLAUDE.md).
+    3. Run `python build.py` to regenerate the nav grid and homepage section.
 
   Needs at least 2 headings (h2/h3) inside .post-content for the "On This
   Page" sidebar nav (scripts/toc.js) to appear - it no-ops below that.
