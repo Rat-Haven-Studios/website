@@ -21,7 +21,7 @@
   <header class="site-header">
   <div class="container header-inner">
     <a href="../../index.html" class="site-logo">
-      <img src="../../resources/logo-nt.png" alt="Rat Haven Studios logo"/>
+      <img src="../../resources/logo-nt.png" alt="Rat Haven Studios logo" />
       Rat Haven Studios
     </a>
     <ul class="site-nav">
@@ -59,33 +59,31 @@
       <h1>Forgotten Paths Revival</h1>
       <span class="card-subtitle">by <a href="../../pages/developers/hunter.html">hutner</a></span>
       <span class="card-subtitle">Forgotten Paths • Devlog</span>
-      <span class="card-subtitle">Posted 04/09/2026 • Updated 04/09/2026</span>
+      <span class="card-subtitle">Posted 04/09/2026 • Updated 09/11/2026</span>
       <br>
 
       <div class="post-content">
 
+        <h2>Overview</h2>
         <p>
           This is the first devlog for the Forgotten Paths rebuild.
           If you missed the announcement, we're turning the <a href="../games/forgotten-paths-jam.html">GMTK 2025 jam
-            entry</a> into a full game, and we're starting from scratch to do it right.
-          The full context is in the <a href="2026-03-25_fp-announcement.html">announcement post</a>.
+            entry</a> into a full game, and we're starting from scratch.
+          Full context is in the <a href="2026-03-25_fp-announcement.html">announcement post</a>.
         </p>
         <h2>The New Structure</h2>
         <p>
           The biggest lesson from the jam version was that clean code makes everything easier (what a surprise...).
-          The jam gave us 96 hours so shortcuts were definitely taken.
-          This time we don't have that excuse, and we're building the backend right from the start.
+          The jam gave us 96 hours so we definitely didn't have time to do everything right.
+          This time we don't have that excuse, and we're building the it right from the start.
         </p>
         <p>
           At the core of the new version is the <code>BattleEngine</code>.
           It's the main backend manager that drives everything.
-          It handles the game loop, processes tiles and entities each tick, tracks the player's command budget, and
-          determines win/lose conditions.
-          The tick order is always tiles → enemies → player, and every tick returns an array of <code>GameEvent</code>s
-          instead of changing the scene itself.
-          This means the UI and logic are fully decoupled. The engine doesn't care how anything gets displayed, it just
-          processes state and emits events.
-          This also lets us run the engine headless for the Simulator, which I'll get to later.
+          It handles the game loop, processes tiles and entities each tick, tracks the player's command budget, determines win/lose conditions, etc...
+          The tick order is always tiles → enemies → player, and every tick returns an array of <code>GameEvent</code>s instead of changing the scene itself.
+          This means the UI and logic are fully decoupled. The engine doesn't care how anything gets displayed, it just processes state and emits events.
+          This also lets us run the engine headless for the Simulator (goated), which I'll get to later.
         </p>
         <p>
           This type of decision somewhat goes against how Godot projects are often structured, with a lot
@@ -100,10 +98,8 @@
         <p>
           The grid itself is managed by the <code>GridManager</code>, which uses two dictionaries instead of 2D arrays.
           One mapping positions to tiles, one mapping positions to entities.
-          The tile grid is set once when a map loads and never changes.
-          The entity grid is the live state.
+          The tile grid is set once when a map loads and never changes. The entity grid is the live state.
         </p>
-
         <p>
           Maps are defined by <code>MapData</code> resources. These are plain Godot <code>.tres</code> files that describe grid
           dimensions, tile spawns, entity spawns, the player's starting position, and constraints like the command
@@ -296,7 +292,7 @@ func simulate_all(max_ticks: int = 100) -> Array[SimResult]:
         <p>
           I'll keep posting these as progress gets made.
           If you played the jam version and have thoughts, feel free to reach out on our <a
-            href="https://discord.gg/vk3X99kD3D" target="_blank">Discord</a>.
+            href="https://discord.gg/Ve892YZT7d" target="_blank">Discord</a>.
         </p>
 
       </div>
@@ -321,7 +317,7 @@ func simulate_all(max_ticks: int = 100) -> Array[SimResult]:
     <div class="footer-links">
       <a href="https://github.com/Rat-Haven-Studios" target="_blank">GitHub</a>
       <span class="nav-sep">|</span>
-      <a href="https://discord.gg/vk3X99kD3D" target="_blank">Discord</a>
+      <a href="https://discord.gg/Ve892YZT7d" target="_blank">Discord</a>
     </div>
   </div>
 </footer>

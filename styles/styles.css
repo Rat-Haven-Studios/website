@@ -273,6 +273,27 @@ p + .formatted-list { margin-top: 1em; }
 
 /* .formatted-list li + li { margin-top: 1em; } */
 
+blockquote {
+  background: var(--surface);
+  border-left: 4px solid var(--accent);
+  padding: 14px 20px;
+  margin: 1.5em 0;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+blockquote p {
+  color: var(--text-muted);
+  margin: 0;
+}
+
+blockquote p + p {
+  margin-top: 1em;
+}
+
+blockquote + p,
+p + blockquote { margin-top: 1em; }
+
 /* -------------------- */
 /* HEADER */
 /* -------------------- */
