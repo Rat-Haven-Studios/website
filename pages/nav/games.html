@@ -52,7 +52,7 @@
       <!--
       FILTER TAGS - add these space-separated in data-tags="" on each .card
       Release type : game-jam | full-release
-      Genre        : puzzle | mystery | tower-defense | action | platformer | rpg | horror | adventure
+      Genre        : puzzle | mystery | tower-defense | roguelike | action | platformer | rpg | horror | adventure
     -->
       <div class="filter-bar">
         <div class="filter-group" data-param="type">
@@ -67,10 +67,27 @@
           <button class="filter-btn" data-filter="puzzle">Puzzle</button>
           <button class="filter-btn" data-filter="mystery">Mystery</button>
           <button class="filter-btn" data-filter="tower-defense">Tower Defense</button>
+          <button class="filter-btn" data-filter="roguelike">Roguelike</button>
         </div>
       </div>
 
       <div class="grid grid-3">
+
+        <div class="card" data-tags="game-jam roguelike">
+          <a class="card-img" href="../games/what-a-steel.html">
+            <img src="../../resources/games/what-a-steel/cover.png" alt="What a STEEL!" />
+          </a>
+          <h3><a href="../games/what-a-steel.html">What a STEEL!</a></h3>
+          <span class="card-subtitle">Game Jam • Roguelike • Aug 30, 2026</span>
+          <p>A roguelike about fighting robots and buying upgrades from shopkeepers you can't
+            trust. Entry for <a href="https://itch.io/jam/brackeys-16" target="_blank">Brackeys Game Jam 2026.2</a>.
+          </p>
+          <div class="btn-grid">
+            <a href="../games/what-a-steel.html" class="btn">View</a>
+            <a href="https://hutnerr.itch.io/what-a-steel" class="btn icon-btn itch-btn" target="_blank"><img
+                src="../../resources/icons/itch-icon.svg">itch</a>
+          </div>
+        </div>
 
         <div class="card" data-tags="game-jam puzzle">
           <a class="card-img" href="../games/delta-t.html">
