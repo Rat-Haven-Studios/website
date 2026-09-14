@@ -816,6 +816,47 @@ code {
 }
 
 /* -------------------- */
+/* TABLES */
+/* -------------------- */
+.table-wrap {
+  overflow-x: auto;
+  margin: 1.4em 0;
+  border: 2px solid var(--border);
+}
+
+.post-content table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  font-size: 0.95rem;
+}
+
+.post-content th,
+.post-content td {
+  padding: 10px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.post-content th {
+  background: var(--surface-2);
+  color: var(--accent);
+  font-family: var(--font-title);
+  font-size: 0.55rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.post-content tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.post-content tbody tr:hover {
+  background: var(--surface-2);
+}
+
+/* -------------------- */
 /* POST LAYOUT + TOC NAV */
 /* -------------------- */
 .post-layout {
