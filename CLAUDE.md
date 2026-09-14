@@ -69,9 +69,7 @@ scripts/
   gdscript-highlight.js       syntax highlighting for GDScript code blocks
   toc.js                      "On This Page" sidebar nav (needs 2+ h2/h3 in .post-content)
   copy-code.js                copy button on <pre> code blocks
-  theme.js                     applies/persists the header's theme picker (data-theme on <html>)
 resources/                    images/GIFs (resources/workshop/ for workshop post images)
-themes.txt                    reference copy of the presets backing the theme picker (see Design System)
 CNAME
 build.py
 update_components.py
@@ -92,8 +90,6 @@ Pages source must be **GitHub Actions**, not a branch: Repo Settings â†’ Pages â
 
 ## Design System
 
-CSS custom properties in `:root` (`styles/styles.css`): dark warm background (`--bg`, `--surface`, `--surface-2`), cyan accent (`--accent`). Fonts: `Press Start 2P` (headings/nav/buttons) and `Geist Mono` (body), both from Google Fonts. Keep new UI consistent with the current `:root` values, not whatever's in `themes.txt`.
-
-`themes.txt` documents the same presets that back the live theme picker: each preset also exists as a `:root[data-theme="name"] { ... }` block right after `:root` in `styles.css` (the default `:root` values are the "current" preset, no separate block for it). `scripts/theme.js`, loaded right after `<header>` (in `components/header.html`, so it's on every page) reads `localStorage["rhs-theme"]` and sets `data-theme` on `<html>` before the rest of the page renders, and wires up the `#theme-select` dropdown in the header to change and persist it. To add a preset: add a block to `themes.txt` for reference, a matching `:root[data-theme="name"]` block in `styles.css`, and an `<option>` in the `#theme-select` in `components/header.html` (then `python update_components.py`). `localStorage` is per-origin, so theme choice won't persist across pages if you open files directly via `file://` in some browsers, use a local server (e.g. `python -m http.server`) to test it properly.
+CSS custom properties in `:root` (`styles/styles.css`): dark warm background (`--bg`, `--surface`, `--surface-2`), sky-blue accent (`--accent`). Fonts: `Press Start 2P` (headings/nav/buttons) and `Geist Mono` (body), both from Google Fonts. Keep new UI consistent with the current `:root` values. There is a single site-wide theme, no theme picker or per-user theme switching.
 
 Key layout classes: `.container`, `.section`, `.grid`, `.grid-2`, `.grid-3`, `.card`, `.btn`, `.btn-grid`, `.icon-btn.itch-btn`.
